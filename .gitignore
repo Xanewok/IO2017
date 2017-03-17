@@ -1,3 +1,6 @@
+# For easier Windows/Linux interop, since Linux versions are postfixed
+ProjectSettings/ProjectVersion.txt
+
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
@@ -17,6 +20,7 @@ ExportedObj/
 *.pidb
 *.booproj
 *.svd
+.vs/
 
 
 # Unity3D generated meta files
