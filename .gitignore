@@ -1,5 +1,5 @@
 # For easier Windows/Linux interop, since Linux versions are postfixed
-ProjectSettings/ProjectVersion.txt
+/ProjectSettings/ProjectVersion.txt
 
 /[Ll]ibrary/
 /[Tt]emp/
