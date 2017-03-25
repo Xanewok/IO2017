@@ -11,7 +11,6 @@ public class PlayerControlls : MonoBehaviour
     int floorMask;
 
     Vector3 mousePosition = Vector3.zero;
-
     Rigidbody rb;
 
     // Use this for initialization
@@ -28,8 +27,7 @@ public class PlayerControlls : MonoBehaviour
         float v = Input.GetAxis("Vertical_" + playerNum.ToString());
         movement.Set(h, 0f, v);
 
-        movement = movement.normalized * speed * Time.fixedDeltaTime;
-        rb.MovePosition(transform.position + movement);
+        rb.velocity = movement.normalized * speed;
     }
 
     private void AxisTurn()
