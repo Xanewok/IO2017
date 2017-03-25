@@ -7,8 +7,10 @@ public class PlayerControlls : MonoBehaviour
 
     public float speed = 6;
     public int playerNum = 0;
-    public bool useMouse = false;
+    public bool supportMouse = true;
     int floorMask;
+
+    Vector3 mousePosition = Vector3.zero;
 
     Rigidbody rb;
 
@@ -65,7 +67,11 @@ public class PlayerControlls : MonoBehaviour
     void FixedUpdate()
     {
         Movement();
-        if (useMouse)
+
+        Vector3 mouseScreenMovement = Input.mousePosition - mousePosition;
+        mousePosition = Input.mousePosition;
+
+        if (supportMouse && !mouseScreenMovement.Equals(Vector3.zero))
         {
             MouseTurn();
         }
