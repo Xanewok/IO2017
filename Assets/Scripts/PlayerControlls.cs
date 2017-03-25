@@ -28,7 +28,7 @@ public class PlayerControlls : MonoBehaviour
         float v = Input.GetAxis("Vertical_" + playerNum.ToString());
         movement.Set(h, 0f, v);
 
-        movement = movement.normalized * speed * Time.deltaTime;
+        movement = movement.normalized * speed * Time.fixedDeltaTime;
         rb.MovePosition(transform.position + movement);
     }
 
