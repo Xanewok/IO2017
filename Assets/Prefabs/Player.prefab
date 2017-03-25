@@ -20,10 +20,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4090109536036870}
   - component: {fileID: 33167058046535850}
-  - component: {fileID: 65998284797985264}
   - component: {fileID: 23860288855559644}
   - component: {fileID: 54806254418653668}
   - component: {fileID: 114654553663179402}
+  - component: {fileID: 136327004948653548}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -166,18 +166,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 116
   m_CollisionDetection: 0
---- !u!65 &65998284797985264
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1302896123981970}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114654553663179402
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -191,4 +179,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 6
   playerNum: 0
-  useMouse: 0
+  useMouse: 1
+--- !u!136 &136327004948653548
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1302896123981970}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
