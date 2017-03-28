@@ -12,6 +12,7 @@ public class PlayerControlls : MonoBehaviour
 
     Vector3 mousePosition = Vector3.zero;
     Rigidbody rb;
+    Vector3 lastTurn = Vector3.zero;
 
     // Use this for initialization
     void Start()
@@ -46,7 +47,6 @@ public class PlayerControlls : MonoBehaviour
         if (Physics.Raycast(camRay, out floorHit, 100f, floorMask))
         {
             Vector3 lookVector = floorHit.point - transform.position;
-            print(lookVector);
             Turning(lookVector);
         }
     }
@@ -58,6 +58,7 @@ public class PlayerControlls : MonoBehaviour
         {
             Quaternion newRotation = Quaternion.LookRotation(lookVector);
             rb.MoveRotation(newRotation);
+            lastTurn = lookVector;
         }
     }
 
@@ -77,5 +78,15 @@ public class PlayerControlls : MonoBehaviour
         {
             AxisTurn();
         }
+    }
+
+    public Vector3 getLastTurn()
+    {
+        return lastTurn;
+    }
+
+    public int getPlayerNum()
+    {
+        return playerNum;
     }
 }
