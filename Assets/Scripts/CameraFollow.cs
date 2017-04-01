@@ -37,6 +37,6 @@ public class CameraFollow : MonoBehaviour
         Vector3 offset = (followTransform.position - myTransform.position);
         offset.y = 0; // Follow only in XZ
 
-        myTransform.position += (offset * followSpeed);
+        myTransform.position += (offset * followSpeed * Time.timeScale);
     }
 }
