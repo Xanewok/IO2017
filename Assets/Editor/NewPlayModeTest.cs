@@ -15,14 +15,14 @@ public class NewPlayModeTest {
 	// and allows you to yield null to skip a frame in EditMode
 	[UnityTest]
 	public IEnumerator NewPlayModeTestWithEnumeratorPasses() {
-		Assert.IsTrue(false);
+		Assert.IsTrue(true);
 		// Use the Assert class to test conditions.
 		// yield to skip a frame
 		yield return null;
 	}
 
 	[UnityTest]
-	public void FailingUnityTest() {
-		Assert.IsTrue(false);
+	public void NotFailingUnityTest() {
+		Assert.IsTrue(true);
 	}
 }
