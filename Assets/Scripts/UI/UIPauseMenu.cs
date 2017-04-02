@@ -36,6 +36,7 @@ public class UIPauseMenu : MonoBehaviour
         #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
         #else
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene("Main_Menu");
         #endif
     }
