@@ -7,7 +7,7 @@ using UnityEngine;
     Testowy skrypt
     Do przełączania itemów
 */
-public class LampScript : ItemClass
+public class LampScript : ItemObject
 {
 
     public Sprite image;
@@ -16,6 +16,7 @@ public class LampScript : ItemClass
 
     public override void onDropDown(GameObject player, Inventory inventory)
     {
+        base.onDropDown(player, inventory);
     }
 
     public override void onEquip(int hand)
@@ -24,17 +25,14 @@ public class LampScript : ItemClass
 
     public override void onPickUp(GameObject player, PlayerInventory inventory)
     {
+        base.onPickUp(player, inventory);
         player.name = "Picked";
         this.player = player;
     }
 
     public override void onUnEquip()
     {
-    }
 
-    public override void onUpdate(GameObject obj)
-    {
-        
     }
 
     public override void onUse()
@@ -44,10 +42,5 @@ public class LampScript : ItemClass
     public override Sprite getSprite()
     {
         return image;
-    }
-
-    public override bool canBePicked(GameObject player)
-    {
-        return true;
     }
 }

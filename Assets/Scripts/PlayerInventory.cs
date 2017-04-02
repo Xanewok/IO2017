@@ -11,12 +11,14 @@ public class PlayerInventory : Inventory {
     public float fadeInScale = 25f;
     public float fadeOutScale = 15f;
     public Sprite emptySlotSprite;
-    public Canvas canvas;
+
     public PlayerControlls player;
+    public Canvas canvas;
+
     UnityEngine.UI.Image[] images;
     int lastSelected = 0;
-    ItemClass[] equipped;
-    ItemClass[] picked;
+    ItemObject[] equipped;
+    ItemObject[] picked;
 
 	// Use this for initialization
 	void Start () {
@@ -29,16 +31,8 @@ public class PlayerInventory : Inventory {
         {
             canvas = gameObject.transform.GetComponentInChildren<Canvas>();
         }
-        equipped = new ItemClass[2];
-        /*for(int i=0; i<2; i++)
-        {
-            equipped[i] = null;
-        }*/
-        picked = new ItemClass[7];
-        /*for (int i = 0; i < 7; i++)
-        {
-            picked[i] = null;
-        }*/
+        equipped = new ItemObject[2];
+        picked = new ItemObject[7];
         canvas.enabled = false;
         {
             int i = 0;
@@ -58,7 +52,8 @@ public class PlayerInventory : Inventory {
     void ShowInventory()
     {
         canvas.scaleFactor = Mathf.Lerp(canvas.scaleFactor, 1.0f, Time.deltaTime * fadeInScale);
-        canvas.enabled = true;
+        if (canvas.scaleFactor > 0.2f)
+            canvas.enabled = true;
         Vector3 aim = player.getLastTurn();
         Vector2 aim2d = Vector2.zero;
         aim2d.Set(aim.x, aim.z);
@@ -143,7 +138,7 @@ public class PlayerInventory : Inventory {
                 equipped[num].onUnEquip();
             if (picked[getSelectedSlot() - 1] != null)
                 picked[getSelectedSlot() - 1].onEquip(num);
-            ItemClass tmp = equipped[num];
+            ItemObject tmp = equipped[num];
             //print("Uneqipping " + tmp);
             if (tmp != null && tmp.getSprite() != null)
                 images[getSelectedSlot()].overrideSprite = tmp.getSprite();
@@ -162,26 +157,19 @@ public class PlayerInventory : Inventory {
     void OnCollisionEnter(Collision collision)
     {
         ItemObject obj = collision.gameObject.GetComponent<ItemObject>();
-        if (obj != null)
+        if (obj != null && obj.canBePicked(player.gameObject))
         {
-            ItemClass item = obj.getItemClass();
-            if (item != null && item.canBePicked(player.gameObject)) {
             if (equipped[0] == null)
             {
-                equipped[0] = item;
-                obj.setItemClass(null);
+                equipped[0] = obj;
                 equipped[0].onPickUp(player.gameObject, this);
                 equipped[0].onEquip(0);
-                Destroy(collision.gameObject);
             }
             else if (equipped[1] == null)
             {
-                equipped[1] = item;
-                obj.setItemClass(null);
+                equipped[1] = obj;
                 equipped[1].onPickUp(player.gameObject, this);
                 equipped[1].onEquip(0);
-                Destroy(collision.gameObject);
-            }
             }
         }
     }
@@ -192,7 +180,8 @@ public class PlayerInventory : Inventory {
 		if (isInventoryOpen())
         {
             ShowInventory();
-            ManageInventory();
+            if (canvas.enabled)
+                ManageInventory();
         }
         else
         //Inventory Invisible
