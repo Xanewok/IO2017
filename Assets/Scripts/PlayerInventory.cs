@@ -3,26 +3,42 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /**
-    Klasa ekwipunku dla gracza.
-    Umożliwia używanie przedmiotów.
+    Inventory class for player.
 **/
 public class PlayerInventory : Inventory {
 
     public float fadeInScale = 25f;
     public float fadeOutScale = 15f;
+    [Tooltip("What is the minimal scale for inventory (when it's invisible")]
+    public float inventoryScaleStart = 0.1f;
+    [Tooltip("At what minimal scale should the inventory be visible")]
+    public float inventoryScaleVisible = 0.2f;
+    [Tooltip("What is the final scale of inventory (when it's fully open)")]
+    public float inventoryScaleEnd = 1.0f;
+    [Tooltip("What inventory slot should be used to drop items")]
+    public int deleteSlot = 0;
+    [Tooltip("What sprite should be used for empty inventory slots")]
     public Sprite emptySlotSprite;
+    [Tooltip("What sprite should be used for drop inventory slots")]
+    public Sprite deleteSlotSprite;
 
+    [Tooltip("Optional: player script")]
     public PlayerControlls player;
+    [Tooltip("Optional: canvas used for inventory")]
     public Canvas canvas;
 
-    UnityEngine.UI.Image[] images;
-    int lastSelected = 0;
-    ItemObject[] equipped;
-    ItemObject[] picked;
+    [Tooltip("Number of usable inventory slots (excluding one used to drop items).")]
+    public static int inventorySlots = 7;
+    [Tooltip("Number of usable equipped slots.")]
+    public static int equippedSlots = 2;
 
-	// Use this for initialization
-	void Start () {
-        images = new UnityEngine.UI.Image[8];
+    UnityEngine.UI.Image[] images = new UnityEngine.UI.Image[inventorySlots + 1];
+    ItemObject[] equipped = new ItemObject[equippedSlots];
+    ItemObject[] picked = new ItemObject[inventorySlots];
+    int lastSelected = 0; //Last selected inventory slots
+
+    // Use this for initialization
+    void Start () {
         if (player == null)
         {
             player = gameObject.GetComponent<PlayerControlls>();
@@ -31,19 +47,21 @@ public class PlayerInventory : Inventory {
         {
             canvas = gameObject.transform.GetComponentInChildren<Canvas>();
         }
-        equipped = new ItemObject[2];
-        picked = new ItemObject[7];
         canvas.enabled = false;
+
+        // TODO: Might need a better arrange.
+        // Especially we might want to make inventory created dynamically.
+        int i = 0;
+        foreach (Transform child in canvas.transform)
         {
-            int i = 0;
-            foreach (Transform child in canvas.transform)
-            {
-                images[i] = child.gameObject.GetComponent<UnityEngine.UI.Image>();
-                i++;
-            }
+            images[i] = child.gameObject.GetComponent<UnityEngine.UI.Image>();
+            i++;
         }
-	}
+        images[deleteSlot].overrideSprite = deleteSlotSprite;
+
+    }
 	
+    //Checks if inventory needs to be opened
     public bool isInventoryOpen()
     {
         return Input.GetButton("Inventory_" + player.getPlayerNum());
@@ -51,49 +69,36 @@ public class PlayerInventory : Inventory {
 
     void ShowInventory()
     {
-        canvas.scaleFactor = Mathf.Lerp(canvas.scaleFactor, 1.0f, Time.deltaTime * fadeInScale);
-        if (canvas.scaleFactor > 0.2f)
+        canvas.scaleFactor = Mathf.Lerp(canvas.scaleFactor, inventoryScaleEnd, Time.deltaTime * fadeInScale);
+        if (canvas.scaleFactor >= inventoryScaleVisible)
             canvas.enabled = true;
-        Vector3 aim = player.getLastTurn();
-        Vector2 aim2d = Vector2.zero;
-        aim2d.Set(aim.x, aim.z);
-        if (aim2d.SqrMagnitude() > 0.5)
-        {
-            float angle = Vector2.Angle(Vector2.down, aim2d);
-            if (Vector2.Angle(Vector2.left, aim2d) <= 90f)
-            {
-                angle = -angle;
-            }
-            int kol = (int)(angle + 22.5f);
-            if (kol < 0) kol += 360;
-            kol /= 45;
-            if (lastSelected != -1)
-                images[lastSelected].color = Color.white;
-            images[kol].color = Color.green;
-            lastSelected = kol;
-        }
-        else
-        {
-            if (lastSelected != -1)
-                images[lastSelected].color = Color.white;
-            lastSelected = -1;
-        }
+
+        Vector3 aim = player.transform.rotation.eulerAngles;
+        float angle = aim.y;
+
+        int kol = (int)(angle + 360f/(inventorySlots+1f)/2f);
+        while (kol < 0) kol += 360;
+        kol /= 360/(inventorySlots+1);
+        kol %= inventorySlots + 1;
+
+        images[getVisibleSelectedSlot()].color = Color.white;
+        images[kol].color = Color.green;
+        lastSelected = kol;
     }
 
     void HideInventory()
     {
-        if (canvas.scaleFactor > 0.2)
+        if (canvas.scaleFactor > inventoryScaleVisible)
         {
-            canvas.scaleFactor = Mathf.Lerp(canvas.scaleFactor, 0.1f, Time.deltaTime * fadeOutScale);
+            canvas.scaleFactor = Mathf.Lerp(canvas.scaleFactor, inventoryScaleStart, Time.deltaTime * fadeOutScale);
         }
         else
         {
             canvas.enabled = false;
-            canvas.scaleFactor = 0.1f;
+            canvas.scaleFactor = inventoryScaleStart;
         }
     }
 
-    //Zarządzanie ekwipunkiem
     void ManageInventory()
     {
         if (lastSelected != -1)
@@ -109,49 +114,68 @@ public class PlayerInventory : Inventory {
         }
     }
 
+    void UseItem(int num)
+    {
+        if (equipped[num] != null)
+        {
+            equipped[num].onUse();
+        }
+    }
+
     void ManageUsingItems()
     {
         if (Input.GetButtonDown("Use_r_" + player.getPlayerNum()) && equipped[0] != null)
         {
-            equipped[0].onUse();
+            UseItem(0);
         }
         if (Input.GetButtonDown("Use_l_" + player.getPlayerNum()) && equipped[1] != null)
         {
-            equipped[1].onUse();
+            UseItem(1);
         }
     }
 
-    //Zarządzanie konkretnym przedmiotem
+    //Used to drop/swap item from equipped into inventory
     void ManageItem(int num)
     {
-        if (getSelectedSlot() == 0)
+        if (getSelectedSlot() == -1)
         {
-            //print("Dropping Item\n");
             if (equipped[num] != null)
                 equipped[num].onDropDown(player.gameObject, this);
             equipped[num] = null;
         }
         else
         {
-            //print("Swapping Item\n");
             if (equipped[num] != null)
                 equipped[num].onUnEquip();
-            if (picked[getSelectedSlot() - 1] != null)
-                picked[getSelectedSlot() - 1].onEquip(num);
+            if (picked[getSelectedSlot()] != null)
+                picked[getSelectedSlot()].onEquip(num);
             ItemObject tmp = equipped[num];
-            //print("Uneqipping " + tmp);
             if (tmp != null && tmp.getSprite() != null)
-                images[getSelectedSlot()].overrideSprite = tmp.getSprite();
+                images[getVisibleSelectedSlot()].overrideSprite = tmp.getSprite();
             else
-                images[getSelectedSlot()].overrideSprite = emptySlotSprite;
-            equipped[num] = picked[getSelectedSlot() - 1];
-            picked[getSelectedSlot() - 1] = tmp;
+                images[getVisibleSelectedSlot()].overrideSprite = emptySlotSprite;
+            equipped[num] = picked[getSelectedSlot()];
+            picked[getSelectedSlot()] = tmp;
         }       
     }
 
-    public int getSelectedSlot()
+    //Remainder - visible slot 0 is used to delete items
+    public int getVisibleSelectedSlot()
     {
         return lastSelected;
+    }
+
+    public void setVisibleSelectedSlot(int selected)
+    {
+        lastSelected = selected;
+    }
+
+    //Returns selected slot;
+    // -1 if it's item delete slot
+    public int getSelectedSlot()
+    {
+        if (lastSelected == deleteSlot) return -1;
+        return lastSelected > deleteSlot ? lastSelected - 1 : lastSelected;
     }
 
     void OnCollisionEnter(Collision collision)
@@ -169,7 +193,7 @@ public class PlayerInventory : Inventory {
             {
                 equipped[1] = obj;
                 equipped[1].onPickUp(player.gameObject, this);
-                equipped[1].onEquip(0);
+                equipped[1].onEquip(1);
             }
         }
     }

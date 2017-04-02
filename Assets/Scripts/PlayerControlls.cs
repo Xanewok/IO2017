@@ -60,7 +60,6 @@ public class PlayerControlls : MonoBehaviour
         {
             Quaternion newRotation = Quaternion.LookRotation(lookVector);
             transform.rotation = newRotation;
-            lastTurn = lookVector;
         }
     }
 
@@ -85,11 +84,6 @@ public class PlayerControlls : MonoBehaviour
         {
             AxisTurn();
         }
-    }
-
-    public Vector3 getLastTurn()
-    {
-        return lastTurn;
     }
 
     public int getPlayerNum()
