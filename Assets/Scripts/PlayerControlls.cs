@@ -14,6 +14,7 @@ public class PlayerControlls : MonoBehaviour
 
     Vector3 mousePosition = Vector3.zero;
     Rigidbody rb;
+    Vector3 lastTurn = Vector3.zero;
 
     // Use this for initialization
     void Start()
@@ -48,7 +49,6 @@ public class PlayerControlls : MonoBehaviour
         {
             Vector3 planePoint = camRay.GetPoint(rayDistance);
             Vector3 lookVector = planePoint - transform.position;
-
             Turning(lookVector);
         }
     }
@@ -84,5 +84,10 @@ public class PlayerControlls : MonoBehaviour
         {
             AxisTurn();
         }
+    }
+
+    public int getPlayerNum()
+    {
+        return playerNum;
     }
 }
