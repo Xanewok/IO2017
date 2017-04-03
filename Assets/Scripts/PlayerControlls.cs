@@ -26,8 +26,7 @@ public class PlayerControlls : MonoBehaviour
         float h = Input.GetAxis("Horizontal_" + playerNum.ToString());
         float v = Input.GetAxis("Vertical_" + playerNum.ToString());
         movement.Set(h, 0f, v);
-
-        rb.velocity = movement.normalized * speed;
+		rb.velocity = movement.normalized * speed;
     }
 
     private void AxisTurn()
@@ -46,7 +45,7 @@ public class PlayerControlls : MonoBehaviour
         if (Physics.Raycast(camRay, out floorHit, 100f, floorMask))
         {
             Vector3 lookVector = floorHit.point - transform.position;
-            print(lookVector);
+            //print(lookVector);
             Turning(lookVector);
         }
     }
