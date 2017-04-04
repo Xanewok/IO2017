@@ -27,13 +27,13 @@ public abstract class ItemObject : MonoBehaviour {
 
     public virtual void onPickUp(GameObject player, Inventory inventory)
     {
-        this.transform.parent = player.transform;
+        this.transform.SetParent(player.transform);
         wearer = player;
     }
 
     public virtual void onDropDown(GameObject player, Inventory inventory)
     {
-        this.transform.parent = null;
+        this.transform.SetParent(null);
         wearer = null;
         this.pickUpDelay = delayOnDrop;
     }
