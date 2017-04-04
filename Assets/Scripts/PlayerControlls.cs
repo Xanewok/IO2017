@@ -14,7 +14,6 @@ public class PlayerControlls : MonoBehaviour
 
     Vector3 mousePosition = Vector3.zero;
     Rigidbody rb;
-    Vector3 lastTurn = Vector3.zero;
 
     // Use this for initialization
     void Start()
