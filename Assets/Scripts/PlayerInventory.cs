@@ -114,23 +114,20 @@ public class PlayerInventory : Inventory {
         }
     }
 
-    void UseItem(int num)
-    {
-        if (equipped[num] != null)
-        {
-            equipped[num].onUse();
-        }
-    }
 
     void ManageUsingItems()
     {
-        if (Input.GetButton("Use_r_" + player.getPlayerNum()) && equipped[0] != null)
+        if (equipped[0] != null)
         {
-            UseItem(0);
+            if (Input.GetButtonDown("Use_r_" + player.getPlayerNum())) equipped[0].onUseStart();
+            else if (Input.GetButton("Use_r_" + player.getPlayerNum())) equipped[0].onUse();
+            else if (Input.GetButtonUp("Use_r_" + player.getPlayerNum())) equipped[0].onUseEnd();
         }
-        if (Input.GetButton("Use_l_" + player.getPlayerNum()) && equipped[1] != null)
+        if (equipped[1] != null)
         {
-            UseItem(1);
+            if (Input.GetButtonDown("Use_l_" + player.getPlayerNum())) equipped[1].onUseStart();
+            else if (Input.GetButton("Use_l_" + player.getPlayerNum())) equipped[1].onUse();
+            else if (Input.GetButtonUp("Use_l_" + player.getPlayerNum())) equipped[1].onUseEnd();
         }
     }
 

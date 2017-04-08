@@ -23,7 +23,9 @@ public abstract class ItemObject : MonoBehaviour {
         }
     }
 
+    public abstract void onUseStart();
     public abstract void onUse();
+    public abstract void onUseEnd();
 
     public virtual void onPickUp(GameObject player, Inventory inventory)
     {

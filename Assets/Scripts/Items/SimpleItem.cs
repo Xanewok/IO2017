@@ -64,7 +64,15 @@ public abstract class SimpleItem : ItemObject {
         meshRenderer.enabled = false;
     }
 
+    public override void onUseStart()
+    {
+    }
+
     public override void onUse()
+    {
+    }
+
+    public override void onUseEnd()
     {
     }
 
