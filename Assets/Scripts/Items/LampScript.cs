@@ -10,12 +10,12 @@ using UnityEngine;
 public class LampScript : SimpleItem
 {
     public Light light;
-    protected MeshRenderer headRenderer;
+    public MeshRenderer headRenderer;
 
     protected override void onStart()
     {
         base.onStart();
-        headRenderer = gameObject.transform.GetComponentInChildren<MeshRenderer>();
+        //headRenderer = gameObject.transform.GetComponentInChildren<MeshRenderer>();
     }
 
     public override void onDropDown(GameObject player, Inventory inventory)
