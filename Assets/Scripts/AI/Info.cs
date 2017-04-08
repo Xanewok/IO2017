@@ -21,6 +21,6 @@ public class Info : MonoBehaviour {
 	}
 	
 	float date() {
-			return this.time
+		return this.time;
 	}
 }
