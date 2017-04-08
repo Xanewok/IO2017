@@ -8,7 +8,9 @@ public class PlayerControlls : MonoBehaviour
     public float speed = 6;
     public int playerNum = 0;
     public bool supportMouse = true;
-    int floorMask;
+    Plane mouseTurnPlane = new Plane(Vector3.up, Vector3.zero);
+    [Tooltip("Distance (in world units) above which rotation vector will be considered")]
+    public float rotationDeadZone = 0.1f;
 
     Vector3 mousePosition = Vector3.zero;
     Rigidbody rb;
@@ -16,7 +18,6 @@ public class PlayerControlls : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        floorMask = LayerMask.GetMask("RaycastFloor");
         rb = GetComponent<Rigidbody>();
     }
 
@@ -41,11 +42,11 @@ public class PlayerControlls : MonoBehaviour
     private void MouseTurn()
     {
         Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit floorHit;
-        if (Physics.Raycast(camRay, out floorHit, 100f, floorMask))
+        float rayDistance;
+        if (mouseTurnPlane.Raycast(camRay, out rayDistance))
         {
-            Vector3 lookVector = floorHit.point - transform.position;
-            //print(lookVector);
+            Vector3 planePoint = camRay.GetPoint(rayDistance);
+            Vector3 lookVector = planePoint - transform.position;
             Turning(lookVector);
         }
     }
@@ -53,10 +54,10 @@ public class PlayerControlls : MonoBehaviour
     private void Turning(Vector3 lookVector)
     {
         lookVector.y = 0f;
-        if (!lookVector.Equals(Vector3.zero))
+        if (lookVector.magnitude > rotationDeadZone)
         {
             Quaternion newRotation = Quaternion.LookRotation(lookVector);
-            rb.MoveRotation(newRotation);
+            transform.rotation = newRotation;
         }
     }
 
@@ -64,7 +65,12 @@ public class PlayerControlls : MonoBehaviour
     void FixedUpdate()
     {
         Movement();
+    }
 
+    // Handle rotation in Update since it's able to poll input faster (60Hz+ vs typically <30Hz for physics)
+    // which means it's able to interpolate rotation smoothly
+    void Update()
+    {
         Vector3 mouseScreenMovement = Input.mousePosition - mousePosition;
         mousePosition = Input.mousePosition;
 
@@ -76,5 +82,10 @@ public class PlayerControlls : MonoBehaviour
         {
             AxisTurn();
         }
+    }
+
+    public int getPlayerNum()
+    {
+        return playerNum;
     }
 }
