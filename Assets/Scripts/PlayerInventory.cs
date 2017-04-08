@@ -124,11 +124,11 @@ public class PlayerInventory : Inventory {
 
     void ManageUsingItems()
     {
-        if (Input.GetButtonDown("Use_r_" + player.getPlayerNum()) && equipped[0] != null)
+        if (Input.GetButton("Use_r_" + player.getPlayerNum()) && equipped[0] != null)
         {
             UseItem(0);
         }
-        if (Input.GetButtonDown("Use_l_" + player.getPlayerNum()) && equipped[1] != null)
+        if (Input.GetButton("Use_l_" + player.getPlayerNum()) && equipped[1] != null)
         {
             UseItem(1);
         }
