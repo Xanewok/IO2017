@@ -27,8 +27,7 @@ public class PlayerControlls : MonoBehaviour
         float h = Input.GetAxis("Horizontal_" + playerNum.ToString());
         float v = Input.GetAxis("Vertical_" + playerNum.ToString());
         movement.Set(h, 0f, v);
-
-        rb.velocity = movement.normalized * speed;
+		rb.velocity = movement.normalized * speed;
     }
 
     private void AxisTurn()
@@ -48,7 +47,6 @@ public class PlayerControlls : MonoBehaviour
         {
             Vector3 planePoint = camRay.GetPoint(rayDistance);
             Vector3 lookVector = planePoint - transform.position;
-
             Turning(lookVector);
         }
     }
@@ -84,5 +82,10 @@ public class PlayerControlls : MonoBehaviour
         {
             AxisTurn();
         }
+    }
+
+    public int getPlayerNum()
+    {
+        return playerNum;
     }
 }
