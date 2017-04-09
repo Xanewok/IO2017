@@ -1,49 +1,63 @@
 using UnityEngine;
-using System.Collections
+using System.Collections;
+using System.Collections.Generic;
 
-public class EnemyBasicAI : MonoBehaviour {
-	protected GameObject[] Players;
-	protected List<Info> Infos;
-	protected float hearingDistance; /*Add constants*/
-	protected float sightDistance;
-	protected float sightAngle;
-	protected float detectionInterval = 0.2f;
+public struct Info {
+	public string message; 
+	public Vector3 location;
+	public float time;
+
+	public Info(string message, Vector3 location, float time) {
+		this.message = message;
+		this.location = location;
+		this.time = time;
+	}
+}
+
+public class EnemyPerception : MonoBehaviour {
+	public float hearingDistance;
+	public float sightDistance;
+	public float sightAngle;
+	public float detectionInterval = 0.2f;
+
+	protected GameObject[] players;
+	protected List<Info> infos = new List<Info>();
 	
-	void Start () {
-		Player =  GameObject.FindGameObjectsWithTag("Player");
-		Infos = new List<Info>;
+	void Start() {
+		players =  GameObject.FindGameObjectsWithTag("Player");
 		StartCoroutine(Perception());
 	}
 	
 	IEnumerator Perception() {
-		for(;;) {
-			Infos.Clear();
+		while (true) {
+			infos.Clear();
+
 			int i = 0;
-			foreach(player in Players) {
-					Vector3 rayDirection = player.transform.position - transform.position;
-					float distance = rayDirection.distance();
-					float angle = Vector3.Angle(rayDirection, transform.forward);
-					/* Player is in sight area */
-					if(distance < sightDistance && angle < sightAngle) {
-						RaycastHit hit;
-						bool hited = Physics.Raycast(transform.position, rayDirection, out hit, sightDistance);
-						/* Player is seen */
-						if(hited && hit.position.tag == 'Player') {
-							Info info("Player " + i + " seen", player.transform.position, Time.time);
-							Infos.add(info);
-						}
+			foreach(GameObject player in players) {
+				Vector3 rayDirection = player.transform.position - transform.position;
+				float distance = rayDirection.magnitude;
+				float angle = Vector3.Angle(rayDirection, transform.forward);
+				// Player is in sight area
+				if (distance < sightDistance && angle < sightAngle) {
+					RaycastHit hitInfo;
+					bool hit = Physics.Raycast(transform.position, rayDirection, out hitInfo, sightDistance);
+					// Player is seen
+					if (hit && hitInfo.transform.tag == "Player") {
+						Info info = new Info("Player " + i + " seen", player.transform.position, Time.time);
+						infos.Add(info);
 					}
-					/* Player is heard */
-					else if(distance < hearingDistance) {
-						Info info("Player " + i + " heard", player.transform.position, Time.time);
-						Infos.add(info);
-					}
-					++i;
+				}
+				/* Player is heard */
+				else if (distance < hearingDistance) {
+					Info info = new Info("Player " + i + " heard", player.transform.position, Time.time);
+					infos.Add(info);
+				}
+				i++;
 			}
 		}
 	}	
 	
 	List<Info> getInfos() {
-		return Infos;
+		return infos;
 	}
 }
