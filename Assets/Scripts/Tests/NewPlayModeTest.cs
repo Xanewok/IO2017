@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿// Necessary for every PlayMode test, since it seems that
+// Unity Cloud Build specifically ignores testing assemblies
+// in Standalone players, even for newest 5.6.0 builds
+#if !UNITY_CLOUD_BUILD
+
+using UnityEngine;
 using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
@@ -19,3 +24,5 @@ public class NewPlayModeTest {
 		yield return null;
 	}
 }
+
+#endif
