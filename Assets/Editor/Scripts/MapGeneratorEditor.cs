@@ -20,7 +20,7 @@ public class MapGeneratorEditor : Editor
         displayWarning = EditorGUILayout.Toggle("Display warning on Clear", displayWarning);
         if (GUILayout.Button("Generate"))
         {
-            myScript.generate();
+            myScript.Generate();
         }
 
         if (GUILayout.Button("Clear") &&
@@ -30,19 +30,7 @@ public class MapGeneratorEditor : Editor
                 "Confirm",
                 "Cancel")))
         {
-            Clear();
-        }
-    }
-
-    void Clear()
-    {
-        GameObject[] mapTiles = GameObject.FindGameObjectsWithTag("MapTile");
-        foreach (GameObject tile in mapTiles)
-        {
-            if (tile.name.Contains("(generated)"))
-            {
-                DestroyImmediate(tile);
-            }
+            myScript.Clear();
         }
     }
 }
