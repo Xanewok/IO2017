@@ -9,7 +9,7 @@ using UnityEngine;
 */
 public class LampScript : SimpleItem
 {
-    public Light light;
+    new public Light light;
     public MeshRenderer headRenderer;
 
     protected override void onStart()
