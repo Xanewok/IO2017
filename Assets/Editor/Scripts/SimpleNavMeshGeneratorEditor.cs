@@ -36,6 +36,8 @@ public class SimpleNavMeshGeneratorEditor : Editor
 
     void DrawProperties()
     {
+        serializedObject.Update();
+
         var bs = NavMesh.GetSettingsByID(agentTypeID.intValue);
         if (bs.agentTypeID != -1)
         {
@@ -50,6 +52,8 @@ public class SimpleNavMeshGeneratorEditor : Editor
         NavMeshComponentsGUIUtility.AreaPopup("Default Area", defaultArea);
         EditorGUILayout.PropertyField(layerMask);
         EditorGUILayout.PropertyField(useGeometry);
+
+        serializedObject.ApplyModifiedProperties();
     }
 
     void DrawActionButtons()
