@@ -15,6 +15,20 @@ public class TileConnector : MonoBehaviour
     State m_state = State.Open;
     public State state { get { return m_state; } set { m_state = value; } }
 
+    public Bounds GetTilePhysicalBounds(float margin = 0.0f)
+    {
+        var result = new Bounds();
+
+        var colliders = transform.root.GetComponentsInChildren<Collider>();
+        foreach (var collider in colliders)
+        {
+            result.Encapsulate(collider.bounds);
+        }
+
+        result.Expand(margin);
+        return result;
+    }
+
     private void OnDrawGizmos()
     {
         Vector3 origin = transform.position;

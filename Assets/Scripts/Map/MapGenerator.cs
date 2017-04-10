@@ -64,37 +64,40 @@ public class MapGenerator : MonoBehaviour
                     Quaternion targetRotation = Quaternion.LookRotation(-openConnector.transform.forward, openConnector.transform.up);
 
                     // Pick a fitting tile
+                    GameObject spawnedTile = null;
+
                     var shuffledTiles = tiles.Randomize();
                     foreach (var tile in shuffledTiles)
                     {
-                        GameObject spawnedTile = null;
-
                         // Pick a matching connector from available
                         var tileConnectors = tile.GetComponentsInChildren<TileConnector>();
                         foreach (var tileConnector in tileConnectors)
                         {
+                            // Check for free space
+                            const float boundsMargin = -2.0f;
+                            var bounds = tileConnector.GetTilePhysicalBounds(boundsMargin);
+                            var colliders = Physics.OverlapBox(bounds.center, bounds.extents);
+                            if (colliders.Length > 0)
+                                continue;
+
                             // TODO: Support custom starting rotation (currently only works for identity rotation...)
-                            // Factor in connector local position
                             Vector3 finalPosition = targetPosition + tileConnector.transform.localPosition;
                             // Ignore local connector rotation for root world rotation
                             Quaternion finalRotation = targetRotation * Quaternion.Inverse(tileConnector.transform.localRotation);
 
-                            // TODO: Check bounds for overlap and if no possible tile
-                            // fits physically here, mark it as rejected
+                            // We found a match
+                            openConnector.state = TileConnector.State.Connected;
 
-                            // We found a match, spawn tile
                             spawnedTile = Instantiate(tile, finalPosition, finalRotation);
                             spawnedTile.name += kGeneratedSuffix;
-
                             // Since we checked prefab connections, pass actual object connections outside
-                            tileConnectors = spawnedTile.GetComponentsInChildren<TileConnector>();
                             // It's not pretty, but it's faster than instantiating objects for
                             // every possible match and iterating over spawned connectors
+                            tileConnectors = spawnedTile.GetComponentsInChildren<TileConnector>();
                             tileConnectors
                                 .Where(conn => (conn.transform.position - targetPosition).magnitude < 0.1f)
                                 .First()
                                 .state = TileConnector.State.Connected;
-                            openConnector.state = TileConnector.State.Connected;
 
                             break;
                         }
@@ -105,6 +108,12 @@ public class MapGenerator : MonoBehaviour
                                 .Where(conn => conn.state == TileConnector.State.Open));
                             break;
                         }
+                    }
+
+                    // No tile fits, mark this connector as rejected
+                    if (spawnedTile == null)
+                    {
+                        openConnector.state = TileConnector.State.Rejected;
                     }
                 }
                 openConnectors = nextOpenConnectors;
