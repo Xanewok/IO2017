@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4529775020487090}
   - component: {fileID: 114693272148208644}
+  - component: {fileID: 114555773390350022}
   m_Layer: 0
   m_Name: MapGenerator
   m_TagString: Untagged
@@ -40,6 +41,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114555773390350022
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1045752959836502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7ba448d61c7e8e42b99391962f47422, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  useGeometry: 1
 --- !u!114 &114693272148208644
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -51,3 +68,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e233b6ce45aaa49909c54ac77829fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tile: {fileID: 1399986759960106, guid: 1798e04f05c9d4d43a184b736cddb0c4, type: 2}
+  position: {x: 0, y: 0, z: 0}
