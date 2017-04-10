@@ -53,10 +53,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  layerMask:
+  m_LayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  useGeometry: 1
+  m_UseGeometry: 1
+  m_DefaultArea: 0
 --- !u!114 &114693272148208644
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -70,3 +71,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tile: {fileID: 1399986759960106, guid: 1798e04f05c9d4d43a184b736cddb0c4, type: 2}
   position: {x: 0, y: 0, z: 0}
+  navMeshGenerator: {fileID: 114555773390350022}
+  buildNavMeshOnGenerate: 1

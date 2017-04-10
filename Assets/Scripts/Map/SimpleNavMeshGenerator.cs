@@ -75,7 +75,7 @@ public class SimpleNavMeshGenerator : MonoBehaviour
             }
         }
 
-        var bounds = CalculateWorldBounds(sources);
+        var bounds = CalculateWorldBounds(transform, sources);
         navMeshData = NavMeshBuilder.BuildNavMeshData(buildSettings, sources, bounds, Vector3.zero, Quaternion.identity);
 
         AddData();
@@ -97,7 +97,7 @@ public class SimpleNavMeshGenerator : MonoBehaviour
         return new Bounds(worldPosition, worldSize);
     }
 
-    Bounds CalculateWorldBounds(List<NavMeshBuildSource> sources)
+    static Bounds CalculateWorldBounds(Transform transform, List<NavMeshBuildSource> sources)
     {
         // Use the unscaled matrix for the NavMeshSurface
         Matrix4x4 worldToLocal = Matrix4x4.TRS(transform.position, transform.rotation, Vector3.one);
