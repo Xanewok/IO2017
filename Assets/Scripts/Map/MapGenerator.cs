@@ -66,27 +66,38 @@ public class MapGenerator : MonoBehaviour
                     // Pick a fitting tile
                     GameObject spawnedTile = null;
 
-                    var shuffledTiles = tiles.Randomize();
+                    var shuffledTiles = new List<GameObject>(tiles);
+                    shuffledTiles.Shuffle();
                     foreach (var tile in shuffledTiles)
                     {
                         // Pick a matching connector from available
                         var tileConnectors = tile.GetComponentsInChildren<TileConnector>();
                         foreach (var tileConnector in tileConnectors)
                         {
+                            Quaternion toRootRot = tile.transform.rotation * Quaternion.Inverse(tileConnector.transform.rotation);
+                            Vector3 toRootTrans = tile.transform.position - tileConnector.transform.position;
+
+                            Quaternion worldConnToTarget = targetRotation * Quaternion.Inverse(tileConnector.transform.rotation);
+
+                            Vector3 finalPosition = targetPosition + worldConnToTarget * toRootTrans;
+                            Quaternion finalRotation = toRootRot * worldConnToTarget;
+
                             // Check for free space
-                            const float boundsMargin = -2.0f;
+                            // TODO: GetTilePhysicalBounds gives us prefab-based AABB - we want quite precise world OBB instead
+                            const float boundsMargin = -0.5f;
                             var bounds = tileConnector.GetTilePhysicalBounds(boundsMargin);
-                            var colliders = Physics.OverlapBox(bounds.center, bounds.extents);
-                            if (colliders.Length > 0)
+                            bounds.center = finalPosition; // override center, since tile is a prefab
+                            var colliders = Physics.OverlapBox(bounds.center, bounds.extents)
+                                .Where(col => col.transform.root.GetInstanceID() != openConnector.transform.root.GetInstanceID());
+                            if (colliders.Count() > 0)
+                            {
+                                Debug.LogFormat("Tile {0} rejected for pos {1}", tile.name, openConnector.transform.position);
+                                foreach (var collider in colliders)
+                                {
+                                    Debug.LogFormat("Detected collider: {0} ({1})", collider.name, collider.transform.position);
+                                }
                                 continue;
-
-                            // TODO: Support custom starting rotation (currently only works for identity rotation...)
-                            Vector3 finalPosition = targetPosition + tileConnector.transform.localPosition;
-                            // Ignore local connector rotation for root world rotation
-                            Quaternion finalRotation = targetRotation * Quaternion.Inverse(tileConnector.transform.localRotation);
-
-                            // We found a match
-                            openConnector.state = TileConnector.State.Connected;
+                            }
 
                             spawnedTile = Instantiate(tile, finalPosition, finalRotation);
                             spawnedTile.name += kGeneratedSuffix;
@@ -98,6 +109,7 @@ public class MapGenerator : MonoBehaviour
                                 .Where(conn => (conn.transform.position - targetPosition).magnitude < 0.1f)
                                 .First()
                                 .state = TileConnector.State.Connected;
+                            openConnector.state = TileConnector.State.Connected;
 
                             break;
                         }
@@ -160,6 +172,8 @@ namespace HelperExtensions
 {
     public static class MyExtensions
     {
+        private static System.Random rng = new System.Random();
+
         public static GameObject[] FindChildrenWithTag(this Transform transform, string tag)
         {
             var result = new List<GameObject>();
@@ -174,10 +188,17 @@ namespace HelperExtensions
             return result.ToArray();
         }
 
-        public static IEnumerable<T> Randomize<T>(this IEnumerable<T> source)
+        public static void Shuffle<T>(this IList<T> list)
         {
-            System.Random rnd = new System.Random();
-            return source.OrderBy(item => rnd.Next());
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rng.Next(n + 1);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
         }
     }
 }
