@@ -8,12 +8,14 @@ using System.Linq;
 [ExecuteInEditMode]
 public class MapGenerator : MonoBehaviour
 {
+    [Header("Generation")]
     public string mapTileTag = "MapTile";
-    public string mapTileConnectorTag = "MapTileConnector";
     public GameObject startingTile;
     public Vector3 origin;
     public GameObject[] tiles;
     public int iterationCount = 2;
+    public bool generateOnPlayStart = true;
+    [Header("Navigation")]
     public SimpleNavMeshGenerator navMeshGenerator;
     public bool buildNavMeshOnGenerate = true;
 
@@ -31,6 +33,11 @@ public class MapGenerator : MonoBehaviour
         {
             navMeshGenerator = GetComponent<SimpleNavMeshGenerator>();
         }
+
+        if (generateOnPlayStart && IsPlaying())
+        {
+            Generate();
+        }
     }
 
     public void Generate()
@@ -38,41 +45,69 @@ public class MapGenerator : MonoBehaviour
         Clear();
 
         {
-            GameObject startTile = Instantiate(startingTile, origin, Quaternion.identity);
+            GameObject startTile = Instantiate(startingTile, origin, startingTile.transform.rotation);
             startTile.name += kGeneratedSuffix;
 
-            var openConnectors = new List<GameObject>(startTile.transform.FindChildrenWithTag(mapTileConnectorTag));
-            var currentTiles = new List<GameObject> { startTile };
+            var openConnectors = new List<TileConnector>(startTile.GetComponentsInChildren<TileConnector>());
+            if (openConnectors.Count == 0)
+            {
+                Debug.LogWarning("Starting tile doesn't have any MapTileConnector objects!");
+            }
 
             for (int i = 0; i < iterationCount; ++i)
             {
-                var nextOpenConnectors = new List<GameObject>();
-                foreach (var connector in openConnectors)
+                var nextOpenConnectors = new List<TileConnector>();
+                foreach (var openConnector in openConnectors)
                 {
                     // Calculate matching transform to plug-in
-                    Vector3 targetPosition = connector.transform.position;
-                    Quaternion targetRotation = Quaternion.LookRotation(-connector.transform.forward, connector.transform.up);
+                    Vector3 targetPosition = openConnector.transform.position;
+                    Quaternion targetRotation = Quaternion.LookRotation(-openConnector.transform.forward, openConnector.transform.up);
 
                     // Pick a fitting tile
                     var shuffledTiles = tiles.Randomize();
                     foreach (var tile in shuffledTiles)
                     {
-                        // Pick a matching connector
-                        var tileConnectors = tile.transform.FindChildrenWithTag(mapTileConnectorTag);
+                        GameObject spawnedTile = null;
+
+                        // Pick a matching connector from available
+                        var tileConnectors = tile.GetComponentsInChildren<TileConnector>();
                         foreach (var tileConnector in tileConnectors)
                         {
-                            // World root position is target connector position, factoring in connector local position
+                            // TODO: Support custom starting rotation (currently only works for identity rotation...)
+                            // Factor in connector local position
                             Vector3 finalPosition = targetPosition + tileConnector.transform.localPosition;
-                            // World root rotation is target connector rotation without local connector rotation
+                            // Ignore local connector rotation for root world rotation
                             Quaternion finalRotation = targetRotation * Quaternion.Inverse(tileConnector.transform.localRotation);
 
-                            GameObject spawnedTile = Instantiate(tile, finalPosition, finalRotation);
+                            // TODO: Check bounds for overlap and if no possible tile
+                            // fits physically here, mark it as rejected
+
+                            // We found a match, spawn tile
+                            spawnedTile = Instantiate(tile, finalPosition, finalRotation);
                             spawnedTile.name += kGeneratedSuffix;
 
-                            // TODO: Discard closed connectors and pass open connectors for next iteration                            
+                            // Since we checked prefab connections, pass actual object connections outside
+                            tileConnectors = spawnedTile.GetComponentsInChildren<TileConnector>();
+                            // It's not pretty, but it's faster than instantiating objects for
+                            // every possible match and iterating over spawned connectors
+                            tileConnectors
+                                .Where(conn => (conn.transform.position - targetPosition).magnitude < 0.1f)
+                                .First()
+                                .state = TileConnector.State.Connected;
+                            openConnector.state = TileConnector.State.Connected;
+
+                            break;
+                        }
+
+                        if (spawnedTile != null)
+                        {
+                            nextOpenConnectors.AddRange(tileConnectors
+                                .Where(conn => conn.state == TileConnector.State.Open));
+                            break;
                         }
                     }
                 }
+                openConnectors = nextOpenConnectors;
             }
         }
 
@@ -100,6 +135,15 @@ public class MapGenerator : MonoBehaviour
             }
         }
         UpdateTileCache();
+    }
+
+    static bool IsPlaying()
+    {
+        return Application.isPlaying
+#if UNITY_EDITOR
+            || UnityEditor.EditorApplication.isPlaying
+#endif
+        ;
     }
 }
 
