@@ -10,6 +10,7 @@ public class MapGenerator : MonoBehaviour
 {
     [Header("Generation")]
     public string mapTileTag = "MapTile";
+    public GameObject finishPoint;
     public GameObject startingTile;
     public Vector3 origin;
     public GameObject[] tiles;
@@ -105,11 +106,11 @@ public class MapGenerator : MonoBehaviour
                             // It's not pretty, but it's faster than instantiating objects for
                             // every possible match and iterating over spawned connectors
                             tileConnectors = spawnedTile.GetComponentsInChildren<TileConnector>();
-                            tileConnectors
+                            var spawnedTileConnector = tileConnectors
                                 .Where(conn => (conn.transform.position - targetPosition).magnitude < 0.1f)
-                                .First()
-                                .state = TileConnector.State.Connected;
-                            openConnector.state = TileConnector.State.Connected;
+                                .First();
+
+                            openConnector.Connect(spawnedTileConnector);
 
                             break;
                         }
@@ -125,7 +126,7 @@ public class MapGenerator : MonoBehaviour
                     // No tile fits, mark this connector as rejected
                     if (spawnedTile == null)
                     {
-                        openConnector.state = TileConnector.State.Rejected;
+                        openConnector.Reject();
                     }
                 }
                 openConnectors = nextOpenConnectors;
@@ -133,6 +134,8 @@ public class MapGenerator : MonoBehaviour
         }
 
         UpdateTileCache();
+
+        PlaceFinishPoint();
 
         if (navMeshGenerator != null && buildNavMeshOnGenerate)
         {
@@ -155,7 +158,41 @@ public class MapGenerator : MonoBehaviour
                 DestroyImmediate(tile);
             }
         }
+        // Clear spawned Finish Points
+        var finishPoints = GameObject.FindGameObjectsWithTag("Finish");
+        foreach (var point in finishPoints)
+        {
+            if (point.name.EndsWith(kGeneratedSuffix))
+            {
+                DestroyImmediate(point);
+            }
+        }
         UpdateTileCache();
+    }
+
+    // TODO: Move me outside of this class ideally
+    void PlaceFinishPoint()
+    {
+        List<GameObject> edgeTiles = mapTiles
+            .Where(
+                tile => tile.GetComponentsInChildren<TileConnector>()
+                .Where(conn => conn.state == TileConnector.State.Open)
+                .Count() > 0
+            ).ToList();
+
+        edgeTiles.Shuffle();
+        foreach (var tile in edgeTiles)
+        {
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(tile.transform.position, out hit, 50.0f, ~0))
+            {
+                // Spawn finish point
+                var point = Instantiate(finishPoint, hit.position, Quaternion.identity);
+                point.name += kGeneratedSuffix;
+                break;
+            }
+        }
+        // TODO: Handle when we couldn't spawn it
     }
 
     static bool IsPlaying()
