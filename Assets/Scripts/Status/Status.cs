@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Status : MonoBehaviour {
+public class Status : MonoBehaviour
+{
+    public delegate void HealthChangedHandler(GameObject obj, float health);
+    public event HealthChangedHandler healthChanged;
 
     public static int auraNumber = 1;
     // all auras should be specified there (there might be used only in sth else)
@@ -30,6 +33,8 @@ public class Status : MonoBehaviour {
     public virtual void hurt(float damage, int type)
     {
         health = Mathf.Max(0f, health - damage);
+
+        healthChanged(gameObject, health);
     }
 
     public AuraContainer<float> getAuras(int num)
