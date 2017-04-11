@@ -105,11 +105,11 @@ public class MapGenerator : MonoBehaviour
                             // It's not pretty, but it's faster than instantiating objects for
                             // every possible match and iterating over spawned connectors
                             tileConnectors = spawnedTile.GetComponentsInChildren<TileConnector>();
-                            tileConnectors
+                            var spawnedTileConnector = tileConnectors
                                 .Where(conn => (conn.transform.position - targetPosition).magnitude < 0.1f)
-                                .First()
-                                .state = TileConnector.State.Connected;
-                            openConnector.state = TileConnector.State.Connected;
+                                .First();
+
+                            openConnector.Connect(spawnedTileConnector);
 
                             break;
                         }
@@ -125,7 +125,7 @@ public class MapGenerator : MonoBehaviour
                     // No tile fits, mark this connector as rejected
                     if (spawnedTile == null)
                     {
-                        openConnector.state = TileConnector.State.Rejected;
+                        openConnector.Reject();
                     }
                 }
                 openConnectors = nextOpenConnectors;

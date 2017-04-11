@@ -14,7 +14,11 @@ public class TileConnector : MonoBehaviour
 
     [SerializeField]
     State m_state = State.Open;
-    public State state { get { return m_state; } set { m_state = value; } }
+    public State state { get { return m_state; } }
+
+    [SerializeField]
+    TileConnector m_connection = null;
+    public TileConnector connection { get { return m_connection; } }
 
 #if UNITY_EDITOR
     Bounds cachedBounds;
@@ -44,6 +48,18 @@ public class TileConnector : MonoBehaviour
 
         result.Expand(margin);
         return result;
+    }
+
+    public void Connect(TileConnector other)
+    {
+        m_state = other.m_state = State.Connected;
+        m_connection = other;
+        other.m_connection = this;
+    }
+
+    public void Reject()
+    {
+        m_state = State.Rejected;
     }
 
 #if UNITY_EDITOR
