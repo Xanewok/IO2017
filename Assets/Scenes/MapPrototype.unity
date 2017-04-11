@@ -304,11 +304,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114693272148208644, guid: c3a1946f1ad5d224e94977ebc1942fda,
-        type: 2}
-      propertyPath: tiles.Array.size
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4529775020487090, guid: c3a1946f1ad5d224e94977ebc1942fda, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -339,17 +334,6 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4529775020487090, guid: c3a1946f1ad5d224e94977ebc1942fda, type: 2}
       propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114693272148208644, guid: c3a1946f1ad5d224e94977ebc1942fda,
-        type: 2}
-      propertyPath: tiles.Array.data[2]
-      value: 
-      objectReference: {fileID: 1413838455009292, guid: 9dc9a77f2575ad449aadc6c325daec9e,
-        type: 2}
-    - target: {fileID: 114693272148208644, guid: c3a1946f1ad5d224e94977ebc1942fda,
-        type: 2}
-      propertyPath: iterationCount
       value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []

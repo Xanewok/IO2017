@@ -70,13 +70,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapTileTag: MapTile
+  finishPoint: {fileID: 1622784260090882, guid: 431fc354b2bfbfd4483d5f888fc488e1,
+    type: 2}
   startingTile: {fileID: 1399986759960106, guid: 1798e04f05c9d4d43a184b736cddb0c4,
     type: 2}
   origin: {x: 0, y: 0, z: 0}
   tiles:
   - {fileID: 1660565879475370, guid: 44e8551632c9c424da7886738cac90f0, type: 2}
   - {fileID: 1083850369554036, guid: 587d1ee3c311b154b89eee4bae048768, type: 2}
-  iterationCount: 2
+  iterationCount: 5
   generateOnPlayStart: 1
   navMeshGenerator: {fileID: 114555773390350022}
   buildNavMeshOnGenerate: 1
