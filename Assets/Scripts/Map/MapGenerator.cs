@@ -135,12 +135,13 @@ public class MapGenerator : MonoBehaviour
 
         UpdateTileCache();
 
-        PlaceFinishPoint();
-
         if (navMeshGenerator != null && buildNavMeshOnGenerate)
         {
             navMeshGenerator.BuildNavMesh(mapTiles);
         }
+
+        // Uses NavMesh to sample placement position
+        PlaceFinishPoint();
     }
 
     public void Clear()
@@ -183,14 +184,27 @@ public class MapGenerator : MonoBehaviour
         edgeTiles.Shuffle();
         foreach (var tile in edgeTiles)
         {
-            NavMeshHit hit;
-            if (NavMesh.SamplePosition(tile.transform.position, out hit, 50.0f, ~0))
+            // FIXME: this is reasonable approach, but needs to be prettied up
+            const int attemptCount = 5;
+            bool spawned = false;
+            for (int i = 0; i < attemptCount; ++i)
             {
-                // Spawn finish point
-                var point = Instantiate(finishPoint, hit.position, Quaternion.identity);
-                point.name += kGeneratedSuffix;
-                break;
+                const float range = 5.0f;
+                Vector3 randomPoint = tile.transform.position + Random.insideUnitSphere * range;
+
+                NavMeshHit hit;
+                if (NavMesh.SamplePosition(tile.transform.position, out hit, 5.0f, NavMesh.AllAreas))
+                {
+                    // Spawn finish point
+                    var point = Instantiate(finishPoint, hit.position, Quaternion.identity);
+                    point.name += kGeneratedSuffix;
+                    spawned = true;
+                    break;
+                }
             }
+
+            if (spawned)
+                break;
         }
         // TODO: Handle when we couldn't spawn it
     }
