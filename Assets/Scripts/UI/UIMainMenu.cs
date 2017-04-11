@@ -5,21 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class UIMainMenu : MonoBehaviour
 {
-	// Use this for initialization
-	void Start()
-    {
-		
-	}
-	
-	// Update is called once per frame
-	void Update()
-    {
-		
-	}
+    public string playScene = "default";
 
     public void Play()
     {
-        SceneManager.LoadScene("default");
+        SceneManager.LoadScene(playScene);
     }
 
     public void Quit()
