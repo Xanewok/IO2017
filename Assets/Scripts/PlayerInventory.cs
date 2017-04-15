@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -211,4 +212,48 @@ public class PlayerInventory : Inventory {
             ManageUsingItems();
         }
 	}
+
+    public override ItemObject getPickedItem(int slot)
+    {
+        if (slot < inventorySlots)
+        {
+            return this.picked[slot];
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public override ItemObject getEquippedItem(int slot)
+    {
+        if (slot < equippedSlots)
+        {
+            return this.equipped[slot];
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public override bool setPickedItem(int slot, ItemObject obj)
+    {
+        if (slot < inventorySlots)
+        {
+            picked[slot] = obj;
+            return true;
+        }
+        else return false;
+    }
+
+    public override bool setEquippedItem(int slot, ItemObject obj)
+    {
+        if (slot < equippedSlots)
+        {
+            equipped[slot] = obj;
+            return true;
+        }
+        else return false;
+    }
 }
