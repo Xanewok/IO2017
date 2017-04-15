@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Status : MonoBehaviour
+public abstract class Status : MonoBehaviour
 {
     public delegate void HealthChangedHandler(GameObject obj, float health);
     public event HealthChangedHandler healthChanged;
@@ -22,7 +22,10 @@ public class Status : MonoBehaviour
         {
             simpleAuras[i] = new AuraFloatMax();
         }
+        onStart();
     }
+
+    public abstract void onStart();
 
     public virtual float getHealth()
     {
