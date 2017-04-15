@@ -7,6 +7,9 @@ public abstract class Status : MonoBehaviour
     public delegate void HealthChangedHandler(GameObject obj, float health);
     public event HealthChangedHandler healthChanged;
 
+    public delegate void AuraChangedHandler(int aura, float oldValue, float newValue);
+    public event AuraChangedHandler auraChanged;
+
     public static int auraNumber = 1;
     // all auras should be specified there (there might be used only in sth else)
     public static int defenceProc = 0; // Minimizing % of damage. Shouldn't have to big values
@@ -21,6 +24,7 @@ public abstract class Status : MonoBehaviour
         for (int i=0; i<auraNumber; i++)
         {
             simpleAuras[i] = new AuraFloatMax();
+            simpleAuras[i].auraUpdated += (oldVal, newVal) => auraChanged(i, oldVal, newVal);
         }
         onStart();
     }

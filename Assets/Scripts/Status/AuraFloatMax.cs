@@ -9,13 +9,13 @@ public class AuraFloatMax : AuraContainer<float> {
     int lastNum = 0;
 
     //Not the best, but it may be enough.
-    public override int addAura(float value)
+    public override int addAuraInternal(float value)
     {
         values.Add(lastNum, value);
         return lastNum++;
     }
 
-    public override void delAura(int token)
+    public override void delAuraInternal(int token)
     {
         values.Remove(token);
     }
