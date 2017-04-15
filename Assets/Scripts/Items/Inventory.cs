@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Inventory : MonoBehaviour {
+    public const int hand_right = 0;
+    public const int hand_left = 1;
 
     /**
         Used to get information about objects in inventory.

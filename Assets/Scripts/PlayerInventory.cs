@@ -106,11 +106,11 @@ public class PlayerInventory : Inventory {
         {
             if (Input.GetButtonDown("Use_r_" + player.getPlayerNum()))
             {
-                ManageItem(0);
+                ManageItem(Inventory.hand_right);
             }
             else if (Input.GetButtonDown("Use_l_" + player.getPlayerNum()))
             {
-                ManageItem(1);
+                ManageItem(Inventory.hand_left);
             }
         }
     }
@@ -118,17 +118,17 @@ public class PlayerInventory : Inventory {
 
     void ManageUsingItems()
     {
-        if (equipped[0] != null)
+        if (equipped[Inventory.hand_right] != null)
         {
-            if (Input.GetButtonDown("Use_r_" + player.getPlayerNum())) equipped[0].onUseStart();
-            else if (Input.GetButton("Use_r_" + player.getPlayerNum())) equipped[0].onUse();
-            else if (Input.GetButtonUp("Use_r_" + player.getPlayerNum())) equipped[0].onUseEnd();
+            if (Input.GetButtonDown("Use_r_" + player.getPlayerNum())) equipped[Inventory.hand_right].onUseStart();
+            else if (Input.GetButton("Use_r_" + player.getPlayerNum())) equipped[Inventory.hand_right].onUse();
+            else if (Input.GetButtonUp("Use_r_" + player.getPlayerNum())) equipped[Inventory.hand_right].onUseEnd();
         }
-        if (equipped[1] != null)
+        if (equipped[Inventory.hand_left] != null)
         {
-            if (Input.GetButtonDown("Use_l_" + player.getPlayerNum())) equipped[1].onUseStart();
-            else if (Input.GetButton("Use_l_" + player.getPlayerNum())) equipped[1].onUse();
-            else if (Input.GetButtonUp("Use_l_" + player.getPlayerNum())) equipped[1].onUseEnd();
+            if (Input.GetButtonDown("Use_l_" + player.getPlayerNum())) equipped[Inventory.hand_left].onUseStart();
+            else if (Input.GetButton("Use_l_" + player.getPlayerNum())) equipped[Inventory.hand_left].onUse();
+            else if (Input.GetButtonUp("Use_l_" + player.getPlayerNum())) equipped[Inventory.hand_left].onUseEnd();
         }
     }
 
@@ -181,17 +181,17 @@ public class PlayerInventory : Inventory {
         ItemObject obj = collision.gameObject.GetComponent<ItemObject>();
         if (obj != null && obj.canBePicked(player.gameObject))
         {
-            if (equipped[0] == null)
+            if (equipped[Inventory.hand_right] == null)
             {
-                equipped[0] = obj;
-                equipped[0].onPickUp(player.gameObject, this);
-                equipped[0].onEquip(0);
+                equipped[Inventory.hand_right] = obj;
+                equipped[Inventory.hand_right].onPickUp(player.gameObject, this);
+                equipped[Inventory.hand_right].onEquip(Inventory.hand_right);
             }
-            else if (equipped[1] == null)
+            else if (equipped[Inventory.hand_left] == null)
             {
-                equipped[1] = obj;
-                equipped[1].onPickUp(player.gameObject, this);
-                equipped[1].onEquip(1);
+                equipped[Inventory.hand_left] = obj;
+                equipped[Inventory.hand_left].onPickUp(player.gameObject, this);
+                equipped[Inventory.hand_left].onEquip(Inventory.hand_left);
             }
         }
     }
