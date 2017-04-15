@@ -148,12 +148,8 @@ public class PlayerInventory : Inventory {
             if (picked[getSelectedSlot()] != null)
                 picked[getSelectedSlot()].onEquip(num);
             ItemObject tmp = equipped[num];
-            if (tmp != null && tmp.getSprite() != null)
-                images[getVisibleSelectedSlot()].overrideSprite = tmp.getSprite();
-            else
-                images[getVisibleSelectedSlot()].overrideSprite = emptySlotSprite;
             equipped[num] = picked[getSelectedSlot()];
-            picked[getSelectedSlot()] = tmp;
+            setPickedItemUnchecked(getSelectedSlot(), tmp);
         }       
     }
 
@@ -174,6 +170,12 @@ public class PlayerInventory : Inventory {
     {
         if (lastSelected == deleteSlot) return -1;
         return lastSelected > deleteSlot ? lastSelected - 1 : lastSelected;
+    }
+
+    public int selectedToVisibleSlot(int selectedSlot)
+    {
+        if (selectedSlot >= deleteSlot) return selectedSlot + 1;
+        return selectedSlot;
     }
 
     void OnCollisionEnter(Collision collision)
@@ -237,11 +239,24 @@ public class PlayerInventory : Inventory {
         }
     }
 
+    /**
+        Used to set item to inventory slot (with images when needed)
+        Dont invoke an of item's methods
+    */
+    private void setPickedItemUnchecked(int slot, ItemObject obj)
+    {
+        picked[slot] = obj;
+        if (obj != null && obj.getSprite() != null)
+            images[selectedToVisibleSlot(slot)].overrideSprite = obj.getSprite();
+        else
+            images[selectedToVisibleSlot(slot)].overrideSprite = this.emptySlotSprite;
+    }
+
     public override bool setPickedItem(int slot, ItemObject obj)
     {
         if (slot < inventorySlots)
         {
-            picked[slot] = obj;
+            setPickedItemUnchecked(slot, obj);
             return true;
         }
         else return false;
