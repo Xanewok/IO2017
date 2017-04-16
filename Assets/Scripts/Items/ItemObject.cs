@@ -17,6 +17,11 @@ public abstract class ItemObject : MonoBehaviour {
 
     void Update()
     {
+        onUpdate();
+    }
+
+    protected virtual void onUpdate()
+    {
         if (pickUpDelay > 0f)
         {
             pickUpDelay = Mathf.Max(0f, pickUpDelay - Time.deltaTime);
