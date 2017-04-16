@@ -32,7 +32,7 @@ public class StackableItem : SimpleItem {
     }
 
     //For convinience Used and giving alternate slot
-    public virtual void onUseWithSecondSlot(int slot)
+    protected virtual void onUseWithSecondSlot(int slot)
     {
         Inventory inv = this.wearer.GetComponent<Inventory>();
         if (inv != null)
@@ -47,7 +47,7 @@ public class StackableItem : SimpleItem {
         }
     }
 
-    public virtual void onUseWithSecondItem(ItemObject item)
+    protected virtual void onUseWithSecondItem(ItemObject item)
     {
         if (item.GetType().Equals(this.GetType()))
         {
