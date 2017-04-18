@@ -9,8 +9,9 @@ public class SpawningGun : SimpleItem {
     public float startingSpeed = 1f;
     protected float cooldown = 0f;
 
-    void Update()
+    protected override void onUpdate()
     {
+        base.onUpdate();
         cooldown = Mathf.Max(0f, cooldown - Time.deltaTime);
     }
 

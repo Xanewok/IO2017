@@ -761,7 +761,39 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6ee93f53d98d91941b88d4e6aa012f53, type: 2}
   m_IsPrefabParent: 0
---- !u!1001 &1559507729
+--- !u!1 &1596261405 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1302896123981970, guid: c72935ce56faeb2468409de2da995142,
+    type: 2}
+  m_PrefabInternal: {fileID: 310566496}
+--- !u!114 &1596261407 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114654553663179402, guid: c72935ce56faeb2468409de2da995142,
+    type: 2}
+  m_PrefabInternal: {fileID: 310566496}
+  m_Script: {fileID: 11500000, guid: 38aff8ede6fde2b4a941ad94956fe192, type: 3}
+--- !u!114 &1596261412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1596261405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebb4041f2a7c17d4bbf6aa42712f54d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeInScale: 25
+  fadeOutScale: 15
+  inventoryScaleStart: 0.1
+  inventoryScaleVisible: 0.2
+  inventoryScaleEnd: 1
+  deleteSlot: 0
+  emptySlotSprite: {fileID: 21300000, guid: fd91c72c7acaa564aa79142a28ddb8a1, type: 3}
+  deleteSlotSprite: {fileID: 21300000, guid: 6f63667d881019c4f9dd4785b5ed05d7, type: 3}
+  player: {fileID: 1596261407}
+  canvas: {fileID: 1259189004}
+--- !u!1001 &1658799431
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -800,45 +832,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 4597863024606822, guid: 5a91b41f761ae4974959a1632e2be4e2, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180.00002
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5a91b41f761ae4974959a1632e2be4e2, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &1596261405 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1302896123981970, guid: c72935ce56faeb2468409de2da995142,
-    type: 2}
-  m_PrefabInternal: {fileID: 310566496}
---- !u!114 &1596261407 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114654553663179402, guid: c72935ce56faeb2468409de2da995142,
-    type: 2}
-  m_PrefabInternal: {fileID: 310566496}
-  m_Script: {fileID: 11500000, guid: 38aff8ede6fde2b4a941ad94956fe192, type: 3}
---- !u!114 &1596261412
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1596261405}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebb4041f2a7c17d4bbf6aa42712f54d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fadeInScale: 25
-  fadeOutScale: 15
-  inventoryScaleStart: 0.1
-  inventoryScaleVisible: 0.2
-  inventoryScaleEnd: 1
-  deleteSlot: 0
-  emptySlotSprite: {fileID: 21300000, guid: fd91c72c7acaa564aa79142a28ddb8a1, type: 3}
-  deleteSlotSprite: {fileID: 21300000, guid: 6f63667d881019c4f9dd4785b5ed05d7, type: 3}
-  player: {fileID: 1596261407}
-  canvas: {fileID: 1259189004}
 --- !u!1001 &2140212358
 Prefab:
   m_ObjectHideFlags: 0

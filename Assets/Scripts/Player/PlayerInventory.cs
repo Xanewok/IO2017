@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -105,11 +106,11 @@ public class PlayerInventory : Inventory {
         {
             if (Input.GetButtonDown("Use_r_" + player.getPlayerNum()))
             {
-                ManageItem(0);
+                ManageItem(Inventory.hand_right);
             }
             else if (Input.GetButtonDown("Use_l_" + player.getPlayerNum()))
             {
-                ManageItem(1);
+                ManageItem(Inventory.hand_left);
             }
         }
     }
@@ -117,17 +118,17 @@ public class PlayerInventory : Inventory {
 
     void ManageUsingItems()
     {
-        if (equipped[0] != null)
+        if (equipped[Inventory.hand_right] != null)
         {
-            if (Input.GetButtonDown("Use_r_" + player.getPlayerNum())) equipped[0].onUseStart();
-            else if (Input.GetButton("Use_r_" + player.getPlayerNum())) equipped[0].onUse();
-            else if (Input.GetButtonUp("Use_r_" + player.getPlayerNum())) equipped[0].onUseEnd();
+            if (Input.GetButtonDown("Use_r_" + player.getPlayerNum())) equipped[Inventory.hand_right].onUseStart();
+            else if (Input.GetButton("Use_r_" + player.getPlayerNum())) equipped[Inventory.hand_right].onUse();
+            else if (Input.GetButtonUp("Use_r_" + player.getPlayerNum())) equipped[Inventory.hand_right].onUseEnd();
         }
-        if (equipped[1] != null)
+        if (equipped[Inventory.hand_left] != null)
         {
-            if (Input.GetButtonDown("Use_l_" + player.getPlayerNum())) equipped[1].onUseStart();
-            else if (Input.GetButton("Use_l_" + player.getPlayerNum())) equipped[1].onUse();
-            else if (Input.GetButtonUp("Use_l_" + player.getPlayerNum())) equipped[1].onUseEnd();
+            if (Input.GetButtonDown("Use_l_" + player.getPlayerNum())) equipped[Inventory.hand_left].onUseStart();
+            else if (Input.GetButton("Use_l_" + player.getPlayerNum())) equipped[Inventory.hand_left].onUse();
+            else if (Input.GetButtonUp("Use_l_" + player.getPlayerNum())) equipped[Inventory.hand_left].onUseEnd();
         }
     }
 
@@ -147,12 +148,8 @@ public class PlayerInventory : Inventory {
             if (picked[getSelectedSlot()] != null)
                 picked[getSelectedSlot()].onEquip(num);
             ItemObject tmp = equipped[num];
-            if (tmp != null && tmp.getSprite() != null)
-                images[getVisibleSelectedSlot()].overrideSprite = tmp.getSprite();
-            else
-                images[getVisibleSelectedSlot()].overrideSprite = emptySlotSprite;
             equipped[num] = picked[getSelectedSlot()];
-            picked[getSelectedSlot()] = tmp;
+            setPickedItemUnchecked(getSelectedSlot(), tmp);
         }       
     }
 
@@ -175,22 +172,28 @@ public class PlayerInventory : Inventory {
         return lastSelected > deleteSlot ? lastSelected - 1 : lastSelected;
     }
 
+    public int selectedToVisibleSlot(int selectedSlot)
+    {
+        if (selectedSlot >= deleteSlot) return selectedSlot + 1;
+        return selectedSlot;
+    }
+
     void OnCollisionEnter(Collision collision)
     {
         ItemObject obj = collision.gameObject.GetComponent<ItemObject>();
         if (obj != null && obj.canBePicked(player.gameObject))
         {
-            if (equipped[0] == null)
+            if (equipped[Inventory.hand_right] == null)
             {
-                equipped[0] = obj;
-                equipped[0].onPickUp(player.gameObject, this);
-                equipped[0].onEquip(0);
+                equipped[Inventory.hand_right] = obj;
+                equipped[Inventory.hand_right].onPickUp(player.gameObject, this);
+                equipped[Inventory.hand_right].onEquip(Inventory.hand_right);
             }
-            else if (equipped[1] == null)
+            else if (equipped[Inventory.hand_left] == null)
             {
-                equipped[1] = obj;
-                equipped[1].onPickUp(player.gameObject, this);
-                equipped[1].onEquip(1);
+                equipped[Inventory.hand_left] = obj;
+                equipped[Inventory.hand_left].onPickUp(player.gameObject, this);
+                equipped[Inventory.hand_left].onEquip(Inventory.hand_left);
             }
         }
     }
@@ -211,4 +214,61 @@ public class PlayerInventory : Inventory {
             ManageUsingItems();
         }
 	}
+
+    public override ItemObject getPickedItem(int slot)
+    {
+        if (slot < inventorySlots)
+        {
+            return this.picked[slot];
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public override ItemObject getEquippedItem(int slot)
+    {
+        if (slot < equippedSlots)
+        {
+            return this.equipped[slot];
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    /**
+        Used to set item to inventory slot (with images when needed)
+        Dont invoke an of item's methods
+    */
+    private void setPickedItemUnchecked(int slot, ItemObject obj)
+    {
+        picked[slot] = obj;
+        if (obj != null && obj.getSprite() != null)
+            images[selectedToVisibleSlot(slot)].overrideSprite = obj.getSprite();
+        else
+            images[selectedToVisibleSlot(slot)].overrideSprite = this.emptySlotSprite;
+    }
+
+    public override bool setPickedItem(int slot, ItemObject obj)
+    {
+        if (slot < inventorySlots)
+        {
+            setPickedItemUnchecked(slot, obj);
+            return true;
+        }
+        else return false;
+    }
+
+    public override bool setEquippedItem(int slot, ItemObject obj)
+    {
+        if (slot < equippedSlots)
+        {
+            equipped[slot] = obj;
+            return true;
+        }
+        else return false;
+    }
 }
