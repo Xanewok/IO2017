@@ -13,6 +13,7 @@ public abstract class ItemObject : MonoBehaviour {
     public float delayOnDrop = 1f;
 
     protected GameObject wearer;
+    protected Inventory wearerInventory;
     protected float pickUpDelay = 0f;
 
     void Update()
@@ -36,12 +37,14 @@ public abstract class ItemObject : MonoBehaviour {
     {
         this.transform.SetParent(player.transform);
         wearer = player;
+        wearerInventory = inventory;
     }
 
     public virtual void onDropDown(GameObject player, Inventory inventory)
     {
         this.transform.SetParent(null);
         wearer = null;
+        wearerInventory = null;
         this.pickUpDelay = delayOnDrop;
     }
 
