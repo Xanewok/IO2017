@@ -75,7 +75,12 @@ public abstract class Status : MonoBehaviour
     /// Number of all auras.
     /// </summary>
     public const int auraNumber = 7;
-    public static float maxHealth = 100f;
+
+    /// <summary>
+    /// Maximum health of object
+    /// </summary>
+    [Tooltip("Maximum health of object")]
+    public float maxHealth = 100f;
 
     /*
         Damage types:
@@ -113,20 +118,19 @@ public abstract class Status : MonoBehaviour
     public const int DarkDamage = 6;
 
 
-    protected float health = maxHealth;
+    protected float health = 1f;
     protected AuraContainer<float>[] simpleAuras = new AuraContainer<float>[auraNumber];
 
     void Start()
     {
-        for (int i=0; i<auraNumber; i++)
-        {
-            simpleAuras[i] = new AuraFloatMax();
-            simpleAuras[i].auraUpdated += (oldVal, newVal) => auraChanged(i, oldVal, newVal);
-        }
+        fillAuras();
         onStart();
     }
 
-    public abstract void onStart();
+    public virtual void onStart()
+    {
+        health = maxHealth;
+    }
 
     public virtual float getHealth()
     {
@@ -144,5 +148,24 @@ public abstract class Status : MonoBehaviour
     public AuraContainer<float> getAuras(int num)
     {
         return simpleAuras[num];
+    }
+
+    protected virtual void fillAura(int aura)
+    {
+        simpleAuras[aura] = new AuraFloatMax();
+    }
+
+    protected virtual void fillAuras()
+    {
+        for (int i = 0; i < auraNumber; i++)
+        {
+            fillAura(i);
+            addHandler(i);
+        }
+    }
+
+    protected void addHandler(int aura)
+    {
+        simpleAuras[aura].auraUpdated += (oldVal, newVal) => auraChanged(aura, oldVal, newVal);
     }
 }
