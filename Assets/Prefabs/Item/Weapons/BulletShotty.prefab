@@ -25,8 +25,8 @@ GameObject:
   - component: {fileID: 54167477823141466}
   - component: {fileID: 114134573945303824}
   - component: {fileID: 114621008041011870}
-  m_Layer: 0
-  m_Name: Bullet
+  m_Layer: 8
+  m_Name: BulletShotty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,8 +122,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d405f35fe1d7604ca44239aa6071f63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
-  damageType: 0
+  damage: 5
+  damageType: 2
   targetTag: 
   ignoreTag: Player
 --- !u!114 &114621008041011870
@@ -137,4 +137,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcb939015104e574a9e370fd79484c7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToDestroy: 3
+  timeToDestroy: 0.2

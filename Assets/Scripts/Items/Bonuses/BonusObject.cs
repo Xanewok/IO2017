@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+    Bonus superclass.
+    Each instance is one bonus.
+    It is there to give functional base for bonus.
+*/
 public abstract class BonusObject : MonoBehaviour {
 
 	// Use this for initialization
@@ -14,6 +19,9 @@ public abstract class BonusObject : MonoBehaviour {
 		
 	}
 
+    /**
+        Function executed when bonus is used. (aka player touches it)
+    */
     protected abstract void OnUse();
 
     void OnTriggerEnter(Collider other)
