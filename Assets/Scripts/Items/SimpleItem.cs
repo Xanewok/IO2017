@@ -2,18 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Abstract class for items.
+/// It is abstract, as it have no way to distinguish between different type of its.
+/// </summary>
 public abstract class SimpleItem : ItemObject {
 
+    /// <summary>
+    /// Relative position from player when equipped. For left hand, X Axis is negated.
+    /// </summary>
     [Tooltip("Relative position from player when equipped. For left hand, X Axis is negated.")]
     public Vector3 equippedRel = new Vector3(0.5f, 0.0f, 0.5f);
+    /// <summary>
+    /// Relative rotation from player when equipped.
+    /// </summary>
     [Tooltip("Relative rotation from player when equipped.")]
     public Vector3 equippedRot = Vector3.zero;
+    /// <summary>
+    /// Visible sprite of that item
+    /// </summary>
+    [Tooltip("Visible sprite of that item")]
     public Sprite image;
 
     private bool started = false;
+    /// <summary>
+    /// Is item equipped
+    /// </summary>
     protected bool equipped = false;
+    /// <summary>
+    /// Rigidbody of an item
+    /// </summary>
     protected Rigidbody rigid;
+    /// <summary>
+    /// Collider of an item
+    /// </summary>
     protected Collider collid;
+    /// <summary>
+    /// MeshRenderer of that item
+    /// </summary>
     protected MeshRenderer meshRenderer;
 
     void Start()
@@ -21,6 +47,9 @@ public abstract class SimpleItem : ItemObject {
         if (!started) onStart();
     }
 
+    /// <summary>
+    /// Method invoked on start for that item.
+    /// </summary>
     protected virtual void onStart()
     {
         started = true;
@@ -28,6 +57,7 @@ public abstract class SimpleItem : ItemObject {
         collid = gameObject.GetComponent<Collider>();
         meshRenderer = gameObject.GetComponent<MeshRenderer>();
     }
+
 
     public override void onDropDown(GameObject player, Inventory inventory)
     {

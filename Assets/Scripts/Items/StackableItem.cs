@@ -2,10 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Abstract class for every stackable item.
+/// </summary>
 public abstract class StackableItem : SimpleItem {
 
+    /// <summary>
+    /// Text spawner used to show text
+    /// </summary>
     protected TextSpawner spawn;
+    /// <summary>
+    /// Quantity of an object
+    /// </summary>
     protected int quantity = 1;
+    /// <summary>
+    /// What slot is this item equipped
+    /// </summary>
     protected int equippedSlot = -1;
 
     protected override void onStart()
@@ -14,6 +26,10 @@ public abstract class StackableItem : SimpleItem {
         spawn = gameObject.GetComponent<TextSpawner>();
     }
 
+    /// <summary>
+    /// Returns quantity of an object
+    /// </summary>
+    /// <returns>quantity</returns>
     public int getQuantity()
     {
         return quantity;
@@ -38,7 +54,10 @@ public abstract class StackableItem : SimpleItem {
         else if (equippedSlot == Inventory.hand_left) onUseWithSecondSlot(Inventory.hand_right);
     }
 
-    //For convinience Used and giving alternate slot
+    /// <summary>
+    /// For convinience Used and giving alternate slot
+    /// </summary>
+    /// <param name="slot">second slot</param>
     protected virtual void onUseWithSecondSlot(int slot)
     {
         if (wearerInventory != null)
@@ -61,23 +80,34 @@ public abstract class StackableItem : SimpleItem {
         }
     }
 
-    /*
-        Used to split item.
-        It should instantiate new item, and make it child of this item's parent.
-        It should also change quantity accordingly.
-    */
+    /// <summary>
+    /// Used to split item.
+    /// It should instantiate new item, and make it child of this item's parent.
+    /// It should also change quantity accordingly.
+    /// </summary>
+    /// <returns>New instance of that object, splitted accordingly</returns>
     protected abstract StackableItem splitItem();
-    /*
-        Used to get name and quantity of item in a message.
-        That message if existant, would there be displayed on screen.
-    */
+    /// <summary>
+    /// Used to get name and quantity of item in a message.
+    /// That message if existant, would there be displayed on screen.
+    /// </summary>
+    /// <returns>Visible message</returns>
     protected abstract string getMessage();
 
+    /// <summary>
+    /// Function used to check if given items are stackable
+    /// </summary>
+    /// <param name="item">second item</param>
+    /// <returns>true if stackable, false otherwise</returns>
     public virtual bool areItemsStackable(ItemObject item)
     {
         return item.GetType().Equals(this.GetType());
     }
 
+    /// <summary>
+    /// Triggered when we use stackable on different item
+    /// </summary>
+    /// <param name="item">item we use stackable on</param>
     protected virtual void onUseWithSecondItem(ItemObject item)
     {
         if (areItemsStackable(item))
@@ -88,7 +118,9 @@ public abstract class StackableItem : SimpleItem {
         }
     }
 
-    // Checks object quantity, and destroys it if 0
+    /// <summary>
+    /// Checks object quantity, and destroys it if 0
+    /// </summary>
     public virtual void checkIfNotEmpty()
     {
         if (quantity <= 0)
