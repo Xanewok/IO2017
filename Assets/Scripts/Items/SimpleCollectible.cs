@@ -15,6 +15,18 @@ public class SimpleCollectible : StackableItem {
     /// </summary>
     [Tooltip("Type. Items of different type do not stack.")]
     public int type = 0;
+    /*
+        Consts for specific types of objects
+    */
+    /// <summary>
+    /// Coins
+    /// </summary>
+    public const int typeCoins = 0;
+    /// <summary>
+    /// Shotty shells
+    /// </summary>
+    public const int typeShotgunShells = 1;
+
     /// <summary>
     /// Name that will be shown, when item is managed.
     /// </summary>
