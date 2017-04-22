@@ -2,10 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StackableItem : SimpleItem {
+public abstract class StackableItem : SimpleItem {
 
+    protected TextSpawner spawn;
     protected int quantity = 1;
     protected int equippedSlot = -1;
+
+    protected override void onStart()
+    {
+        base.onStart();
+        spawn = gameObject.GetComponent<TextSpawner>();
+    }
 
     public int getQuantity()
     {
@@ -15,7 +22,7 @@ public class StackableItem : SimpleItem {
     public override void onEquip(int hand)
     {
         base.onEquip(hand);
-        equippedSlot = -1;
+        equippedSlot = hand;
     }
 
     public override void onUnEquip()
@@ -34,22 +41,46 @@ public class StackableItem : SimpleItem {
     //For convinience Used and giving alternate slot
     protected virtual void onUseWithSecondSlot(int slot)
     {
-        Inventory inv = this.wearer.GetComponent<Inventory>();
-        if (inv != null)
+        if (wearerInventory != null)
         {
-            ItemObject obj = inv.getEquippedItem(slot);
+            ItemObject obj = wearerInventory.getEquippedItem(slot);
             if (obj != null) onUseWithSecondItem(obj);
             else //Move 1 instance of object to free slot
             {
-
+                StackableItem split = this.splitItem();
+                split.onStart();
+                // To let item think that it is unequipped
+                split.onUnEquip();
+                split.onDropDown(wearer, wearerInventory);
+                // Equipping it on free slot
+                split.onPickUp(wearer, wearerInventory);
+                split.onEquip(slot);
+                wearerInventory.setEquippedItem(slot, split);
             }
             checkIfNotEmpty();
         }
     }
 
+    /*
+        Used to split item.
+        It should instantiate new item, and make it child of this item's parent.
+        It should also change quantity accordingly.
+    */
+    protected abstract StackableItem splitItem();
+    /*
+        Used to get name and quantity of item in a message.
+        That message if existant, would there be displayed on screen.
+    */
+    protected abstract string getMessage();
+
+    public virtual bool areItemsStackable(ItemObject item)
+    {
+        return item.GetType().Equals(this.GetType());
+    }
+
     protected virtual void onUseWithSecondItem(ItemObject item)
     {
-        if (item.GetType().Equals(this.GetType()))
+        if (areItemsStackable(item))
         {
             StackableItem it = (StackableItem) item;
             it.quantity += 1;
@@ -65,6 +96,14 @@ public class StackableItem : SimpleItem {
             Inventory inv = this.wearer.GetComponent<Inventory>();
             inv.setEquippedItem(equippedSlot, null);    //Kinda unsafe. We're assuming, we can do this
             Destroy(gameObject);
+        }
+        else if (spawn != null)
+        {
+            string message = this.getMessage();
+            if (message != null)
+            {
+                spawn.spawnText(message);
+            }
         }
     }
 }

@@ -10,6 +10,7 @@ public abstract class SimpleItem : ItemObject {
     public Vector3 equippedRot = Vector3.zero;
     public Sprite image;
 
+    private bool started = false;
     protected bool equipped = false;
     protected Rigidbody rigid;
     protected Collider collid;
@@ -17,11 +18,12 @@ public abstract class SimpleItem : ItemObject {
 
     void Start()
     {
-        onStart();
+        if (!started) onStart();
     }
 
     protected virtual void onStart()
     {
+        started = true;
         rigid = gameObject.GetComponent<Rigidbody>();
         collid = gameObject.GetComponent<Collider>();
         meshRenderer = gameObject.GetComponent<MeshRenderer>();
