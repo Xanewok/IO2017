@@ -38,7 +38,7 @@ public class PlayerControlls : MonoBehaviour
         float h = Input.GetAxis("Horizontal_" + playerNum.ToString());
         float v = Input.GetAxis("Vertical_" + playerNum.ToString());
         movement.Set(h, 0f, v);
-		rb.velocity = movement.normalized * speed;
+		rb.velocity = movement.normalized * speed + status.dashMovement;
     }
 
     private void AxisTurn()

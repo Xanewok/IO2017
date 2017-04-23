@@ -138,7 +138,10 @@ public class PlayerInventory : Inventory {
         if (getSelectedSlot() == -1)
         {
             if (equipped[num] != null)
+            {
+                equipped[num].onUnEquip();
                 equipped[num].onDropDown(player.gameObject, this);
+            }
             equipped[num] = null;
         }
         else
