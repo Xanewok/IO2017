@@ -51,7 +51,6 @@ public class RapierSword : SimpleItem {
 
     public override void onUseStart()
     {
-        if (bladeAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
             bladeAnimator.SetTrigger("AttackStart");
     }
 
