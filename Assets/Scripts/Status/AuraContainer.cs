@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,5 +33,4 @@ public abstract class AuraContainer<T> {
 
     //Returns value of that aura
     public abstract T getValue();
-
 }

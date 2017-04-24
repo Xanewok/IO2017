@@ -89,6 +89,7 @@ public class GenericShotty : SimpleItem, AmmoReloadInterface {
                     float randomSpread = (float)rng.NextDouble();
                     Quaternion rotation = transform.rotation * Quaternion.Euler(0f, randomSpread * spread - spread / 2f, 0f);
                     GameObject bull = Instantiate(bullet, transform.position + addPos, rotation);
+
                     Rigidbody rigid = bull.GetComponent<Rigidbody>();
                     rigid.velocity = rotation * Vector3.forward * startingSpeed;
                 }
