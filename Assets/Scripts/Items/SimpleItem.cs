@@ -26,9 +26,9 @@ public abstract class SimpleItem : ItemObject {
 
     private bool started = false;
     /// <summary>
-    /// Is item equipped
+    /// What slot is this item equipped
     /// </summary>
-    protected bool equipped = false;
+    protected int equippedSlot = -1;
     /// <summary>
     /// Rigidbody of an item
     /// </summary>
@@ -58,6 +58,31 @@ public abstract class SimpleItem : ItemObject {
         meshRenderer = gameObject.GetComponent<MeshRenderer>();
     }
 
+    /// <summary>
+    /// Checks if item is equipped
+    /// </summary>
+    /// <returns>True if equipped, false otherwise</returns>
+    public bool isItemEquipped()
+    {
+        return equippedSlot != -1;
+    }
+
+    /// <summary>
+    /// Remove object from equipment slot if equipped.
+    /// </summary>
+    /// <returns>True on succes, false otherwise</returns>
+    protected bool removeObject()
+    {
+        if (isItemEquipped())
+        {
+            wearerInventory.setEquippedItem(equippedSlot, null);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     public override void onDropDown(GameObject player, Inventory inventory)
     {
@@ -69,7 +94,7 @@ public abstract class SimpleItem : ItemObject {
 
     public override void onEquip(int hand)
     {
-        equipped = true;
+        equippedSlot = hand;
         float x_equipped = 0f;
         if (hand == 0)
             x_equipped = equippedRel.x;
@@ -90,7 +115,7 @@ public abstract class SimpleItem : ItemObject {
 
     public override void onUnEquip()
     {
-        equipped = false;
+        equippedSlot = -1;
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.Euler(Vector3.zero);
         meshRenderer.enabled = false;

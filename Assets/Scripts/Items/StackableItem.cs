@@ -15,10 +15,6 @@ public abstract class StackableItem : SimpleItem {
     /// Quantity of an object
     /// </summary>
     protected int quantity = 1;
-    /// <summary>
-    /// What slot is this item equipped
-    /// </summary>
-    protected int equippedSlot = -1;
 
     protected override void onStart()
     {
@@ -38,13 +34,11 @@ public abstract class StackableItem : SimpleItem {
     public override void onEquip(int hand)
     {
         base.onEquip(hand);
-        equippedSlot = hand;
     }
 
     public override void onUnEquip()
     {
         base.onUnEquip();
-        equippedSlot = -1;
     }
 
     public override void onUseStart()
