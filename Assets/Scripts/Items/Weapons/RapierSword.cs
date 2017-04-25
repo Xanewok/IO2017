@@ -6,7 +6,7 @@ using UnityEngine;
 /// Class for rapier type item.
 /// -Forward attacking dash
 /// </summary>
-public class RapierSword : SimpleItem {
+public class RapierSword : AnimatorControlledObject {
 
     /// <summary>
     /// Number of uses before weapon destroys.
@@ -14,10 +14,6 @@ public class RapierSword : SimpleItem {
     /// </summary>
     [Tooltip("Durability. Negative for INF")]
     public int durability = 20;
-    /// <summary>
-    /// Animator of blade
-    /// </summary>
-    public Animator bladeAnimator;
     /// <summary>
     /// Blade script
     /// </summary>
@@ -45,30 +41,24 @@ public class RapierSword : SimpleItem {
     {
         base.onEquip(hand);
         blade.onEquip();
-        bladeAnimator.SetTrigger("UnEquip");
     }
 
     public override void onUnEquip()
     {
         base.onUnEquip();
         blade.onUnEquip();
-        bladeAnimator.SetTrigger("UnEquip");
     }
 
     public override void onUseStart()
     {
-            durability--;
+        base.onUseStart();
+        durability--;
         if (durability == 0)
         {
             this.removeObject();
+            blade.onRemove();
             Destroy(gameObject);
         }
         else if (durability < 0) durability = -1;
-            bladeAnimator.SetTrigger("AttackStart");
-    }
-
-    public override void onUseEnd()
-    {
-        bladeAnimator.SetTrigger("AttackEnd");
     }
 }

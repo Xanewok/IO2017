@@ -27,13 +27,18 @@ public class RapierBlade : MonoBehaviour {
         meshRender = gameObject.GetComponent<MeshRenderer>();
     }
 
+    void setDashMovement()
+    {
+        Rigidbody rigid = wearer.GetComponent<Rigidbody>();
+        Vector3 velocity = rigid.velocity;
+        wearer.GetComponent<Status>().dashMovement = rigid.transform.rotation * Vector3.forward * forwardSpeed;
+    }
+
     void FixedUpdate()
     {
         if (this.wearer != null && equipped)
         {
-            Rigidbody rigid = wearer.GetComponent<Rigidbody>();
-            Vector3 velocity = rigid.velocity;
-            wearer.GetComponent<Status>().dashMovement = rigid.transform.rotation * Vector3.forward * forwardSpeed;
+            setDashMovement();
         }
     }
 
@@ -75,6 +80,15 @@ public class RapierBlade : MonoBehaviour {
         collid.enabled = false;
         meshRender.enabled = true;
         this.wearer = null;
+    }
+
+    /// <summary>
+    /// Used on removing object, to nulify dash movement speed
+    /// </summary>
+    public void onRemove()
+    {
+        forwardSpeed = 0f;
+        setDashMovement();
     }
 
 }
