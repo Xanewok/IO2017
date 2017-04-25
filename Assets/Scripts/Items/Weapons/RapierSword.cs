@@ -9,6 +9,12 @@ using UnityEngine;
 public class RapierSword : SimpleItem {
 
     /// <summary>
+    /// Number of uses before weapon destroys.
+    /// Use negative for infinite durability
+    /// </summary>
+    [Tooltip("Durability. Negative for INF")]
+    public int durability = 20;
+    /// <summary>
     /// Animator of blade
     /// </summary>
     public Animator bladeAnimator;
@@ -51,6 +57,13 @@ public class RapierSword : SimpleItem {
 
     public override void onUseStart()
     {
+            durability--;
+        if (durability == 0)
+        {
+            this.removeObject();
+            Destroy(gameObject);
+        }
+        else if (durability < 0) durability = -1;
             bladeAnimator.SetTrigger("AttackStart");
     }
 
