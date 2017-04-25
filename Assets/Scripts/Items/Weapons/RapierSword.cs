@@ -49,9 +49,8 @@ public class RapierSword : AnimatorControlledObject {
         blade.onUnEquip();
     }
 
-    public override void onUseStart()
+    public void loseDurability()
     {
-        base.onUseStart();
         durability--;
         if (durability == 0)
         {

@@ -53,6 +53,15 @@ public class RapierBlade : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// To be rewritten (probably all script)
+    /// Removing durability of weapon.
+    /// </summary>
+    public void loseDurability()
+    {
+        transform.parent.parent.gameObject.GetComponent<RapierSword>().loseDurability();
+    }
+
     public void onEquip()
     {
         collid.enabled = true;
