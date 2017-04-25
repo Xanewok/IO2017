@@ -128,7 +128,6 @@ public class GenericShotty : AnimatorControlledObject, AmmoReloadInterface {
         else
         {
             animator.SetTrigger("Reload");
-            reloadWeapon();
         }
     }
 }
