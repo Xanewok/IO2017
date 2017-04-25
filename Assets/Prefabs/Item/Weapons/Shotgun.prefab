@@ -24,6 +24,8 @@ GameObject:
   - component: {fileID: 23698551975242934}
   - component: {fileID: 54998375419604810}
   - component: {fileID: 114950463959446712}
+  - component: {fileID: 108656371548457110}
+  - component: {fileID: 95056108455367568}
   m_Layer: 0
   m_Name: Shotgun
   m_TagString: Untagged
@@ -38,7 +40,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1105334645290240}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.2, y: 0.3120699, z: 0.81}
+  m_LocalPosition: {x: -4.7, y: 0.56, z: -0.46}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -110,6 +112,59 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &95056108455367568
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1105334645290240}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fa5baf879c7a06b4e970c15540bf6625, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+--- !u!108 &108656371548457110
+Light:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1105334645290240}
+  m_Enabled: 0
+  serializedVersion: 8
+  m_Type: 0
+  m_Color: {r: 0.90196085, g: 0.6156863, b: 0.18039216, a: 1}
+  m_Intensity: 30
+  m_Range: 10
+  m_SpotAngle: 40
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 2
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.29
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_Lightmapping: 4
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 0
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
 --- !u!114 &114950463959446712
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -125,8 +180,10 @@ MonoBehaviour:
   equippedRel: {x: 0.5, y: 0, z: 0.5}
   equippedRot: {x: 0, y: 0, z: 0}
   image: {fileID: 21300000, guid: 8abad81f282f2f64c96a8ce8579356c9, type: 3}
+  animator: {fileID: 95056108455367568}
   bullets: 5
   spread: 40
+  magazines: 5
   magazine: 2
   bullet: {fileID: 1520172364408940, guid: 39a1e1eeaab9192418f7081a181c6330, type: 2}
   startingSpeed: 25

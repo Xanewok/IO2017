@@ -4,6 +4,8 @@ using UnityEngine;
 
 /// <summary>
 /// Baseclass for objects that are mainly controlled by animator (like most weapons)
+/// Needed triggers:
+/// - Equip/UnEquip/AttackStart/AttackEnd
 /// </summary>
 public class AnimatorControlledObject : SimpleItem
 {
