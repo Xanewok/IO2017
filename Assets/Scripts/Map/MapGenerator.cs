@@ -193,7 +193,7 @@ public class MapGenerator : MonoBehaviour
                 Vector3 randomPoint = tile.transform.position + Random.insideUnitSphere * range;
 
                 NavMeshHit hit;
-                if (NavMesh.SamplePosition(tile.transform.position, out hit, 5.0f, NavMesh.AllAreas))
+                if (NavMesh.SamplePosition(randomPoint, out hit, 5.0f, NavMesh.AllAreas))
                 {
                     // Spawn finish point
                     var point = Instantiate(finishPoint, hit.position, Quaternion.identity);
