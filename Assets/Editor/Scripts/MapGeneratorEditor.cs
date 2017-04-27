@@ -9,6 +9,8 @@ public class MapGeneratorEditor : Editor
 
     public override void OnInspectorGUI()
     {
+        EditorGUIUtility.wideMode = true;
+
         MapGenerator script = (MapGenerator)target;
         var tileGenerator = script.GetComponent<ITileGenerator>();
         if (tileGenerator == null)
