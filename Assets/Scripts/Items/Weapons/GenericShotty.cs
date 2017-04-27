@@ -9,7 +9,7 @@ using UnityEngine;
 /// - manyBullet - shots more than one bullet
 /// 
 /// </summary>
-public class GenericShotty : SimpleItem, AmmoReloadInterface {
+public class GenericShotty : AnimatorControlledObject, AmmoReloadInterface {
     /// <summary>
     /// How many bullets are shot at once
     /// </summary>
@@ -21,6 +21,12 @@ public class GenericShotty : SimpleItem, AmmoReloadInterface {
     /// </summary>
     [Tooltip("How big is the spread (angle)")]
     public float spread = 30f;
+
+    /// <summary>
+    /// Number of ammo clips on weapon
+    /// </summary>
+    [Tooltip("Number of ammo clips on weapon. 0 for Infinity")]
+    public int magazines = 5;
 
     /// <summary>
     /// Size of weapons magazine
@@ -46,12 +52,6 @@ public class GenericShotty : SimpleItem, AmmoReloadInterface {
     protected int actualMagazine = 0;
 
     /// <summary>
-    /// Counting time between shots.
-    /// </summary>
-    protected float cooldown = 0f;
-
-
-    /// <summary>
     /// Triggers on start.
     /// Sets weapon magazine to full.
     /// </summary>
@@ -62,43 +62,37 @@ public class GenericShotty : SimpleItem, AmmoReloadInterface {
     }
 
     /// <summary>
-    /// Triggered on updating. Used to count cooldown between shots
+    /// Shooting bullet.
+    /// Should be called only on animator event
     /// </summary>
-    protected override void onUpdate()
+    public void shootBullet()
     {
-        base.onUpdate();
-        cooldown = Mathf.Max(0f, cooldown - Time.deltaTime);
+            actualMagazine--;
+            System.Random rng = new System.Random();
+            Rigidbody wearers = wearer.GetComponent<Rigidbody>();
+            for (int a = 0; a < bullets; a++)
+            {
+                Vector3 addPos = Vector3.zero;
+                if (wearers != null) addPos = wearers.velocity * Time.deltaTime;
+                float randomSpread = (float)rng.NextDouble();
+                Quaternion rotation = transform.rotation * Quaternion.Euler(0f, randomSpread * spread - spread / 2f, 0f);
+                GameObject bull = Instantiate(bullet, transform.position + addPos, rotation);
+
+                Rigidbody rigid = bull.GetComponent<Rigidbody>();
+                rigid.velocity = rotation * Vector3.forward * startingSpeed;
+            }
     }
 
-    /// <summary>
-    /// Shooting bullets
-    /// </summary>
-    public override void onUseStart()
+    public void reloadWeapon()
     {
-        if (Mathf.Approximately(cooldown, 0f))
+        actualMagazine = magazine;
+        magazines--;
+        if (magazines == 0)
         {
-            if (actualMagazine > 0)
-            {
-                actualMagazine--;
-                System.Random rng = new System.Random();
-                Rigidbody wearers = wearer.GetComponent<Rigidbody>();
-                for (int a = 0; a < bullets; a++)
-                {
-                    Vector3 addPos = Vector3.zero;
-                    if (wearers != null) addPos = wearers.velocity * Time.deltaTime;
-                    float randomSpread = (float)rng.NextDouble();
-                    Quaternion rotation = transform.rotation * Quaternion.Euler(0f, randomSpread * spread - spread / 2f, 0f);
-                    GameObject bull = Instantiate(bullet, transform.position + addPos, rotation);
-
-                    Rigidbody rigid = bull.GetComponent<Rigidbody>();
-                    rigid.velocity = rotation * Vector3.forward * startingSpeed;
-                }
-            }
-            else
-            {
-                
-            }
-        } 
+            removeObject();
+            Destroy(gameObject);
+        }
+        else if (magazines < 0) magazines = -1;
     }
 
     /// <summary>
@@ -122,5 +116,18 @@ public class GenericShotty : SimpleItem, AmmoReloadInterface {
     public void addAmmunition(AmmoType ammo)
     {
         magazine++;
+    }
+
+    public override void onUseStart()
+    {
+        base.onUseStart();
+        if (actualMagazine > 0)
+        {
+            animator.SetTrigger("Shoot");
+        }
+        else
+        {
+            animator.SetTrigger("Reload");
+        }
     }
 }
