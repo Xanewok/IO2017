@@ -5,6 +5,7 @@ using UnityEngine.AI;
 using HelperExtensions;
 using System.Linq;
 
+[ExecuteInEditMode]
 public interface ITileGenerator
 {
     void BuildBeforeNavMesh(Vector3 origin);

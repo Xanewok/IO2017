@@ -9,6 +9,14 @@ public class MapGeneratorEditor : Editor
 
     public override void OnInspectorGUI()
     {
+        MapGenerator script = (MapGenerator)target;
+        var tileGenerator = script.GetComponent<ITileGenerator>();
+        if (tileGenerator == null)
+        {
+            EditorGUILayout.HelpBox("This component needs a MonoBehaviour implementing ITileGenerator to work properly.",
+                MessageType.Warning);
+        }
+
         DrawDefaultInspector();
         DrawExtendedInspector();
     }
