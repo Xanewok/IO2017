@@ -9,7 +9,9 @@ using System.Linq;
 public class MapGenerator : MonoBehaviour
 {
     [Header("Generation")]
-    public ITileGenerator tileGenerator;
+    // Supporting arbitrary ITileGenerator requires custom editor for interface type and it's more
+    // trouble than it's worth for our use (accepting base MonoBehaviour + ITileGenerator is acceptable)
+    public CommonTileGenerator tileGenerator;
     public Vector3 origin;
     public bool generateOnPlayStart = true;
     [Header("Navigation")]
@@ -20,7 +22,7 @@ public class MapGenerator : MonoBehaviour
     {
         if (tileGenerator == null)
         {
-            tileGenerator = GetComponent<ITileGenerator>();
+            tileGenerator = GetComponent<CommonTileGenerator>();
         }
 
         if (navMeshGenerator == null)

@@ -53,7 +53,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d8a05dade37444458ff0721fc742e9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapTileTag: MapTile
+  tileTag: MapTile
   finishPoint: {fileID: 1622784260090882, guid: 431fc354b2bfbfd4483d5f888fc488e1,
     type: 2}
   startingTile: {fileID: 1399986759960106, guid: 1798e04f05c9d4d43a184b736cddb0c4,
@@ -90,6 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e233b6ce45aaa49909c54ac77829fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tileGenerator: {fileID: 114392345806436184}
   origin: {x: 0, y: 0, z: 0}
   generateOnPlayStart: 1
   navMeshGenerator: {fileID: 114555773390350022}
