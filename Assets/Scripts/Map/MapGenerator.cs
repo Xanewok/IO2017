@@ -6,15 +6,6 @@ using HelperExtensions;
 using System.Linq;
 
 [ExecuteInEditMode]
-public interface ITileGenerator
-{
-    void BuildBeforeNavMesh(Vector3 origin);
-    void BuildAfterNavMesh(Vector3 origin);
-    void Clear();
-    GameObject[] GetSpawnedTiles();
-}
-
-[ExecuteInEditMode]
 public class MapGenerator : MonoBehaviour
 {
     [Header("Generation")]
@@ -24,7 +15,6 @@ public class MapGenerator : MonoBehaviour
     [Header("Navigation")]
     public SimpleNavMeshGenerator navMeshGenerator;
     public bool buildNavMeshOnGenerate = true;
-    private GameObject[] mapTiles;
 
     void Awake()
     {
