@@ -52,7 +52,7 @@ public class DungeonTileGenerator : CommonTileGenerator
                         // Check for free space
                         // TODO: GetTilePhysicalBounds gives us prefab-based AABB - we want quite precise world OBB instead
                         const float boundsMargin = -0.5f;
-                        var bounds = tileConnector.GetTilePhysicalBounds(boundsMargin);
+                        var bounds = tileConnector.tile.GetPhysicalBounds(boundsMargin);
                         bounds.center = finalPosition; // override center, since tile is a prefab
                         var colliders = Physics.OverlapBox(bounds.center, bounds.extents)
                             .Where(col => col.transform.root.GetInstanceID() != openConnector.transform.root.GetInstanceID());
