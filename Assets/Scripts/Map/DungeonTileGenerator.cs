@@ -26,77 +26,50 @@ public class DungeonTileGenerator : CommonTileGenerator
             var nextOpenConnectors = new List<TileConnector>();
             foreach (var openConnector in openConnectors)
             {
-                // Calculate matching transform to plug-in
-                Vector3 targetPosition = openConnector.transform.position;
-                Quaternion targetRotation = Quaternion.LookRotation(-openConnector.transform.forward, openConnector.transform.up);
-
                 // Pick a fitting tile
-                GameObject spawnedTile = null;
+                Tile spawnedTile = null;
 
-                var shuffledTiles = new List<GameObject>(tileSet);
-                shuffledTiles.Shuffle();
-                foreach (var tile in shuffledTiles)
+                var shuffledTiles = new List<Tile>(tileSet.Select(obj => obj.GetComponent<Tile>()).Shuffle());
+                foreach (Tile tile in shuffledTiles)
                 {
                     // Pick a matching connector from available
-                    var tileConnectors = tile.GetComponentsInChildren<TileConnector>();
-                    foreach (var tileConnector in tileConnectors)
+                    foreach (var tileConnector in tile.connectors)
                     {
-                        Quaternion toRootRot = tile.transform.rotation * Quaternion.Inverse(tileConnector.transform.rotation);
-                        Vector3 toRootTrans = tile.transform.position - tileConnector.transform.position;
-
-                        Quaternion worldConnToTarget = targetRotation * Quaternion.Inverse(tileConnector.transform.rotation);
-
-                        Vector3 finalPosition = targetPosition + worldConnToTarget * toRootTrans;
-                        Quaternion finalRotation = toRootRot * worldConnToTarget;
+                        var tileMatchTransform = tile.GetTransformToMatch(tileConnector, openConnector);
 
                         // Check for free space
-                        // TODO: GetTilePhysicalBounds gives us prefab-based AABB - we want quite precise world OBB instead
-                        const float boundsMargin = -0.5f;
-                        var bounds = tileConnector.tile.GetPhysicalBounds(boundsMargin);
-                        bounds.center = finalPosition; // override center, since tile is a prefab
-                        var colliders = Physics.OverlapBox(bounds.center, bounds.extents)
-                            .Where(col => col.transform.root.GetInstanceID() != openConnector.transform.root.GetInstanceID());
-                        if (colliders.Count() > 0)
+                        const float margin = -0.5f;
+                        var bounds = tileConnector.tile.GetPhysicalBounds(margin);
+                        // We check against rotated AABB - this can further optimized
+                        // for OBB or split into checks for multiple children colliders
+                        if (Physics.OverlapBox(tileMatchTransform.position, bounds.extents, tileMatchTransform.rotation)
+                            .Where(col => col.transform.root.GetInstanceID() != openConnector.transform.root.GetInstanceID())
+                            .Count() > 0)
                         {
-                            Debug.LogFormat("Tile {0} rejected for pos {1}", tile.name, openConnector.transform.position);
-                            foreach (var collider in colliders)
-                            {
-                                Debug.LogFormat("Detected collider: {0} ({1})", collider.name, collider.transform.position);
-                            }
                             continue;
                         }
 
-                        spawnedTile = SpawnTile(tile, finalPosition, finalRotation);
-                        // Since we checked prefab connections, pass actual object connections outside
-                        // It's not pretty, but it's faster than instantiating objects for
-                        // every possible match and iterating over spawned connectors
-                        tileConnectors = spawnedTile.GetComponentsInChildren<TileConnector>();
-                        var spawnedTileConnector = tileConnectors
-                            .Where(conn => (conn.transform.position - targetPosition).magnitude < 0.1f)
-                            .First();
+                        spawnedTile = SpawnTile(tile.gameObject, tileMatchTransform.position, tileMatchTransform.rotation).GetComponent<Tile>();
+                        // Since we checked only prefab object connections, connect and queue actual spawned connectors
+                        int connectorIndex = System.Array.IndexOf(tile.connectors, tileConnector);
+                        openConnector.Connect(spawnedTile.connectors[connectorIndex]);
 
-                        openConnector.Connect(spawnedTileConnector);
-
+                        nextOpenConnectors.AddRange(spawnedTile.connectors.Where(conn => conn.state == TileConnector.State.Open));
                         break;
                     }
 
-                    if (spawnedTile != null)
-                    {
-                        nextOpenConnectors.AddRange(tileConnectors
-                            .Where(conn => conn.state == TileConnector.State.Open));
+                    if (spawnedTile)
                         break;
-                    }
                 }
 
                 // No tile fits, mark this connector as rejected
-                if (spawnedTile == null)
+                if (!spawnedTile)
                 {
                     openConnector.Reject();
                 }
             }
             openConnectors = nextOpenConnectors;
         }
-
     }
 
     public override void BuildAfterNavMesh(Vector3 origin)
@@ -111,11 +84,10 @@ public class DungeonTileGenerator : CommonTileGenerator
                                         tile => tile.GetComponentsInChildren<TileConnector>()
                                         .Where(conn => conn.state == TileConnector.State.Open)
                                         .Count() > 0)
+                                    .Shuffle()
                                     .ToList();
-        edgeTiles.Shuffle();
         foreach (var tile in edgeTiles)
         {
-            // FIXME: this is reasonable approach, but needs to be prettied up
             const int attemptCount = 5;
             for (int i = 0; i < attemptCount; ++i)
             {
@@ -123,14 +95,14 @@ public class DungeonTileGenerator : CommonTileGenerator
                 Vector3 randomPoint = tile.transform.position + UnityEngine.Random.insideUnitSphere * range;
 
                 NavMeshHit hit;
-                if (NavMesh.SamplePosition(randomPoint, out hit, 5.0f, NavMesh.AllAreas))
+                if (NavMesh.SamplePosition(randomPoint, out hit, range, NavMesh.AllAreas))
                 {
-                    // Spawn finish point
                     SpawnAuxiliaryObject(finishPoint, hit.position, Quaternion.identity);
                     return;
                 }
             }
         }
-        // TODO: Handle when we couldn't spawn it
+
+        Debug.Assert(false, "Could not place Finish Point object when generating map!");
     }
 }

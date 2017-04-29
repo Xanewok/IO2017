@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 [ExecuteInEditMode]
 public class Tile : MonoBehaviour
@@ -40,6 +41,24 @@ public class Tile : MonoBehaviour
 
         result.Expand(margin);
         return result;
+    }
+
+    public ConnectorTransform GetTransformToMatch(TileConnector myConnector, TileConnector otherConnector)
+    {
+        Debug.Assert(connectors.Contains(myConnector));
+
+        var matchingTransform = otherConnector.GetMatchingTransform();
+
+        Quaternion toRootRot = transform.rotation * Quaternion.Inverse(myConnector.transform.rotation);
+        Vector3 toRootTrans = transform.position - myConnector.transform.position;
+
+        Quaternion worldConnToTarget = matchingTransform.rotation * Quaternion.Inverse(myConnector.transform.rotation);
+
+        return new ConnectorTransform
+        {
+            position = matchingTransform.position + worldConnToTarget * toRootTrans,
+            rotation = toRootRot * worldConnToTarget
+        };
     }
 
 #if UNITY_EDITOR

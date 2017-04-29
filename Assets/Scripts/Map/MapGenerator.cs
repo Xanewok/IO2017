@@ -103,5 +103,12 @@ namespace HelperExtensions
                 list[n] = value;
             }
         }
+
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
+        {
+            var array = source.ToArray();
+            array.Shuffle();
+            return array;
+        }
     }
 }

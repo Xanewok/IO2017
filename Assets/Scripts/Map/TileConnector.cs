@@ -59,6 +59,15 @@ public class TileConnector : MonoBehaviour
         m_state = State.Rejected;
     }
 
+    public ConnectorTransform GetMatchingTransform()
+    {
+        return new ConnectorTransform
+        {
+            position = transform.position,
+            rotation = Quaternion.LookRotation(-transform.forward, transform.up)
+        };
+    }
+
     void OnDrawGizmos()
     {
         Vector3 origin = transform.position;
