@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public struct ConnectorTransform
+{
+    public Vector3 position;
+    public Quaternion rotation;
+}
+
 [ExecuteInEditMode]
 public class TileConnector : MonoBehaviour
 {
@@ -60,6 +66,14 @@ public class TileConnector : MonoBehaviour
     public void Reject()
     {
         m_state = State.Rejected;
+    }
+
+    public ConnectorTransform GetMatchingTransform()
+    {
+        return new ConnectorTransform {
+            position = transform.position,
+            rotation = Quaternion.LookRotation(-transform.forward, transform.up)
+        };
     }
 
 #if UNITY_EDITOR
