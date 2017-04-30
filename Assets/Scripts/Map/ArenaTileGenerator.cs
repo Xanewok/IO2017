@@ -4,12 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using HelperExtensions;
+using UnityEngine.AI;
 
 public class ArenaTileGenerator : CommonTileGenerator
 {
     public GameObject spawnPoint;
     public GameObject[] tileSet;
+    public GameObject enemySpawner;
+    public int enemySpawnerCount = 4;
+    public float minimumOriginSpawnerDistance = 15;
 
+    private Vector3 arenaOrigin;
 #if UNITY_EDITOR
     public bool debugColorDiscontinuedTiles = false;
     public bool debugColorBorderTiles = false;
@@ -17,6 +22,8 @@ public class ArenaTileGenerator : CommonTileGenerator
 
     public override void BuildBeforeNavMesh(Vector3 origin)
     {
+        arenaOrigin = origin;
+
         SpawnAuxiliaryObject(spawnPoint, origin, Quaternion.identity);
         var originTile = SpawnTile(PickRandomTile(), origin, Quaternion.identity);
 
@@ -76,7 +83,7 @@ public class ArenaTileGenerator : CommonTileGenerator
 
     public override void BuildAfterNavMesh(Vector3 origin)
     {
-
+        SpawnEnemySpawners();
     }
 
     // TODO: This is *really* not ideal. We need proper walls with thickness, not
@@ -90,6 +97,36 @@ public class ArenaTileGenerator : CommonTileGenerator
             scale.y *= 10.0f;
             obj.transform.localScale = scale;
         }
+    }
+
+    void SpawnEnemySpawners()
+    {
+        HashSet<GameObject> eligibleTiles = new HashSet<GameObject>(GetSpawnedTiles());
+        eligibleTiles.RemoveWhere(tile => (tile.transform.position - arenaOrigin).magnitude < minimumOriginSpawnerDistance);
+        eligibleTiles.ExceptWith(GetBorderTiles());
+
+        Debug.Assert(eligibleTiles.Count > 0, "No eligible tiles found for enemy spawners!");
+
+        int spawnedCount = 0;
+        List<GameObject> shuffledTiles = eligibleTiles.ToList();
+        for (int spawnerCount = 0; spawnerCount < enemySpawnerCount; ++spawnerCount)
+        {
+            shuffledTiles.Shuffle();
+            foreach (var tileObject in shuffledTiles)
+            {
+                const float range = 5.0f;
+                Vector3 randomPoint = tileObject.transform.position + UnityEngine.Random.insideUnitSphere * range;
+
+                NavMeshHit hit;
+                if (NavMesh.SamplePosition(randomPoint, out hit, range, NavMesh.AllAreas))
+                {
+                    SpawnAuxiliaryObject(enemySpawner, hit.position, Quaternion.identity);
+                    spawnedCount++;
+                    break;
+                }
+            }
+        }
+        Debug.Assert(spawnedCount == enemySpawnerCount, "Could not spawn all enemy spawners!");
     }
 
     public GameObject[] GetDiscontinuedTiles()
