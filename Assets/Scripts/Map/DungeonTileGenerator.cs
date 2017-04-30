@@ -38,8 +38,8 @@ public class DungeonTileGenerator : CommonTileGenerator
                         var tileMatchTransform = tile.GetTransformToMatch(tileConnector, openConnector);
 
                         // Check for free space
-                        const float margin = -0.5f;
-                        var bounds = tileConnector.tile.GetPhysicalBounds(margin);
+                        var bounds = tile.physicalBounds;
+                        bounds.Expand(-0.4f);
                         // We check against rotated AABB - this can further optimized
                         // for OBB or split into checks for multiple children colliders
                         if (Physics.OverlapBox(tileMatchTransform.position, bounds.extents, tileMatchTransform.rotation)

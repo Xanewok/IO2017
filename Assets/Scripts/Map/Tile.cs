@@ -7,8 +7,23 @@ using System.Linq;
 public class Tile : MonoBehaviour
 {
     [SerializeField]
-    TileConnector[] m_connectors;
+    private TileConnector[] m_connectors;
     public TileConnector[] connectors { get { return m_connectors; } }
+
+    private int lastBoundsUpdateFrameId = 0;
+    private Bounds m_physicalBounds;
+    public Bounds physicalBounds {
+        get
+        {
+            if (Time.frameCount != lastBoundsUpdateFrameId)
+            {
+                m_physicalBounds = CalculatePhysicalBounds();
+                lastBoundsUpdateFrameId = Time.frameCount;
+            }
+
+            return m_physicalBounds;
+        }
+    }
 
     void Awake()
     {
@@ -21,7 +36,7 @@ public class Tile : MonoBehaviour
         m_connectors = GetComponentsInChildren<TileConnector>();
     }
 
-    public Bounds GetPhysicalBounds(float margin = 0.0f)
+    public Bounds CalculatePhysicalBounds()
     {
         Bounds result;
 
@@ -39,7 +54,6 @@ public class Tile : MonoBehaviour
             }
         }
 
-        result.Expand(margin);
         return result;
     }
 
@@ -61,20 +75,9 @@ public class Tile : MonoBehaviour
         };
     }
 
-#if UNITY_EDITOR
-    Bounds physicalBounds;
-
-    void Update()
-    {
-        if (transform.hasChanged)
-            physicalBounds = GetPhysicalBounds();
-    }
-
-    void OnDrawGizmos()
+    void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.grey;
         Gizmos.DrawWireCube(physicalBounds.center, physicalBounds.size);
     }
-#endif
-
 }
