@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4529775020487090}
   - component: {fileID: 114693272148208644}
   - component: {fileID: 114555773390350022}
+  - component: {fileID: 114392345806436184}
   m_Layer: 0
   m_Name: MapGenerator
   m_TagString: Untagged
@@ -41,6 +42,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114392345806436184
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1045752959836502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d8a05dade37444458ff0721fc742e9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileTag: MapTile
+  finishPoint: {fileID: 1622784260090882, guid: 431fc354b2bfbfd4483d5f888fc488e1,
+    type: 2}
+  startingTile: {fileID: 1399986759960106, guid: 1798e04f05c9d4d43a184b736cddb0c4,
+    type: 2}
+  tileSet:
+  - {fileID: 1083850369554036, guid: 587d1ee3c311b154b89eee4bae048768, type: 2}
+  - {fileID: 1660565879475370, guid: 44e8551632c9c424da7886738cac90f0, type: 2}
+  iterationCount: 5
 --- !u!114 &114555773390350022
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -69,16 +90,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e233b6ce45aaa49909c54ac77829fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapTileTag: MapTile
-  finishPoint: {fileID: 1622784260090882, guid: 431fc354b2bfbfd4483d5f888fc488e1,
-    type: 2}
-  startingTile: {fileID: 1399986759960106, guid: 1798e04f05c9d4d43a184b736cddb0c4,
-    type: 2}
+  tileGenerator: {fileID: 114392345806436184}
   origin: {x: 0, y: 0, z: 0}
-  tiles:
-  - {fileID: 1660565879475370, guid: 44e8551632c9c424da7886738cac90f0, type: 2}
-  - {fileID: 1083850369554036, guid: 587d1ee3c311b154b89eee4bae048768, type: 2}
-  iterationCount: 5
   generateOnPlayStart: 1
   navMeshGenerator: {fileID: 114555773390350022}
   buildNavMeshOnGenerate: 1

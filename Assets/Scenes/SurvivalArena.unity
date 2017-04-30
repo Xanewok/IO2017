@@ -365,6 +365,10 @@ MonoBehaviour:
   spawnPoint: {fileID: 1875965625273678, guid: c070e353677bdf948939fe850274c394, type: 2}
   tileSet:
   - {fileID: 1486471666339828, guid: 9514a59f5e6792344a2fa2a18cd095c3, type: 2}
+  enemySpawner: {fileID: 1506035532466172, guid: 58e8631c16f21aa4fa2f6dcac79b9dd6,
+    type: 2}
+  enemySpawnerCount: 4
+  minimumOriginSpawnerDistance: 15
   debugColorDiscontinuedTiles: 0
   debugColorBorderTiles: 0
 --- !u!1 &1063831172

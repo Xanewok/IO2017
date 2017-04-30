@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public struct BareTransform
+{
+    public Vector3 position;
+    public Quaternion rotation;
+}
+
 [ExecuteInEditMode]
 public class TileConnector : MonoBehaviour
 {
@@ -13,6 +19,11 @@ public class TileConnector : MonoBehaviour
     }
 
     [SerializeField]
+    Tile m_tile;
+    public Tile tile { get { return m_tile; } }
+
+
+    [SerializeField]
     State m_state = State.Open;
     public State state { get { return m_state; } }
 
@@ -20,34 +31,20 @@ public class TileConnector : MonoBehaviour
     TileConnector m_connection = null;
     public TileConnector connection { get { return m_connection; } }
 
-#if UNITY_EDITOR
-    Bounds cachedBounds;
-
-    void Update()
+    void Awake()
     {
-        if (transform.hasChanged)
-            cachedBounds = GetTilePhysicalBounds();
+        if (m_tile == null) m_tile = GetComponentInParent<Tile>();
     }
-#endif
 
-    public Bounds GetTilePhysicalBounds(float margin = 0.0f)
+    void Reset()
     {
-        var result = new Bounds();
-        result.center = transform.position;
+        m_tile = GetComponentInParent<Tile>();
+        m_state = State.Open;
 
-        var colliders = transform.root.GetComponentsInChildren<Collider>();
-        // Sometimes there can be no physical collider at transform.position,
-        // yet we want minimal physical bounding box
-        if (colliders.Length > 0)
-            result = colliders[0].bounds;
-
-        foreach (var collider in colliders)
-        {
-            result.Encapsulate(collider.bounds);            
-        }
-
-        result.Expand(margin);
-        return result;
+        var conn = m_connection;
+        m_connection = null;
+        if (conn)
+            conn.Reset();
     }
 
     public void Connect(TileConnector other)
@@ -62,8 +59,16 @@ public class TileConnector : MonoBehaviour
         m_state = State.Rejected;
     }
 
-#if UNITY_EDITOR
-    private void OnDrawGizmos()
+    public BareTransform GetMatchingTransform()
+    {
+        return new BareTransform
+        {
+            position = transform.position,
+            rotation = Quaternion.LookRotation(-transform.forward, transform.up)
+        };
+    }
+
+    void OnDrawGizmos()
     {
         Vector3 origin = transform.position;
 
@@ -78,12 +83,9 @@ public class TileConnector : MonoBehaviour
 
         Gizmos.color = GetConnectorStateColor(state);
         Gizmos.DrawWireSphere(origin, 1.0f);
-
-        Gizmos.color = Color.grey;
-        Gizmos.DrawWireCube(cachedBounds.center, cachedBounds.size);
     }
 
-    public static Color GetConnectorStateColor(State state)
+    static Color GetConnectorStateColor(State state)
     {
         switch (state)
         {
@@ -93,5 +95,4 @@ public class TileConnector : MonoBehaviour
             default: return Color.grey;
         }
     }
-#endif
 }
