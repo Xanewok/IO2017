@@ -71,6 +71,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4919421811237244}
+  - component: {fileID: 114143227940877234}
   m_Layer: 0
   m_Name: SimpleTile
   m_TagString: MapTile
@@ -223,6 +224,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114143227940877234
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1399986759960106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14a43e17953a35843ace590cf0eb39bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_connectors:
+  - {fileID: 114151782072446984}
 --- !u!114 &114151782072446984
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -234,7 +248,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ffc534060560b04388df928cc9d5bff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_tile: {fileID: 114143227940877234}
   m_state: 0
+  m_connection: {fileID: 0}
 --- !u!114 &114278470618517606
 MonoBehaviour:
   m_ObjectHideFlags: 1
