@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct ConnectorTransform
+public struct BareTransform
 {
     public Vector3 position;
     public Quaternion rotation;
@@ -59,9 +59,9 @@ public class TileConnector : MonoBehaviour
         m_state = State.Rejected;
     }
 
-    public ConnectorTransform GetMatchingTransform()
+    public BareTransform GetMatchingTransform()
     {
-        return new ConnectorTransform
+        return new BareTransform
         {
             position = transform.position,
             rotation = Quaternion.LookRotation(-transform.forward, transform.up)

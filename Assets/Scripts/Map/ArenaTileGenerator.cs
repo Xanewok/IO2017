@@ -26,32 +26,21 @@ public class ArenaTileGenerator : CommonTileGenerator
                     continue;
                 }
 
-                // Pick a fitting tile
                 Tile spawnedTile = null;
 
                 var shuffledTiles = new List<Tile>(tileSet.Select(obj => obj.GetComponent<Tile>()).Shuffle());
-                foreach (Tile tile in shuffledTiles)
+                foreach (Tile prefabTile in shuffledTiles)
                 {
-                    // Pick a matching connector from available
-                    foreach (var tileConnector in tile.connectors)
+                    BareTransform targetTransform = new BareTransform();
+                    TileConnector myConnector = null;
+
+                    if (prefabTile.connectors.Any(conn => {
+                        return prefabTile.CanBeConnectedAndSpawned(conn, openConnector, out targetTransform) && (myConnector = conn);
+                    }))
                     {
-                        var tileMatchTransform = tile.GetTransformToMatch(tileConnector, openConnector);
+                        spawnedTile = SpawnTile(prefabTile.gameObject, targetTransform.position, targetTransform.rotation).GetComponent<Tile>();
 
-                        // Check for free space
-                        var bounds = tile.physicalBounds;
-                        bounds.extents = new Vector3(bounds.extents.x - 0.2f, bounds.extents.y, bounds.extents.z - 0.2f);
-                        // We check against rotated AABB - this can further optimized
-                        // for OBB or split into checks for multiple children colliders
-                        if (Physics.OverlapBox(tileMatchTransform.position, bounds.extents, tileMatchTransform.rotation)
-                            .Where(col => col.transform.root.GetInstanceID() != openConnector.transform.root.GetInstanceID())
-                            .Count() > 0)
-                        {
-                            continue;
-                        }
-
-                        spawnedTile = SpawnTile(tile.gameObject, tileMatchTransform.position, tileMatchTransform.rotation).GetComponent<Tile>();
-                        // Since we checked only prefab object connections, connect and queue actual spawned connectors
-                        int connectorIndex = Array.IndexOf(tile.connectors, tileConnector);
+                        int connectorIndex = Array.IndexOf(prefabTile.connectors, myConnector);
                         openConnector.Connect(spawnedTile.connectors[connectorIndex]);
 
                         if (ShouldProcessGeneration(origin, spawnedTile.transform.position))
@@ -60,9 +49,6 @@ public class ArenaTileGenerator : CommonTileGenerator
                         }
                         break;
                     }
-
-                    if (spawnedTile)
-                        break;
                 }
 
                 // No tile fits, mark this connector as rejected

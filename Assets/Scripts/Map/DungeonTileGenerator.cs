@@ -30,36 +30,23 @@ public class DungeonTileGenerator : CommonTileGenerator
                 Tile spawnedTile = null;
 
                 var shuffledTiles = new List<Tile>(tileSet.Select(obj => obj.GetComponent<Tile>()).Shuffle());
-                foreach (Tile tile in shuffledTiles)
+                foreach (Tile prefabTile in shuffledTiles)
                 {
-                    // Pick a matching connector from available
-                    foreach (var tileConnector in tile.connectors)
+                    BareTransform targetTransform = new BareTransform();
+                    TileConnector myConnector = null;
+
+                    if (prefabTile.connectors.Any(conn => {
+                        return prefabTile.CanBeConnectedAndSpawned(conn, openConnector, out targetTransform) && (myConnector = conn);
+                    }))
                     {
-                        var tileMatchTransform = tile.GetTransformToMatch(tileConnector, openConnector);
+                        spawnedTile = SpawnTile(prefabTile.gameObject, targetTransform.position, targetTransform.rotation).GetComponent<Tile>();
 
-                        // Check for free space
-                        var bounds = tile.physicalBounds;
-                        bounds.Expand(-0.4f);
-                        // We check against rotated AABB - this can further optimized
-                        // for OBB or split into checks for multiple children colliders
-                        if (Physics.OverlapBox(tileMatchTransform.position, bounds.extents, tileMatchTransform.rotation)
-                            .Where(col => col.transform.root.GetInstanceID() != openConnector.transform.root.GetInstanceID())
-                            .Count() > 0)
-                        {
-                            continue;
-                        }
-
-                        spawnedTile = SpawnTile(tile.gameObject, tileMatchTransform.position, tileMatchTransform.rotation).GetComponent<Tile>();
-                        // Since we checked only prefab object connections, connect and queue actual spawned connectors
-                        int connectorIndex = System.Array.IndexOf(tile.connectors, tileConnector);
+                        int connectorIndex = System.Array.IndexOf(prefabTile.connectors, myConnector);
                         openConnector.Connect(spawnedTile.connectors[connectorIndex]);
 
                         nextOpenConnectors.AddRange(spawnedTile.connectors.Where(conn => conn.state == TileConnector.State.Open));
                         break;
                     }
-
-                    if (spawnedTile)
-                        break;
                 }
 
                 // No tile fits, mark this connector as rejected

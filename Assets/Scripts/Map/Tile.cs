@@ -57,7 +57,7 @@ public class Tile : MonoBehaviour
         return result;
     }
 
-    public ConnectorTransform GetTransformToMatch(TileConnector myConnector, TileConnector otherConnector)
+    public BareTransform GetTransformToMatch(TileConnector myConnector, TileConnector otherConnector)
     {
         Debug.Assert(connectors.Contains(myConnector));
 
@@ -68,11 +68,44 @@ public class Tile : MonoBehaviour
 
         Quaternion worldConnToTarget = matchingTransform.rotation * Quaternion.Inverse(myConnector.transform.rotation);
 
-        return new ConnectorTransform
+        return new BareTransform
         {
             position = matchingTransform.position + worldConnToTarget * toRootTrans,
             rotation = toRootRot * worldConnToTarget
         };
+    }
+
+    public bool CanBeConnectedAndSpawned(TileConnector myConnector, TileConnector otherConnector, out BareTransform targetTransform)
+    {
+        Debug.Assert(connectors.Contains(myConnector));
+
+        var bounds = this.physicalBounds;
+        // Allow for marginal overlap
+        const float minExtent = 0.5f;
+        bounds.extents = new Vector3
+        {
+            x = Mathf.Max(minExtent, bounds.extents.x - 0.5f),
+            y = Mathf.Max(minExtent, bounds.extents.y - 0.5f),
+            z = Mathf.Max(minExtent, bounds.extents.z - 0.5f)
+        };
+
+        var matchTransform = GetTransformToMatch(myConnector, otherConnector);
+        // We check against rotated AABB - this can further optimized
+        // for OBB or split into checks for multiple children colliders
+        if (Physics.OverlapBox(matchTransform.position, bounds.extents, matchTransform.rotation)
+            .Where(col => col.transform.root.GetInstanceID() != otherConnector.transform.root.GetInstanceID())
+            .Count() <= 0)
+        {
+            targetTransform.position = matchTransform.position;
+            targetTransform.rotation = matchTransform.rotation;
+            return true;
+        }
+        else
+        {
+            targetTransform.position = Vector3.zero;
+            targetTransform.rotation = Quaternion.identity;
+            return false;
+        }
     }
 
     void OnDrawGizmosSelected()
