@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using HelperExtensions;
 
 public class ArenaTileGenerator : CommonTileGenerator
 {
@@ -11,26 +12,67 @@ public class ArenaTileGenerator : CommonTileGenerator
 
     public override void BuildBeforeNavMesh(Vector3 origin)
     {
-        throw new NotImplementedException();
-
         SpawnAuxiliaryObject(spawnPoint, origin, Quaternion.identity);
-
         var initial = SpawnTile(PickRandomTile(), origin, Quaternion.identity);
-        List<GameObject> activeTiles = new List<GameObject> { initial };
-        List<GameObject> currentTiles = new List<GameObject> { initial };
-        while (activeTiles.Count > 0)
-        {
-            foreach (var activeTile in activeTiles)
-            {
-                // Decide if the tile is so far away it's not considered for expansion anymore
-                var probability = UnityEngine.Random.Range(0.0f, 1.0f);
-                if (probability > CalculateGenerationProbability(origin, activeTile))
-                    continue;
-                
-                var tileConnectors = activeTile.GetComponentsInChildren<TileConnector>();
-            }
-        }
 
+        var openConnectors = new List<TileConnector>(initial.GetComponent<Tile>().connectors);
+        while (openConnectors.Count > 0)
+        {
+            var nextOpenConnectors = new List<TileConnector>();
+            foreach (var openConnector in openConnectors)
+            {
+                if (!ShouldProcessGeneration(origin, openConnector.transform.position))
+                {
+                    continue;
+                }
+
+                // Pick a fitting tile
+                Tile spawnedTile = null;
+
+                var shuffledTiles = new List<Tile>(tileSet.Select(obj => obj.GetComponent<Tile>()).Shuffle());
+                foreach (Tile tile in shuffledTiles)
+                {
+                    // Pick a matching connector from available
+                    foreach (var tileConnector in tile.connectors)
+                    {
+                        var tileMatchTransform = tile.GetTransformToMatch(tileConnector, openConnector);
+
+                        // Check for free space
+                        var bounds = tile.physicalBounds;
+                        bounds.extents = new Vector3(bounds.extents.x - 0.2f, bounds.extents.y, bounds.extents.z - 0.2f);
+                        // We check against rotated AABB - this can further optimized
+                        // for OBB or split into checks for multiple children colliders
+                        if (Physics.OverlapBox(tileMatchTransform.position, bounds.extents, tileMatchTransform.rotation)
+                            .Where(col => col.transform.root.GetInstanceID() != openConnector.transform.root.GetInstanceID())
+                            .Count() > 0)
+                        {
+                            continue;
+                        }
+
+                        spawnedTile = SpawnTile(tile.gameObject, tileMatchTransform.position, tileMatchTransform.rotation).GetComponent<Tile>();
+                        // Since we checked only prefab object connections, connect and queue actual spawned connectors
+                        int connectorIndex = Array.IndexOf(tile.connectors, tileConnector);
+                        openConnector.Connect(spawnedTile.connectors[connectorIndex]);
+
+                        if (ShouldProcessGeneration(origin, spawnedTile.transform.position))
+                        {
+                            nextOpenConnectors.AddRange(spawnedTile.connectors.Where(conn => conn.state == TileConnector.State.Open));
+                        }
+                        break;
+                    }
+
+                    if (spawnedTile)
+                        break;
+                }
+
+                // No tile fits, mark this connector as rejected
+                if (!spawnedTile)
+                {
+                    openConnector.Reject();
+                }
+            }
+            openConnectors = nextOpenConnectors;
+        }
     }
 
     public override void BuildAfterNavMesh(Vector3 origin)
@@ -44,20 +86,20 @@ public class ArenaTileGenerator : CommonTileGenerator
         return tileSet[index];
     }
 
-    // TODO: Move to configuration (AnimationCurve or threshold dictionary)
-    public float CalculateGenerationProbability(Vector3 origin, GameObject tileObject)
+    public bool ShouldProcessGeneration(Vector3 origin, Vector3 dest)
     {
-        float tileDistance = (tileObject.transform.position - origin).sqrMagnitude;
+        float random = UnityEngine.Random.Range(0.0f, 1.0f);
+        return random < CalculateGenerationProbability(origin, dest);
+    }
 
-        if (tileDistance < 400)
+    // TODO: Move to configuration (AnimationCurve or threshold dictionary)
+    public float CalculateGenerationProbability(Vector3 origin, Vector3 dest)
+    {
+        float tileDistance = (dest - origin).magnitude;
+
+        if (tileDistance < 50)
             return 1.0f;
-        else if (tileDistance < 1600)
-            return 0.9f;
-        else if (tileDistance < 6000)
-            return 0.7f;
-        else if (tileDistance < 12000)
-            return 0.4f;
         else
-            return 0.0f;
+            return 0.3f;
     }
 }

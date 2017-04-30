@@ -336,9 +336,35 @@ Prefab:
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 114693272148208644, guid: c3a1946f1ad5d224e94977ebc1942fda,
+        type: 2}
+      propertyPath: tileGenerator
+      value: 
+      objectReference: {fileID: 373355691}
+    m_RemovedComponents:
+    - {fileID: 114392345806436184, guid: c3a1946f1ad5d224e94977ebc1942fda, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: c3a1946f1ad5d224e94977ebc1942fda, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &373355690 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1045752959836502, guid: c3a1946f1ad5d224e94977ebc1942fda,
+    type: 2}
+  m_PrefabInternal: {fileID: 373355689}
+--- !u!114 &373355691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 373355690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de301da5b5c0449b7ba35c4a76e518b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileTag: MapTile
+  spawnPoint: {fileID: 1875965625273678, guid: c070e353677bdf948939fe850274c394, type: 2}
+  tileSet:
+  - {fileID: 1486471666339828, guid: 9514a59f5e6792344a2fa2a18cd095c3, type: 2}
 --- !u!1 &1063831172
 GameObject:
   m_ObjectHideFlags: 0
