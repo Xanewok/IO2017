@@ -7,5 +7,6 @@ public class EnemyStatus : Status
 {
     public override void onStart()
     {
+        base.onStart();
     }
 }

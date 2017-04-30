@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 114614598774285118}
   - component: {fileID: 114162056631265062}
   - component: {fileID: 114185996296386636}
+  - component: {fileID: 114976009661130116}
   m_Layer: 0
   m_Name: AI
   m_TagString: Enemy
@@ -374,6 +375,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f5fb47daafb234392cadd16d93bfce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dashMovement: {x: 0, y: 0, z: 0}
+  maxHealth: 100
 --- !u!114 &114185996296386636
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -420,6 +423,19 @@ MonoBehaviour:
   hpEscapeThreshold: 20
   aiState: 0
   lastAITargetPosition: {x: 0, y: 0, z: 0}
+--- !u!114 &114976009661130116
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1584534883114544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71f5fb47daafb234392cadd16d93bfce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dashMovement: {x: 0, y: 0, z: 0}
+  maxHealth: 100
 --- !u!195 &195892115045740788
 NavMeshAgent:
   m_ObjectHideFlags: 1
