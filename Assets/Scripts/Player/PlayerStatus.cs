@@ -10,5 +10,6 @@ public class PlayerStatus : Status
 {
     public override void onStart()
     {
+        base.onStart();
     }
 }
