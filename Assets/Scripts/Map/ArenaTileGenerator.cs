@@ -10,17 +10,23 @@ public class ArenaTileGenerator : CommonTileGenerator
     public GameObject spawnPoint;
     public GameObject[] tileSet;
 
+#if UNITY_EDITOR
+    public bool debugColorDiscontinuedTiles = false;
+    public bool debugColorBorderTiles = false;
+#endif
+
     public override void BuildBeforeNavMesh(Vector3 origin)
     {
         SpawnAuxiliaryObject(spawnPoint, origin, Quaternion.identity);
-        var initial = SpawnTile(PickRandomTile(), origin, Quaternion.identity);
+        var originTile = SpawnTile(PickRandomTile(), origin, Quaternion.identity);
 
-        var openConnectors = new List<TileConnector>(initial.GetComponent<Tile>().connectors);
+        var openConnectors = new List<TileConnector>(originTile.GetComponent<Tile>().connectors);
         while (openConnectors.Count > 0)
         {
             var nextOpenConnectors = new List<TileConnector>();
             foreach (var openConnector in openConnectors)
             {
+                // Discard on tile level, not only on connector level
                 if (!ShouldProcessGeneration(origin, openConnector.transform.position))
                 {
                     continue;
@@ -34,7 +40,8 @@ public class ArenaTileGenerator : CommonTileGenerator
                     BareTransform targetTransform = new BareTransform();
                     TileConnector myConnector = null;
 
-                    if (prefabTile.connectors.Any(conn => {
+                    if (prefabTile.connectors.Any(conn =>
+                    {
                         return prefabTile.CanBeConnectedAndSpawned(conn, openConnector, out targetTransform) && (myConnector = conn);
                     }))
                     {
@@ -59,16 +66,63 @@ public class ArenaTileGenerator : CommonTileGenerator
             }
             openConnectors = nextOpenConnectors;
         }
+
+        BuildWalls();
+
+#if UNITY_EDITOR
+        DebugColorTiles();
+#endif
     }
 
     public override void BuildAfterNavMesh(Vector3 origin)
     {
-        throw new NotImplementedException();
+
+    }
+
+    // TODO: This is *really* not ideal. We need proper walls with thickness, not
+    // just selecting border tiles and multiplying their Y scale.
+    void BuildWalls()
+    {
+        var borderTiles = GetBorderTiles();
+        foreach (var obj in borderTiles)
+        {
+            var scale = obj.transform.localScale;
+            scale.y *= 10.0f;
+            obj.transform.localScale = scale;
+        }
+    }
+
+    public GameObject[] GetDiscontinuedTiles()
+    {
+        return GetSpawnedTiles()
+               .Where(
+                   tile => tile.GetComponentsInChildren<TileConnector>()
+                   .Where(conn => conn.state == TileConnector.State.Open)
+                   .Count() > 0)
+               .ToArray();
+    }
+
+    public GameObject[] GetBorderTiles()
+    {
+        var discontinuedTiles = GetDiscontinuedTiles();
+
+        return discontinuedTiles.Where(tile =>
+        {
+            return tile.GetComponent<Tile>().connectors
+            .Where(conn => conn.state == TileConnector.State.Open)
+            .Any(conn =>
+            {
+                return Physics.OverlapBox(conn.transform.position, Vector3.one * 0.5f)
+                       .Where(col => col.transform.root.gameObject != tile.transform.root.gameObject)
+                       .Count() == 0;
+            });
+        })
+        .ToArray();
     }
 
     public GameObject PickRandomTile()
     {
-        int index =  UnityEngine.Random.Range(0, tileSet.Length);
+        int index = UnityEngine.Random.Range(0, tileSet.Length);
         return tileSet[index];
     }
 
@@ -79,13 +133,47 @@ public class ArenaTileGenerator : CommonTileGenerator
     }
 
     // TODO: Move to configuration (AnimationCurve or threshold dictionary)
-    public float CalculateGenerationProbability(Vector3 origin, Vector3 dest)
+    public virtual float CalculateGenerationProbability(Vector3 origin, Vector3 dest)
     {
         float tileDistance = (dest - origin).magnitude;
 
-        if (tileDistance < 50)
+        if (tileDistance < 40)
             return 1.0f;
+        else if (tileDistance < 60)
+            return 0.8f;
         else
-            return 0.3f;
+            return 0.1f;
     }
+
+#if UNITY_EDITOR
+    private static Material discontinuedTileMaterial;
+    private static Material borderTileMaterial;
+    private static Material initializeBorderTileMaterial()
+    {
+        var defaultMat = UnityEditor.AssetDatabase.GetBuiltinExtraResource<Material>("Default-Material.mat");
+        var mat = new Material(defaultMat);
+        mat.color = Color.green;
+        return mat;
+    }
+
+    private void DebugColorTiles()
+    {
+        if (debugColorDiscontinuedTiles)
+        {
+            discontinuedTileMaterial = initializeBorderTileMaterial();
+            discontinuedTileMaterial.color = discontinuedTileMaterial.color * 3 / 4;
+
+            foreach (var disc in GetDiscontinuedTiles().Select(tile => tile.GetComponentInChildren<MeshRenderer>()))
+                disc.sharedMaterial = discontinuedTileMaterial;
+        }
+
+        if (debugColorBorderTiles)
+        {
+            borderTileMaterial = initializeBorderTileMaterial();
+
+            foreach (var bord in GetBorderTiles().Select(tile => tile.GetComponentInChildren<MeshRenderer>()))
+                bord.sharedMaterial = borderTileMaterial;
+        }
+    }
+#endif
 }
