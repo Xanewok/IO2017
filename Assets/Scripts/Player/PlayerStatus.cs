@@ -8,8 +8,25 @@ using UnityEngine;
 /// </summary>
 public class PlayerStatus : Status
 {
+    protected int score = 0;
+
     public override void onStart()
     {
         base.onStart();
+    }
+
+    public int getScore()
+    {
+        return score;
+    }
+
+    public void addScore(int added)
+    {
+        score += added;
+    }
+
+    public float getMaxHealth()
+    {
+        return maxHealth;
     }
 }
