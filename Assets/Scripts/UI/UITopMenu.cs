@@ -8,13 +8,12 @@ using System.Collections.Generic;
 
 public class UITopMenu : MonoBehaviour
 {
-
-    /* If you change this value make sure that output text fit well in top menu. */
+    // If you change this value make sure that output text fit well in top menu.
     private const int TOP_NR = 5;
     public Text Players;
     public Text Scores;
 
-    /* Load current top players.*/
+    // Load current top players.
     public void OnEnable()
     {
         List<KeyValuePair<string, int>> entries = SaveLoad.Load().topData.getEntries();

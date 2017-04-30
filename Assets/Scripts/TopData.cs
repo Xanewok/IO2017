@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-/* Should be repaired.*/
+// FIXME:
+[System.Serializable]
 public class TopData
 {
     private List<KeyValuePair<string, int>> entries;

@@ -58,6 +58,7 @@ public class UIGame : MonoBehaviour
         }
         Time.timeScale = 0.0f;
         deadMenu.SetActive(true);
+        playerName.Select();
     }
 
     public void TogglePauseMenu()
