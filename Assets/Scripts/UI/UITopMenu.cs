@@ -1,15 +1,13 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
-using System;
-using System.Collections.Generic;
+using System.Linq;
+using YAGTSS.Serialization;
 
 public class UITopMenu : MonoBehaviour
 {
-    // If you change this value make sure that output text fit well in top menu.
-    private const int TOP_NR = 5;
+    [Tooltip("Number of high score entries to display. Make sure the resulting text will fit in the Text field.")]
+    public int displayEntriesCount = 5;
     public Text Players;
     public Text Scores;
 
@@ -17,35 +15,34 @@ public class UITopMenu : MonoBehaviour
     {
         if (Debug.isDebugBuild && Input.GetKeyDown(KeyCode.F1))
         {
-            Data data = new Data();
-            SaveLoad.Save(data);
+            SaveData data = new SaveData();
+            SaveGameSerializer.Save(data);
 
-            PrepareTextFromData(data.topData);
+            PrepareTextFromData(data.highScores);
         }
     }
 
     // Load current top players.
     public void OnEnable()
     {
-        var topData = SaveLoad.Load().topData;
-        PrepareTextFromData(topData);
+        var highScores = SaveGameSerializer.Load().highScores;
+        PrepareTextFromData(highScores);
     }
 
-    private void PrepareTextFromData(TopData topData)
+    private void PrepareTextFromData(HighScores highScores)
     {
-        var entries = topData.getEntries();
-
         Players.text = "Player:";
         Scores.text = "Score: ";
-        int output = 0;
-        foreach (KeyValuePair<string, int> temp in entries)
+
+        var entries = highScores.Entries.Take(displayEntriesCount);
+        foreach (var entry in entries)
         {
-            Players.text += "\n" + temp.Key;
-            Scores.text += "\n" + temp.Value.ToString();
-            if (++output == TOP_NR)
-                break;
+            Players.text += "\n" + entry.Value;
+            Scores.text += "\n" + entry.Key;
         }
-        for (; output != TOP_NR; ++output)
+
+        // Fill remaining empty entries with empty '-' markers
+        for (int entryCount = entries.Count(); entryCount < displayEntriesCount; ++entryCount)
         {
             Players.text += "\n-";
             Scores.text += "\n-";

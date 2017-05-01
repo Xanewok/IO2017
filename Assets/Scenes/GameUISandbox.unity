@@ -1025,6 +1025,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4401cbc211b70f34fab605ddc05249c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  displayEntriesCount: 5
   Players: {fileID: 194542195}
   Scores: {fileID: 959564160}
 --- !u!1 &1474921437
@@ -1304,7 +1305,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: well
+  m_Text: Anonymous
 --- !u!222 &1906341013
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using YAGTSS.Serialization;
 
 public class UIGame : MonoBehaviour
 {
@@ -76,9 +77,9 @@ public class UIGame : MonoBehaviour
 
     public void SaveNameAndQuit()
     {
-        Data data = SaveLoad.Load();
-        data.topData.addNewScore(playerName.text, playerStatuses[0].getScore());
-        SaveLoad.Save(data);
+        SaveData data = SaveGameSerializer.Load();
+        data.highScores.Add(playerName.text, playerStatuses[0].getScore());
+        SaveGameSerializer.Save(data);
         QuitToMainMenu();
     }
 
