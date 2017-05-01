@@ -10,7 +10,6 @@ public class HighScoreInput : MonoBehaviour
 	public UIDeadMenu deadMenu;
     // TODO: Provide externally or do it in a more robust way
     public PlayerStatus playerScore;
-    public UITopMenu highScoresView;
 
     public string submitButton = "Submit";
     public InputField inputField;
@@ -37,13 +36,9 @@ public class HighScoreInput : MonoBehaviour
 
     public void SubmitScore()
     {
-        var currentScore = GetCurrentScore();
+        var highScoreManager = GameController.Instance.GetComponent<HighScoresManager>();
 
-        var saveData = SaveGameSerializer.Load();
-        saveData.highScores.Add(inputField.text, currentScore);
-        SaveGameSerializer.Save(saveData);
-
-        highScoresView.DisplayScore(saveData.highScores);
+        highScoreManager.Add(inputField.text, GetCurrentScore());
 
 		inputField.gameObject.SetActive(false);
 		inputSubmitButton.gameObject.SetActive(false);
