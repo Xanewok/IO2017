@@ -39,7 +39,6 @@ public class UIGame : MonoBehaviour
 
     void Update()
     {
-        healthBar.value = playerStatuses[0].getHealth() / playerStatuses[0].getMaxHealth();
         scoreText.text = "Score: " + playerStatuses[0].getScore();
         if (playerStatuses[0].getHealth() == 0)
         {
