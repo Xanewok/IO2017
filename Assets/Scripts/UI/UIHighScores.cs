@@ -37,8 +37,8 @@ public class UIHighScores : MonoBehaviour
 
     public void DisplayScore(HighScores highScores)
     {
-        Players.text = "Player:";
-        Scores.text = "Score: ";
+        Players.text = "Player";
+        Scores.text = "Score";
 
         var entries = highScores.Entries.Take(displayEntriesCount);
         foreach (var entry in entries)
