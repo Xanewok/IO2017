@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 public class ImageFader : MonoBehaviour
 {
+
+    public delegate void FadeFinished();
+    public event FadeFinished onFadeFinished;
+
     public enum FadeType
     {
         FadeIn,
@@ -22,7 +26,6 @@ public class ImageFader : MonoBehaviour
 
     public void Fade(FadeType fadeType, float fadeTime, bool respectTimeScale = true)
     {
-        Debug.LogFormat("Fade requested: {0} duration, {1}, type", fadeTime, (int)fadeType);
         StopAllCoroutines();
         this.fadeTime = fadeTime;
         this.fadeType = fadeType;
@@ -35,11 +38,14 @@ public class ImageFader : MonoBehaviour
         while (GetCurrentTime() - fadeStartTime < fadeTime)
         {
             float progress = (GetCurrentTime() - fadeStartTime) / fadeTime;
-            Debug.LogFormat("Fade: {0}", progress);
             SetAlpha(GetTargetAlpha(progress));
             yield return null;
         }
         SetAlpha(GetTargetAlpha(1.0f));
+
+        // Check for existing subscribers
+        if (onFadeFinished != null)
+            onFadeFinished();
     }
 
     float GetTargetAlpha(float progress)

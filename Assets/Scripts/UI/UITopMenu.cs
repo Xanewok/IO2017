@@ -19,18 +19,22 @@ public class UITopMenu : MonoBehaviour
             data.highScores.Clear();
             SaveGameSerializer.Save(data);
 
-            PrepareTextFromData(data.highScores);
+            DisplayScore(data.highScores);
         }
     }
 
-    // Load current top players.
-    public void OnEnable()
+    void OnEnable()
     {
-        var highScores = SaveGameSerializer.Load().highScores;
-        PrepareTextFromData(highScores);
+        RefreshScores();
     }
 
-    private void PrepareTextFromData(HighScores highScores)
+    public void RefreshScores()
+    {
+        var highScores = SaveGameSerializer.Load().highScores;
+        DisplayScore(highScores);
+    }
+
+    public void DisplayScore(HighScores highScores)
     {
         Players.text = "Player:";
         Scores.text = "Score: ";
