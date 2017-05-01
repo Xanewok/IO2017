@@ -17,8 +17,16 @@ public class GameControllerTest
         return go;
     }
 
+    // This is needed for on-demand loading of GameController (e.g. when starting
+    // an arbitrary scene in PlayMode as opposed to starting build from initial game controller scene.
     [Test]
-    public void PointsToValidInitialScene()
+    public void ResourceLoadable()
+    {
+        Assert.IsNotNull(Resources.Load<GameObject>("GameController"));
+    }
+
+    [Test]
+    public void PointsToValidNextLoadedScene()
     {
         var gameObject = CreateGameController();
         var gameController = gameObject.GetComponent<GameController>();
@@ -26,7 +34,26 @@ public class GameControllerTest
         Assert.IsTrue(EditorBuildSettings.scenes.Any(scene =>
         {
             var sceneName = Path.GetFileNameWithoutExtension(scene.path);
-            return scene.enabled && sceneName.Equals(gameController.initialScene);
+            return scene.enabled && sceneName.Equals(gameController.nextLoadedScene);
         }));
+    }
+
+    [Test]
+    public void InitialGameControllerSceneValid()
+    {
+        Assert.IsTrue(EditorBuildSettings.scenes.Any(scene =>
+        {
+            var sceneName = Path.GetFileNameWithoutExtension(scene.path);
+            return scene.enabled && sceneName.Equals(GameController.InitialGameControllerScene);
+        }));
+    }
+
+    [Test]
+    public void InitialGameControllerSceneFirstInBuildSettings()
+    {
+        var firstBuildScenePath = EditorBuildSettings.scenes.First().path;
+        var firstBuildSceneName = Path.GetFileNameWithoutExtension(firstBuildScenePath);
+
+        Assert.IsTrue(firstBuildSceneName.Equals(GameController.InitialGameControllerScene));
     }
 }
