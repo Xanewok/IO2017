@@ -15,7 +15,8 @@ public class UITopMenu : MonoBehaviour
     {
         if (Debug.isDebugBuild && Input.GetKeyDown(KeyCode.F1))
         {
-            SaveData data = new SaveData();
+            var data = SaveGameSerializer.Load();
+            data.highScores.Clear();
             SaveGameSerializer.Save(data);
 
             PrepareTextFromData(data.highScores);

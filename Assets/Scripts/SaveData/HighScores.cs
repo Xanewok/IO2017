@@ -23,5 +23,10 @@ namespace YAGTSS.Serialization
             m_entries.Add(new KeyValuePair<int, string>(score, player));
             m_entries.Sort((a, b) => -(a.Key.CompareTo(b.Key)));
         }
+
+        public void Clear()
+        {
+            m_entries.Clear();
+        }
     }
 }
