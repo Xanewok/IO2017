@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Status component for player character
@@ -13,6 +14,16 @@ public class PlayerStatus : Status
     public override void onStart()
     {
         base.onStart();
+
+        this.healthChanged += OnHealthChanged;
+    }
+
+    void Update()
+    {
+        if (Debug.isDebugBuild && Input.GetKeyDown(KeyCode.K))
+        {
+            hurt(1000, 0);
+        }
     }
 
     public int getScore()
@@ -28,5 +39,16 @@ public class PlayerStatus : Status
     public float getMaxHealth()
     {
         return maxHealth;
+    }
+
+    void OnHealthChanged(GameObject obj, float health)
+    {
+        Debug.Assert(obj == this.gameObject);
+
+        if (health <= 0)
+        {
+            // TODO: Separate this, do it in future GameController class
+            //SceneManager.LoadScene("Main_Menu");
+        }
     }
 }
