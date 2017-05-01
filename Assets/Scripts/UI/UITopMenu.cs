@@ -13,10 +13,28 @@ public class UITopMenu : MonoBehaviour
     public Text Players;
     public Text Scores;
 
+    void Update()
+    {
+        if (Debug.isDebugBuild && Input.GetKeyDown(KeyCode.F1))
+        {
+            Data data = new Data();
+            SaveLoad.Save(data);
+
+            PrepareTextFromData(data.topData);
+        }
+    }
+
     // Load current top players.
     public void OnEnable()
     {
-        List<KeyValuePair<string, int>> entries = SaveLoad.Load().topData.getEntries();
+        var topData = SaveLoad.Load().topData;
+        PrepareTextFromData(topData);
+    }
+
+    private void PrepareTextFromData(TopData topData)
+    {
+        var entries = topData.getEntries();
+
         Players.text = "Player:";
         Scores.text = "Score: ";
         int output = 0;
