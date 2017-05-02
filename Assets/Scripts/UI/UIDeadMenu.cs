@@ -1,5 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
+#if !UNITY_EDITOR
+using UnityEngine.SceneManagement;
+#endif
 
 public class UIDeadMenu : MonoBehaviour
 {
