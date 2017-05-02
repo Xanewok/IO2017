@@ -17,3 +17,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MapPrototype.unity
     guid: 91c297ebe16329e4f8a01f8a6a2f6e19
+  - enabled: 1
+    path: Assets/Scenes/SurvivalArena.unity
+    guid: 310a1b29bafce664eb593347ea10c55f
