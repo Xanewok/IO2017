@@ -15,8 +15,6 @@ public class PlayerStatus : Status
     {
         base.onStart();
 
-        this.healthChanged += OnHealthChanged;
-
         if (GameController.Instance.gameMode)
             GameController.Instance.gameMode.OnPlayerSpawned(this.gameObject);
     }
@@ -42,16 +40,5 @@ public class PlayerStatus : Status
     public float getMaxHealth()
     {
         return maxHealth;
-    }
-
-    void OnHealthChanged(GameObject obj, float health)
-    {
-        Debug.Assert(obj == this.gameObject);
-
-        if (health <= 0)
-        {
-            // TODO: Separate this, do it in future GameController class
-            //SceneManager.LoadScene("Main_Menu");
-        }
     }
 }
