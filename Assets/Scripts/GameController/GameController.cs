@@ -26,8 +26,21 @@ public class GameController : MonoBehaviour
         }
         private set
         {
-            
             s_instance = value;
+        }
+    }
+
+    private BaseGameMode m_gameMode = null;
+    public BaseGameMode gameMode
+    {
+        get
+        {
+            var currentScene = SceneManager.GetActiveScene().name;
+            return currentScene.Equals("Main_Menu") ? null : m_gameMode;
+        }
+        set
+        {
+            m_gameMode = value;
         }
     }
 

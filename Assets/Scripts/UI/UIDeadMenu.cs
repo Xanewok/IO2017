@@ -7,6 +7,16 @@ public class UIDeadMenu : MonoBehaviour
     public ImageFader backgroundFader;
     public ImageFader toMainMenuFader;
 
+    void OnEnable()
+    {
+        Time.timeScale = 0.0f;
+    }
+
+    void OnDisable()
+    {
+        Time.timeScale = 1.0f;
+    }
+
     void Start()
     {
         StartCoroutine(BackgroundFade());
