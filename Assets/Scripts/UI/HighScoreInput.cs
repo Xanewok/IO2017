@@ -11,15 +11,26 @@ public class HighScoreInput : MonoBehaviour
 
     public string submitButton = "Submit";
     public InputField inputField;
-	public Button inputSubmitButton;
+    public Button inputSubmitButton;
+
+    private HighScoresManager highScoresManager;
+
+    void Awake()
+    {
+        if (deadMenu == null)
+        {
+            deadMenu = GetComponentInParent<UIDeadMenu>();
+        }
+
+        highScoresManager = GameController.Instance.GetComponent<HighScoresManager>();
+        if (!highScoresManager.CanBeAdded(GetCurrentScore()))
+        {
+            ProceedToMainMenu();
+        }
+    }
 
     void Start()
     {
-		if (deadMenu == null)
-		{
-			deadMenu = GetComponentInParent<UIDeadMenu>();
-		}
-
         // There is no onSubmit event which we can subscribe to and
         // onEndEdit can be called when inputField loses focus
         inputField.onEndEdit.AddListener(fieldValue =>
@@ -29,26 +40,29 @@ public class HighScoreInput : MonoBehaviour
                 SubmitScore();
             }
         });
-		inputSubmitButton.onClick.AddListener(SubmitScore);
+        inputSubmitButton.onClick.AddListener(SubmitScore);
     }
 
     public void SubmitScore()
     {
-        var highScoreManager = GameController.Instance.GetComponent<HighScoresManager>();
-
-        highScoreManager.Add(inputField.text, GetCurrentScore());
+        highScoresManager.Add(inputField.text, GetCurrentScore());
         // Be sure to commit saved high score to file now
         GameController.Instance.SaveGameData();
 
-		inputField.gameObject.SetActive(false);
-		inputSubmitButton.gameObject.SetActive(false);
-
-		deadMenu.FadeToMainMenu();
+        ProceedToMainMenu();
     }
 
-    public int GetCurrentScore()
+    int GetCurrentScore()
     {
         var gameMode = GameController.Instance.gameMode as IScoredGameMode<Int32>;
         return gameMode.GetScore(player);
+    }
+
+    void ProceedToMainMenu()
+    {
+        inputField.gameObject.SetActive(false);
+        inputSubmitButton.gameObject.SetActive(false);
+
+        deadMenu.FadeToMainMenu();
     }
 }

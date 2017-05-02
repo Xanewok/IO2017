@@ -16,6 +16,7 @@ public class UIHighScores : MonoBehaviour
     void Awake()
     {
         highScoreManager = GameController.Instance.GetComponent<HighScoresManager>();
+        displayEntriesCount = Mathf.Min(displayEntriesCount, highScoreManager.maxEntries);
     }
 
     void OnEnable()
