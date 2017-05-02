@@ -12,6 +12,11 @@ public class UIMainMenu : MonoBehaviour
         SceneManager.LoadScene(playScene);
     }
 
+    public void ClearHighScores()
+    {
+        GameController.Instance.GetComponent<HighScoresManager>().Clear();
+    }
+
     public void Quit()
     {
         #if UNITY_EDITOR
