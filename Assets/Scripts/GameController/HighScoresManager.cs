@@ -46,7 +46,8 @@ public class HighScoresManager : MonoBehaviour
 
     public bool CanBeAdded(int score)
     {
-        return m_highScores.Entries.Any(kv => score > kv.Key);
+        return m_highScores.Entries.Count < m_maxEntries ||
+            m_highScores.Entries.Any(kv => score > kv.Key);
     }
 
     public void LoadHighScores(SaveData saveData)
