@@ -9,7 +9,12 @@ using UnityEngine;
 */
 public class LampScript : SimpleItem
 {
+#if UNITY_EDITOR // Compilation warning, TODO: replace 'light' identifier and check if it breaks anything
     new public Light light;
+#else
+    public Light light;
+#endif
+
     public MeshRenderer headRenderer;
 
     protected override void onStart()

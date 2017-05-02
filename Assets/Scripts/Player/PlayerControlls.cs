@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerControlls : MonoBehaviour
 {
@@ -16,20 +15,10 @@ public class PlayerControlls : MonoBehaviour
     Rigidbody rb;
     Status status;
 
-    void OnHealthChanged(GameObject obj, float health)
-    {
-        if (health <= float.Epsilon)
-        {
-            // TODO: Separate this, do it in future GameController class
-            SceneManager.LoadScene("Main_Menu");
-        }
-    }
-
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         status = GetComponent<Status>();
-        status.healthChanged += OnHealthChanged;
     }
 
     private void Movement()

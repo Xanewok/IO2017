@@ -21,23 +21,12 @@ public class EnemyBasicAI : MonoBehaviour
     private Status status;
     private List<Info> infos = new List<Info>();
 
-    void OnHealthChanged(GameObject obj, float health)
-    {
-        if (health <= float.Epsilon)
-        {
-            const float delay = 1.0f;
-            Destroy(gameObject, delay);
-            gameObject.SetActive(false);
-        }
-    }
-
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         perception = GetComponent<EnemyPerception>();
         attack = GetComponent<EnemyAttack>();
         status = GetComponent<Status>();
-        status.healthChanged += OnHealthChanged;
 
         lastAITargetPosition = transform.position;
         aiState = AIState.patrol;

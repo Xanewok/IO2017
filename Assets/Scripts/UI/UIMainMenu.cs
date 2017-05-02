@@ -12,6 +12,19 @@ public class UIMainMenu : MonoBehaviour
         SceneManager.LoadScene(playScene);
     }
 
+    public void ClearHighScores()
+    {
+        var highScoresManager = GameController.Instance.GetComponent<HighScoresManager>();
+        int entryCount = highScoresManager.highScores.Entries.Count;
+
+        highScoresManager.Clear();
+        // Be sure to save cleared data to file right now if changes were made
+        if (entryCount > 0)
+        {
+            GameController.Instance.SaveGameData();
+        }
+    }
+
     public void Quit()
     {
         #if UNITY_EDITOR
