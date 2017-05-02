@@ -10,7 +10,8 @@ public class EnemyStatus : Status
         base.onStart();
         healthChanged += OnHealthChanged;
 
-        GameController.Instance.gameMode.OnEnemySpawned(this.gameObject);
+        if (GameController.Instance.gameMode)
+            GameController.Instance.gameMode.OnEnemySpawned(this.gameObject);
     }
 
     void OnHealthChanged(GameObject obj, float health)

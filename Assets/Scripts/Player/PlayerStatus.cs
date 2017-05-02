@@ -17,7 +17,8 @@ public class PlayerStatus : Status
 
         this.healthChanged += OnHealthChanged;
 
-        GameController.Instance.gameMode.OnPlayerSpawned(this.gameObject);
+        if (GameController.Instance.gameMode)
+            GameController.Instance.gameMode.OnPlayerSpawned(this.gameObject);
     }
 
     void Update()
