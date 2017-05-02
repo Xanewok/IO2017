@@ -1,15 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using YAGTSS.Serialization;
-using System.Linq;
 
 public class HighScoreInput : MonoBehaviour
 {
-	public UIDeadMenu deadMenu;
-    // TODO: Provide externally or do it in a more robust way
-    public PlayerStatus playerScore;
+    public GameObject player;
+    public UIDeadMenu deadMenu;
 
     public string submitButton = "Submit";
     public InputField inputField;
@@ -39,6 +37,8 @@ public class HighScoreInput : MonoBehaviour
         var highScoreManager = GameController.Instance.GetComponent<HighScoresManager>();
 
         highScoreManager.Add(inputField.text, GetCurrentScore());
+        // Be sure to commit saved high score to file now
+        GameController.Instance.SaveGameData();
 
 		inputField.gameObject.SetActive(false);
 		inputSubmitButton.gameObject.SetActive(false);
@@ -46,9 +46,9 @@ public class HighScoreInput : MonoBehaviour
 		deadMenu.FadeToMainMenu();
     }
 
-    // TODO: Provide externally or do it in a more robust way
     public int GetCurrentScore()
     {
-        return playerScore.getScore();
+        var gameMode = GameController.Instance.gameMode as IScoredGameMode<Int32>;
+        return gameMode.GetScore(player);
     }
 }

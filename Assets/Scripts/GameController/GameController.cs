@@ -67,7 +67,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    void LoadSaveGameData()
+    public void LoadSaveGameData()
     {
         var saveData = SaveGameSerializer.Load();
 
@@ -76,5 +76,18 @@ public class GameController : MonoBehaviour
         {
             highScoresManager.LoadHighScores(saveData);
         }
+    }
+
+    public void SaveGameData()
+    {
+        var saveData = SaveGameSerializer.Load();
+
+        var highScoresManager = GetComponent<HighScoresManager>();
+        if (highScoresManager != null)
+        {
+            saveData.highScores = highScoresManager.highScores;
+        }
+
+        SaveGameSerializer.Save(saveData);
     }
 }
