@@ -849,8 +849,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa1d761710d81461898be92aa6056d2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   deadMenu: {fileID: 0}
-  playerScore: {fileID: 1596261406}
   submitButton: Submit
   inputField: {fileID: 1359336580}
   inputSubmitButton: {fileID: 330217847}
