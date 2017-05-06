@@ -1,8 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-#if !UNITY_EDITOR
-using UnityEngine.SceneManagement;
-#endif
 
 public class UIDeadMenu : MonoBehaviour
 {
@@ -54,7 +51,7 @@ public class UIDeadMenu : MonoBehaviour
         UnityEditor.EditorApplication.isPlaying = false;
 #else
         Time.timeScale = 1.0f; 
-        SceneManager.LoadScene("Main_Menu"); 
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Main_Menu"); 
 #endif
     }
 }
