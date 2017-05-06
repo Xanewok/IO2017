@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEditor;
+using YAGTSS.Level;
 
 [CustomEditor(typeof(MapGenerator))]
 public class MapGeneratorEditor : Editor

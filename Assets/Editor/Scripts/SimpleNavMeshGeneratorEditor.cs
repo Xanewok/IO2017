@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEditor;
 using UnityEditor.AI;
+using YAGTSS.Level;
 
 [CustomEditor(typeof(SimpleNavMeshGenerator))]
 public class SimpleNavMeshGeneratorEditor : Editor
