@@ -10,23 +10,33 @@ ModelImporter:
     100004: Helmet
     100006: //RootNode
     100008: Moustache
+    100010: Sphere
+    100012: Helmet_Spike
     400000: Beard
     400002: Body
     400004: Helmet
     400006: //RootNode
     400008: Moustache
+    400010: Sphere
+    400012: Helmet_Spike
     2300000: Beard
     2300002: Body
     2300004: Helmet
     2300006: Moustache
+    2300008: Sphere
+    2300010: Helmet_Spike
     3300000: Beard
     3300002: Body
     3300004: Helmet
     3300006: Moustache
+    3300008: Sphere
+    3300010: Helmet_Spike
     4300000: Body
     4300002: Beard
     4300004: Moustache
     4300006: Helmet
+    4300008: Sphere
+    4300010: Helmet_Spike
     7400000: Default Take
     9500000: //RootNode
   materials:
@@ -55,7 +65,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 0.6
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
@@ -74,7 +84,7 @@ ModelImporter:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
-  importAnimation: 1
+  importAnimation: 0
   copyAvatar: 0
   humanDescription:
     serializedVersion: 2
