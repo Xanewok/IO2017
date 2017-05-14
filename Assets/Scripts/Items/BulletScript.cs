@@ -14,9 +14,11 @@ public class BulletScript : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if ((targetTag.Length != 0 && !collision.collider.CompareTag(targetTag)) ||
-            (ignoreTag.Length != 0 && collision.collider.CompareTag(ignoreTag)))
-            return;
+		if ((targetTag.Length != 0 && !collision.collider.CompareTag (targetTag)) ||
+		          (ignoreTag.Length != 0 && collision.collider.CompareTag (ignoreTag))) {
+			Destroy (gameObject); // To get rid of millions of bullets hanging on enemy's back and walls
+			return;
+		}
 
         Destroy(gameObject);
         Status stat = collision.gameObject.GetComponent<Status>();

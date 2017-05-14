@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 54204096248544052}
   - component: {fileID: 65589197753611194}
   - component: {fileID: 114419250695945316}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Needle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
