@@ -17,14 +17,12 @@ public class GliderAi : MonoBehaviour {
 	public GameObject spawnOnTrigger;
 	private NavMeshAgent agent;
 	private EnemyPerception perception;
-	private Status status;
 	private List<Info> infos = new List<Info>();
 
 	void Start()
 	{
 		agent = GetComponent<NavMeshAgent>();
 		perception = GetComponent<EnemyPerception>();
-		status = GetComponent<Status>();
 
 		lastAITargetPosition = transform.position;
 		aiState = AIState.patrol;
