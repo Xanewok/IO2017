@@ -11,8 +11,20 @@ namespace YAGTSS.Level
 {
     public class ArenaTileGenerator : CommonTileGenerator
     {
+        [System.Serializable]
+        public struct DistanceProbabilityFalloff
+        {
+            [SerializeField] public float upToDistance;
+            [SerializeField] public float percentage;
+        }
+
         public GameObject spawnPoint;
         public GameObject[] tileSet;
+        [Tooltip("Each has a certain generation probability depending on how far it is from the map origin")]
+        public DistanceProbabilityFalloff[] distanceGenerationProbability;
+        [Tooltip("Applied if there is no threshold found in Distance Generation Probability")]
+        public float defaultProbability = 0.1f;
+        [Header("Enemy Spawns")]
         public GameObject enemySpawner;
         public int enemySpawnerCount = 4;
         public float minimumOriginSpawnerDistance = 15;
@@ -22,6 +34,11 @@ namespace YAGTSS.Level
         public bool debugColorDiscontinuedTiles = false;
         public bool debugColorBorderTiles = false;
 #endif
+
+        private void Awake()
+        {
+            distanceGenerationProbability.OrderBy(kv => kv.upToDistance);
+        }
 
         public override void BuildBeforeNavMesh(Vector3 origin)
         {
@@ -177,12 +194,13 @@ namespace YAGTSS.Level
         {
             float tileDistance = (dest - origin).magnitude;
 
-            if (tileDistance < 40)
-                return 1.0f;
-            else if (tileDistance < 60)
-                return 0.8f;
-            else
-                return 0.1f;
+            foreach (var kv in distanceGenerationProbability)
+            {
+                if (tileDistance <= kv.upToDistance)
+                    return kv.percentage;
+            }
+
+            return defaultProbability;
         }
 
 #if UNITY_EDITOR
