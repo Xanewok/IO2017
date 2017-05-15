@@ -1,19 +1,32 @@
-﻿using System.Collections;
+﻿using System;
+using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySpawnerVariable : MonoBehaviour {
-	[Tooltip("List of prefabs (null for not generating)")]
-	public GameObject[] prefabs;
-	[Tooltip("List of minimum score for that prefab to be generated.")]
-	public float[] variability;
-	public int scoreCap = 400;
-	public int randomMax = 10;
+public class EnemySpawnerVariable : MonoBehaviour
+{
+    [Serializable]
+    public struct PrefabSpawnThreshold
+    {
+        [SerializeField] public GameController.Difficulty difficulty;
+        [SerializeField] public float minimumScore;
+        [SerializeField] public GameObject prefab;
+    }
+
+    public PrefabSpawnThreshold[] prefabSpawns;
+    [Tooltip("Allow to spawn prefabs from higher/lower thresholds up to a specified margin.")]
+    public int scoreTolerance = 5;
 	public float initialDelay = 1.0f;
 	public float spawnDelay = 5.0f;
 	private static System.Random rng = new System.Random();
 
-	public void spawn(GameObject prefab) {
+    private void Awake()
+    {
+        prefabSpawns = prefabSpawns.OrderBy(kv=> kv.difficulty).ThenByDescending(kv => kv.minimumScore).ToArray();
+    }
+
+    public void spawn(GameObject prefab) {
 		if (prefab != null)
 			Instantiate(prefab, transform.position, transform.rotation);
 	}
@@ -23,18 +36,17 @@ public class EnemySpawnerVariable : MonoBehaviour {
 		yield return new WaitForSeconds(initialDelay);
 		while (true)
 		{
-			bool generated = false;
-			int randomInt = rng.Next (0, randomMax) + Mathf.Min(scoreCap, 0); //TODO: Dopisać score'a
-			for (int x = 0; x < variability.Length; x++) {
-				if (variability [x] >= randomInt) {
-					generated = true;
-					spawn (prefabs [x]);
-					break;
-				}
-			}
-			if (!generated) {
-				spawn (prefabs [variability.Length - 1]);
-			}
+            float scoreTest = GetCurrentScore() + (rng.Next(0, 2 * scoreTolerance) - scoreTolerance);
+            var prefabs = prefabSpawns.Where(spawn => spawn.difficulty == GameController.Instance.difficulty);
+            foreach (var kv in prefabs)
+            {
+                if (scoreTest >= kv.minimumScore)
+                {
+                    spawn(kv.prefab);
+                    break;
+                }
+            }
+
 			yield return new WaitForSeconds(spawnDelay);
 		}
 	}
@@ -48,4 +60,11 @@ public class EnemySpawnerVariable : MonoBehaviour {
 	{
 		StopAllCoroutines();
 	}
+
+    static float GetCurrentScore()
+    {
+        var scoredGameMode = GameController.Instance.gameMode as IScoredGameMode<Int32>;
+
+        return scoredGameMode != null ? scoredGameMode.GetScore(null) : 0.0f;
+    }
 }

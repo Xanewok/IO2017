@@ -37,7 +37,7 @@ namespace YAGTSS.Level
 
         private void Awake()
         {
-            distanceGenerationProbability.OrderBy(kv => kv.upToDistance);
+            distanceGenerationProbability = distanceGenerationProbability.OrderBy(kv => kv.upToDistance).ToArray();
         }
 
         public override void BuildBeforeNavMesh(Vector3 origin)

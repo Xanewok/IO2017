@@ -92,13 +92,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa9ba6627a9abd44b933b9c5d48c6407, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabs:
-  - {fileID: 1643967686957044, guid: 1f9e1026ff6f2734296d91d972cfa4be, type: 2}
-  - {fileID: 1584534883114544, guid: 5a91b41f761ae4974959a1632e2be4e2, type: 2}
-  variability:
-  - 5
-  - 0
-  scoreCap: 400
-  randomMax: 10
+  prefabSpawns:
+  - difficulty: 0
+    minimumScore: 0
+    prefab: {fileID: 1643967686957044, guid: 1f9e1026ff6f2734296d91d972cfa4be, type: 2}
+  - difficulty: 0
+    minimumScore: 50
+    prefab: {fileID: 1347787874591468, guid: 861a0c140b2b8c1499a02ab69f596dde, type: 2}
+  - difficulty: 1
+    minimumScore: 0
+    prefab: {fileID: 1599325690596038, guid: df91a672ad728994286dc16de98a7e24, type: 2}
+  - difficulty: 1
+    minimumScore: 50
+    prefab: {fileID: 1280628673804610, guid: 6ca8b4f62ed10ec438dae69b83d448fd, type: 2}
+  scoreTolerance: 5
   initialDelay: 1
   spawnDelay: 5

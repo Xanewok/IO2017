@@ -7,8 +7,20 @@ public class UIMainMenu : MonoBehaviour
 {
     public string playScene = "default";
 
-    public void Play()
+    public void PlayHard()
     {
+        Play(GameController.Difficulty.Hard);
+    }
+
+    public void PlayNormal()
+    {
+        Play(GameController.Difficulty.Normal);
+    }
+
+    public void Play(GameController.Difficulty difficulty)
+    {
+        GameController.Instance.difficulty = difficulty;
+
         SceneManager.LoadScene(playScene);
     }
 
