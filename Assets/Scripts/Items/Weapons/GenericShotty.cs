@@ -130,4 +130,40 @@ public class GenericShotty : AnimatorControlledObject, AmmoReloadInterface {
             animator.SetTrigger("Reload");
         }
     }
+
+	protected void hideChildren () {
+		for (int i = 0; i < transform.childCount; i++) {
+			transform.GetChild (i).gameObject.SetActive (false);
+		}
+	}
+
+	protected void showChildren () {
+		for (int i = 0; i < transform.childCount; i++) {
+			transform.GetChild (i).gameObject.SetActive (true);
+		}
+	}
+
+	public override void onDropDown (GameObject player, Inventory inventory)
+	{
+		base.onDropDown (player, inventory);
+		showChildren ();
+	}
+
+	public override void onUnEquip ()
+	{
+		base.onUnEquip ();
+		hideChildren ();
+	}
+
+	public override void onEquip (int hand)
+	{
+		base.onEquip (hand);
+		showChildren ();
+	}
+
+	public override void onPickUp (GameObject player, Inventory inventory)
+	{
+		base.onPickUp (player, inventory);
+		hideChildren ();
+	}
 }
