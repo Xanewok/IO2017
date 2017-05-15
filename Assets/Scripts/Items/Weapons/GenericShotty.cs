@@ -46,6 +46,17 @@ public class GenericShotty : AnimatorControlledObject, AmmoReloadInterface {
     [Tooltip("Bullet speed")]
     public float startingSpeed = 2f;
 
+	/// <summary>
+	/// The audio.
+	/// </summary>
+	[Tooltip("Audio generator")]
+	public AudioSource audioSource;
+
+
+	public AudioClip shootSound;
+
+	public AudioClip reloadSound;
+
     /// <summary>
     /// Bullets in magazine
     /// </summary>
@@ -59,7 +70,24 @@ public class GenericShotty : AnimatorControlledObject, AmmoReloadInterface {
     {
         base.onStart();
         actualMagazine = magazine;
+		if (audioSource == null) {
+			audioSource = gameObject.GetComponent<AudioSource> ();
+		}
     }
+
+	public void shootBulletSound()
+	{
+		if (audioSource != null) {
+			audioSource.PlayOneShot (shootSound);
+		}
+	}
+
+	public void reloadBulletSound()
+	{
+		if (audioSource != null) {
+			audioSource.PlayOneShot (reloadSound);
+		}
+	}
 
     /// <summary>
     /// Shooting bullet.
@@ -67,6 +95,7 @@ public class GenericShotty : AnimatorControlledObject, AmmoReloadInterface {
     /// </summary>
     public void shootBullet()
     {
+			shootBulletSound ();
             actualMagazine--;
             System.Random rng = new System.Random();
             Rigidbody wearers = wearer.GetComponent<Rigidbody>();
@@ -87,6 +116,7 @@ public class GenericShotty : AnimatorControlledObject, AmmoReloadInterface {
     {
         actualMagazine = magazine;
         magazines--;
+		reloadBulletSound ();
         if (magazines == 0)
         {
             removeObject();
