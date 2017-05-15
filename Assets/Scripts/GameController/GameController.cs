@@ -4,6 +4,12 @@ using YAGTSS.Serialization;
 
 public class GameController : MonoBehaviour
 {
+    public enum Difficulty
+    {
+        Normal,
+        Hard
+    }
+
     public const string InitialGameControllerScene = "_GameControllerScene";
 
     private static GameController s_instance = null;
@@ -43,6 +49,9 @@ public class GameController : MonoBehaviour
             m_gameMode = value;
         }
     }
+
+    private Difficulty m_difficulty = Difficulty.Normal;
+    public Difficulty difficulty { get { return m_difficulty; } set { m_difficulty = value; } }
 
     public string nextLoadedScene = "Main_Menu";
 

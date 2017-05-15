@@ -744,7 +744,7 @@ MonoBehaviour:
   - upToDistance: 160
     percentage: 0.4
   defaultProbability: 0.1
-  enemySpawner: {fileID: 1506035532466172, guid: 58e8631c16f21aa4fa2f6dcac79b9dd6,
+  enemySpawner: {fileID: 1730125923814472, guid: 88cb7a1e858e1464290f0d5672d9cc71,
     type: 2}
   enemySpawnerCount: 4
   minimumOriginSpawnerDistance: 10
