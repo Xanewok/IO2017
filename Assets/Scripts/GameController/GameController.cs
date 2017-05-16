@@ -53,6 +53,10 @@ public class GameController : MonoBehaviour
     private Difficulty m_difficulty = Difficulty.Normal;
     public Difficulty difficulty { get { return m_difficulty; } set { m_difficulty = value; } }
 
+    [SerializeField]
+    private GameSettings m_gameSettings;
+    public GameSettings gameSettings { get { return m_gameSettings; } set { m_gameSettings = value; } }
+
     private float m_timeScaleBeforePause = 1.0f;
     private bool m_paused = false;
     public bool paused { get { return m_paused; } }
