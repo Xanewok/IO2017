@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class UIPauseMenu : MonoBehaviour
 {
@@ -13,31 +11,32 @@ public class UIPauseMenu : MonoBehaviour
 
     private bool isPaused = false;
 
-	void Update()
+    void Update()
     {
-		if (Input.GetButtonDown(pauseButton))
+        if (Input.GetButtonDown(pauseButton))
         {
             TogglePauseMenu();
         }
-	}
+    }
 
     public void TogglePauseMenu()
     {
         isPaused = !isPaused;
-        Time.timeScale = isPaused ? 0.0f : 1.0f;
+
+        GameController.Instance.PauseGame(isPaused);
+
         // Toggle container with pause menu items (background, buttons etc.)
         toggleObject.SetActive(isPaused);
-
         EventSystem.current.SetSelectedGameObject(isPaused ? firstSelected : null);
     }
 
     public void QuitToMainMenu()
     {
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
-        #else
-        Time.timeScale = 1.0f;
-        SceneManager.LoadScene("Main_Menu");
-        #endif
+#else
+        GameController.Instance.UnpauseGame();
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Main_Menu");
+#endif
     }
 }

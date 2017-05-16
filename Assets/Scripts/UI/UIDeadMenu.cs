@@ -9,12 +9,12 @@ public class UIDeadMenu : MonoBehaviour
 
     void OnEnable()
     {
-        Time.timeScale = 0.0f;
+        GameController.Instance.PauseGame();
     }
 
     void OnDisable()
     {
-        Time.timeScale = 1.0f;
+        GameController.Instance.UnpauseGame();
     }
 
     void Start()
@@ -50,7 +50,7 @@ public class UIDeadMenu : MonoBehaviour
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
-        Time.timeScale = 1.0f; 
+        GameController.Instance.UnpauseGame();
         UnityEngine.SceneManagement.SceneManager.LoadScene("Main_Menu"); 
 #endif
     }

@@ -53,6 +53,10 @@ public class GameController : MonoBehaviour
     private Difficulty m_difficulty = Difficulty.Normal;
     public Difficulty difficulty { get { return m_difficulty; } set { m_difficulty = value; } }
 
+    private float m_timeScaleBeforePause = 1.0f;
+    private bool m_paused = false;
+    public bool paused { get { return m_paused; } }
+
     public string nextLoadedScene = "Main_Menu";
 
     void Awake()
@@ -98,5 +102,23 @@ public class GameController : MonoBehaviour
         }
 
         SaveGameSerializer.Save(saveData);
+    }
+
+    /// <summary>
+    /// (Un)pauses the game depending on <paramref name="pause"/> param.
+    /// </summary>
+    public void PauseGame(bool pause = true)
+    {
+        m_paused = pause;
+        m_timeScaleBeforePause = pause ? Time.timeScale : m_timeScaleBeforePause;
+        Time.timeScale = pause ? 0.0f : m_timeScaleBeforePause;
+    }
+
+    /// <summary>
+    /// Unpauses the game. Same as PauseGame(false).
+    /// </summary>
+    public void UnpauseGame()
+    {
+        PauseGame(false);
     }
 }
