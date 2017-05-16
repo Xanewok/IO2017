@@ -29,7 +29,7 @@ public class PlayerInventory : Inventory {
     public Canvas canvas;
 
     [Tooltip("Number of usable inventory slots (excluding one used to drop items).")]
-    public static int inventorySlots = 7;
+    public static int inventorySlots = 3;
     [Tooltip("Number of usable equipped slots.")]
     public static int equippedSlots = 2;
 
