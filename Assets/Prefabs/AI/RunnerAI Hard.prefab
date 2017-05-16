@@ -373,8 +373,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b12289c13531e4493a7eeac50a0a4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceTrigger: 4
-  maxDistanceToStartChase: 20
+  distanceTrigger: 3
+  maxDistanceToStartChase: Infinity
   aiState: 0
   lastAITargetPosition: {x: 0, y: 0, z: 0}
   spawnOnTrigger: {fileID: 1896124266828460, guid: 339d557645526e544bc1c23f84166201,
