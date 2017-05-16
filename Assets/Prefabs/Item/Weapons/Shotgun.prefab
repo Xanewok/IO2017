@@ -425,7 +425,10 @@ MonoBehaviour:
   animator: {fileID: 95056108455367568}
   bullets: 5
   spread: 40
-  magazines: 5
+  magazines: -1
   magazine: 2
   bullet: {fileID: 1520172364408940, guid: 39a1e1eeaab9192418f7081a181c6330, type: 2}
   startingSpeed: 30
+  audioSource: {fileID: 82679059628399616}
+  shootSound: {fileID: 8300000, guid: edf47b034100bf14380d717b76be8d5a, type: 3}
+  reloadSound: {fileID: 8300000, guid: 595be042eeca3e74686bc9200743ced4, type: 3}
