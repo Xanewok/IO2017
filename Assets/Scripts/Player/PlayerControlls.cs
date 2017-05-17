@@ -71,6 +71,9 @@ public class PlayerControlls : MonoBehaviour
     // which means it's able to interpolate rotation smoothly
     void Update()
     {
+        if (GameController.Instance.paused)
+            return;
+
         Vector3 mouseScreenMovement = Input.mousePosition - mousePosition;
         mousePosition = Input.mousePosition;
 
