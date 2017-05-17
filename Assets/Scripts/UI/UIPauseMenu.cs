@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class UIPauseMenu : MonoBehaviour
 {
@@ -32,11 +33,7 @@ public class UIPauseMenu : MonoBehaviour
 
     public void QuitToMainMenu()
     {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
         GameController.Instance.UnpauseGame();
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Main_Menu");
-#endif
+        SceneManager.LoadScene("Main_Menu");
     }
 }
