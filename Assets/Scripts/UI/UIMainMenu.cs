@@ -1,27 +1,42 @@
-﻿using System.Collections;
+﻿using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class UIMainMenu : MonoBehaviour
 {
-    public string playScene = "default";
-
-    public void PlayHard()
+    [System.Serializable]
+    public struct GameModeLevel
     {
-        Play(GameController.Difficulty.Hard);
+        public GameModeType gameModeType;
+        public string gameModeScene;
     }
 
-    public void PlayNormal()
+    public GameModeLevel[] gameModes;
+    public UIGameModePicker gameModePicker;
+    public UIDifficultyPicker difficultyPicker;
+
+    private Dictionary<GameModeType, string> m_gameModes;
+
+    private void Awake()
     {
-        Play(GameController.Difficulty.Normal);
+        m_gameModes = gameModes.ToDictionary(x => x.gameModeType, x => x.gameModeScene);
     }
 
-    public void Play(GameController.Difficulty difficulty)
+    public void Play()
+    {
+        var gameMode = gameModePicker ? gameModePicker.selectedGameMode : GameModeType.Regular;
+        var difficulty = difficultyPicker ? difficultyPicker.difficulty : GameController.Difficulty.Normal;
+
+        Play(difficulty, gameMode);
+    }
+
+    public void Play(GameController.Difficulty difficulty, GameModeType gameMode)
     {
         GameController.Instance.difficulty = difficulty;
 
-        SceneManager.LoadScene(playScene);
+        SceneManager.LoadScene(m_gameModes[gameMode]);
     }
 
     public void ClearHighScores()

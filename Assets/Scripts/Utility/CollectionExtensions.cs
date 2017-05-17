@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace YAGTSS.Utility.Extensions
 {
@@ -25,6 +26,20 @@ namespace YAGTSS.Utility.Extensions
             var array = source.ToArray();
             array.Shuffle();
             return array;
+        }
+
+        // http://stackoverflow.com/a/5796793
+        public static string SplitCamelCase(this string str)
+        {
+            return Regex.Replace(
+                Regex.Replace(
+                    str,
+                    @"(\P{Ll})(\P{Ll}\p{Ll})",
+                    "$1 $2"
+                ),
+                @"(\p{Ll})(\P{Ll})",
+                "$1 $2"
+            );
         }
     }
 }

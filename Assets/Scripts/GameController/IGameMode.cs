@@ -3,9 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum GameModeType
+{
+    Regular,
+    Survival,
+
+    Custom,
+}
+
 public interface IGameMode
 {
     string GetName();
+    GameModeType GetModeType();
 
     void OnPlayerSpawned(GameObject player);
     void OnEnemySpawned(GameObject enemy);
@@ -30,6 +39,7 @@ public interface IScoredGameMode<T>
 public abstract class BaseGameMode : MonoBehaviour, IGameMode
 {
     public abstract string GetName();
+    public virtual GameModeType GetModeType() { return GameModeType.Custom; }
     public abstract void OnEnemySpawned(GameObject enemy);
     public abstract void OnPlayerSpawned(GameObject player);
 }

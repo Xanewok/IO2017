@@ -5,6 +5,8 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     public Transform followTransform;
+    [Tooltip("If set to true, it will initialize values from current game settings inside GameController.")]
+    public bool initializeFromCameraSettings = true;
     [Range(0.0f, 1.0f)]
     public float followSpeed = 0.05f;
     [Range(0.0f, 50.0f)]
@@ -21,6 +23,14 @@ public class CameraFollow : MonoBehaviour
     void Awake()
     {
         myTransform = GetComponent<Transform>();
+
+        if (initializeFromCameraSettings)
+        {
+            var preset = GameController.Instance.gameSettings.cameraSettings.cameraPreset;
+            followSpeed = preset.followSpeed;
+            distance = preset.distance;
+            rotation = preset.rotation;
+        }
     }
 
     void Start()
