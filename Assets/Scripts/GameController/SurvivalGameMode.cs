@@ -23,6 +23,11 @@ public class SurvivalGameMode : BaseGameMode, IScoredGameMode<Int32>
         return "Survival";
     }
 
+    public override GameModeType GetModeType()
+    {
+        return GameModeType.Survival;
+    }
+
     public override void OnEnemySpawned(GameObject enemy)
     {
         enemies.Add(enemy);
