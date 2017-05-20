@@ -204,6 +204,8 @@ public class PlayerInventory : Inventory {
     // Update is called once per frame
     void Update () {
         //Inventory Visible
+		if (GameController.Instance.paused)
+			return;
 		if (isInventoryOpen())
         {
             ShowInventory();
