@@ -678,9 +678,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6ebeda22cc32ed4a95be62db7a9e34d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 1685332646034722, guid: a971ad3b4373be845ab5a920168ae1db, type: 2}
-  speed: 10
-  attackCooldown: 1
+  bullet: {fileID: 1482602415117328, guid: 744cb6c0980c24142a18e0014c3c8fb8, type: 2}
+  speed: 5
+  attackCooldown: 0.5
 --- !u!114 &114337888081346768
 MonoBehaviour:
   m_ObjectHideFlags: 1
