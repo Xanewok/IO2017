@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 65555944251145076}
   - component: {fileID: 54381763659067724}
   m_Layer: 0
-  m_Name: FireballSpell
+  m_Name: Fireball1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -183,4 +183,4 @@ MonoBehaviour:
   animator: {fileID: 95547035144236326}
   spread: 10
   bullet: {fileID: 1634651131222144, guid: 12b191c30e05c5749bd3422a00110de2, type: 2}
-  startingSpeed: 5
+  startingSpeed: 10

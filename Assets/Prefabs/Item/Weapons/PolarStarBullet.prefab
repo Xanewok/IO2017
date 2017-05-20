@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 114614719998558466}
   - component: {fileID: 96246194805876468}
   m_Layer: 8
-  m_Name: StarPellet
+  m_Name: PolarStarBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
