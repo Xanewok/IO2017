@@ -666,7 +666,7 @@ MonoBehaviour:
   hearingDistance: 12
   sightDistance: 5
   sightAngle: 60
-  detectionInterval: 0.2
+  detectionInterval: 0.05
 --- !u!114 &114213398834122280
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -679,7 +679,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullet: {fileID: 1482602415117328, guid: 744cb6c0980c24142a18e0014c3c8fb8, type: 2}
-  speed: 5
+  speed: 1
   attackCooldown: 0.5
 --- !u!114 &114337888081346768
 MonoBehaviour:
