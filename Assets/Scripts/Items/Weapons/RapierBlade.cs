@@ -46,6 +46,8 @@ public class RapierBlade : MonoBehaviour {
     {
         if (wearer != null && collision.gameObject.Equals(wearer))
             return;
+		if (!damages)
+			return;
         Status stat = collision.gameObject.GetComponent<Status>();
         if (stat != null)
         {
