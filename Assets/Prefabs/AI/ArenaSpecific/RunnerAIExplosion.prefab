@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114861702219384554}
   - component: {fileID: 114991031962695504}
   m_Layer: 8
-  m_Name: Explosion
+  m_Name: RunnerAIExplosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
