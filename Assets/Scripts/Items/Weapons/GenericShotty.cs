@@ -96,7 +96,7 @@ public class GenericShotty : AnimatorControlledObject, AmmoReloadInterface {
     public void shootBullet()
     {
 			shootBulletSound ();
-            actualMagazine--;
+			if (actualMagazine != -1) actualMagazine--;
             System.Random rng = new System.Random();
             Rigidbody wearers = wearer.GetComponent<Rigidbody>();
             for (int a = 0; a < bullets; a++)
@@ -151,7 +151,7 @@ public class GenericShotty : AnimatorControlledObject, AmmoReloadInterface {
     public override void onUseStart()
     {
         base.onUseStart();
-        if (actualMagazine > 0)
+		if (actualMagazine > 0 || actualMagazine == -1)
         {
             animator.SetTrigger("Shoot");
         }
