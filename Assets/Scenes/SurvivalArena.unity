@@ -1115,10 +1115,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 1618528606867608, guid: fadd21172706ea043baf8626ba8bf035, type: 2}
-      propertyPath: m_Name
-      value: Player
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fadd21172706ea043baf8626ba8bf035, type: 2}
   m_IsPrefabParent: 0
@@ -1633,15 +1629,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4127914703044866, guid: cbd962626f9144e4a8003c782669f1eb, type: 2}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4127914703044866, guid: cbd962626f9144e4a8003c782669f1eb, type: 2}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4127914703044866, guid: cbd962626f9144e4a8003c782669f1eb, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4127914703044866, guid: cbd962626f9144e4a8003c782669f1eb, type: 2}
       propertyPath: m_LocalRotation.w
@@ -1655,6 +1651,15 @@ Prefab:
         type: 2}
       propertyPath: startingSpeed
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 114809990364975262, guid: cbd962626f9144e4a8003c782669f1eb,
+        type: 2}
+      propertyPath: equippedRel.x
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4127914703044866, guid: cbd962626f9144e4a8003c782669f1eb, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cbd962626f9144e4a8003c782669f1eb, type: 2}

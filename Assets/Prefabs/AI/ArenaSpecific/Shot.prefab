@@ -47,6 +47,7 @@ GameObject:
   - component: {fileID: 114230884084980842}
   - component: {fileID: 114767210187744394}
   - component: {fileID: 114887086138190720}
+  - component: {fileID: 114667967267356266}
   m_Layer: 0
   m_Name: Shot
   m_TagString: Enemy
@@ -377,6 +378,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dashMovement: {x: 0, y: 0, z: 0}
   maxHealth: 100
+--- !u!114 &114667967267356266
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1347787874591468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79127c3b3a4083349a545f6d2b868d6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onDead: {fileID: 1531313192163832, guid: 49c2307a26f2d484ab0aff74d5c1d6cf, type: 2}
+  onHit: {fileID: 1324888968419240, guid: bcb74e6d00f6ede40ab6fd8b8743da61, type: 2}
 --- !u!114 &114767210187744394
 MonoBehaviour:
   m_ObjectHideFlags: 1
