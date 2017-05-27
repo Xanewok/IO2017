@@ -21,10 +21,21 @@ public class RapierBlade : MonoBehaviour {
     MeshRenderer meshRender;
     GameObject wearer;
 
+	/// <summary>
+	/// The audio.
+	/// </summary>
+	[Tooltip("Audio generator")]
+	public AudioSource audioSource;
+
+	public AudioClip swipeSound;
+
     void Start()
     {
         collid = gameObject.GetComponent<Collider>();
         meshRender = gameObject.GetComponent<MeshRenderer>();
+		if (audioSource == null) {
+			audioSource = gameObject.GetComponent<AudioSource> ();
+		}
     }
 
     void setDashMovement()
@@ -41,6 +52,13 @@ public class RapierBlade : MonoBehaviour {
             setDashMovement();
         }
     }
+
+	public void playSwipeSound()
+	{
+		if (audioSource != null) {
+			audioSource.PlayOneShot (swipeSound);
+		}
+	}
 
     void OnCollisionEnter(Collision collision)
     {
