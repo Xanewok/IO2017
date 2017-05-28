@@ -63,6 +63,7 @@ GameObject:
   - component: {fileID: 114893529899415104}
   - component: {fileID: 114646529702939546}
   - component: {fileID: 114071889317563320}
+  - component: {fileID: 114456044602024750}
   m_Layer: 0
   m_Name: RunH
   m_TagString: Enemy
@@ -379,6 +380,19 @@ MonoBehaviour:
   lastAITargetPosition: {x: 0, y: 0, z: 0}
   spawnOnTrigger: {fileID: 1896124266828460, guid: 339d557645526e544bc1c23f84166201,
     type: 2}
+--- !u!114 &114456044602024750
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1599325690596038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79127c3b3a4083349a545f6d2b868d6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onDead: {fileID: 1531313192163832, guid: 49c2307a26f2d484ab0aff74d5c1d6cf, type: 2}
+  onHit: {fileID: 1324888968419240, guid: bcb74e6d00f6ede40ab6fd8b8743da61, type: 2}
 --- !u!114 &114646529702939546
 MonoBehaviour:
   m_ObjectHideFlags: 1

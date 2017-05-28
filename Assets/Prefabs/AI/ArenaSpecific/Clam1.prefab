@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 114416659521699606}
   - component: {fileID: 114213398834122280}
   - component: {fileID: 114337888081346768}
+  - component: {fileID: 114458762500705900}
   m_Layer: 0
   m_Name: Clam1
   m_TagString: Enemy
@@ -711,6 +712,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dashMovement: {x: 0, y: 0, z: 0}
   maxHealth: 50
+--- !u!114 &114458762500705900
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1039816009573664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79127c3b3a4083349a545f6d2b868d6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onDead: {fileID: 1531313192163832, guid: 49c2307a26f2d484ab0aff74d5c1d6cf, type: 2}
+  onHit: {fileID: 1324888968419240, guid: bcb74e6d00f6ede40ab6fd8b8743da61, type: 2}
 --- !u!195 &195638878492091340
 NavMeshAgent:
   m_ObjectHideFlags: 1
