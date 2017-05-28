@@ -57,6 +57,9 @@ public class GenericShotty : AnimatorControlledObject, AmmoReloadInterface {
 
 	public AudioClip reloadSound;
 
+	public ParticleSystem emitOnShoot;
+	public ParticleSystem emitOnReload;
+
     /// <summary>
     /// Bullets in magazine
     /// </summary>
@@ -96,6 +99,8 @@ public class GenericShotty : AnimatorControlledObject, AmmoReloadInterface {
     public void shootBullet()
     {
 			shootBulletSound ();
+			if (emitOnShoot != null)
+				emitOnShoot.Emit (1);
 			if (actualMagazine != -1) actualMagazine--;
             System.Random rng = new System.Random();
             Rigidbody wearers = wearer.GetComponent<Rigidbody>();
@@ -117,6 +122,8 @@ public class GenericShotty : AnimatorControlledObject, AmmoReloadInterface {
         actualMagazine = magazine;
         magazines--;
 		reloadBulletSound ();
+		if (emitOnReload != null)
+			emitOnReload.Emit (1);
         if (magazines == 0)
         {
             removeObject();
