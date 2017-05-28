@@ -61,21 +61,22 @@ namespace YAGTSS.Level
             return result;
         }
 
-        public BareTransform GetTransformToMatch(TileConnector myConnector, TileConnector otherConnector)
+        public BareTransform GetTransformToMatch(TileConnector mine, TileConnector target)
         {
-            Debug.Assert(connectors.Contains(myConnector));
+            Debug.Assert(connectors.Contains(mine));
 
-            var matchingTransform = otherConnector.GetMatchingTransform();
+            // Calculate rotation of parent tile around child connector to match other connector's rotation
+            var matchingRotation = Quaternion.LookRotation(-target.transform.forward, target.transform.up);
+            Vector3 connectorToTileOffset = this.transform.position - mine.transform.position;
 
-            Quaternion toRootRot = transform.rotation * Quaternion.Inverse(myConnector.transform.rotation);
-            Vector3 toRootTrans = transform.position - myConnector.transform.position;
+            Quaternion matchRotate = matchingRotation * Quaternion.Inverse(mine.transform.rotation);
+            Vector3 rotatedRootWorldOffset = matchRotate * connectorToTileOffset;
 
-            Quaternion worldConnToTarget = matchingTransform.rotation * Quaternion.Inverse(myConnector.transform.rotation);
-
+            // Use local rotated tile offset from connector to calculate tile world position from target connector
             return new BareTransform
             {
-                position = matchingTransform.position + worldConnToTarget * toRootTrans,
-                rotation = toRootRot * worldConnToTarget
+                position = target.transform.position + rotatedRootWorldOffset,
+                rotation = matchRotate * this.transform.rotation,
             };
         }
 
