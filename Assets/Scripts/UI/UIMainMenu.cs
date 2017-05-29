@@ -26,7 +26,7 @@ public class UIMainMenu : MonoBehaviour
 
     public void Play()
     {
-        var gameMode = gameModePicker ? gameModePicker.selectedGameMode : GameModeType.Regular;
+        var gameMode = gameModePicker ? gameModePicker.selectedGameMode : GameModeType.Story;
         var difficulty = difficultyPicker ? difficultyPicker.difficulty : GameController.Difficulty.Normal;
 
         Play(difficulty, gameMode);

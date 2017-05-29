@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum GameModeType
 {
-    Regular,
+    Story,
     Survival,
 
     Custom,
