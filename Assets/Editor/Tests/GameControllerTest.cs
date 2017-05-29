@@ -26,7 +26,7 @@ public class GameControllerTest
     }
 
     [Test]
-    public void PointsToValidNextLoadedScene()
+    public void PointsToValidMainMenuScene()
     {
         var gameObject = CreateGameController();
         var gameController = gameObject.GetComponent<GameController>();
@@ -34,7 +34,7 @@ public class GameControllerTest
         Assert.IsTrue(EditorBuildSettings.scenes.Any(scene =>
         {
             var sceneName = Path.GetFileNameWithoutExtension(scene.path);
-            return scene.enabled && sceneName.Equals(gameController.nextLoadedScene);
+            return scene.enabled && sceneName.Equals(gameController.mainMenuSceneName);
         }));
     }
 

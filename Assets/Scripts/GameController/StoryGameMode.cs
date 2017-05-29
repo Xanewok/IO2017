@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SurvivalGameMode : BaseGameMode, IScoredGameMode<Int32>
+public class StoryGameMode : BaseGameMode, IScoredGameMode<Int32>
 {
     public event EventHandler OnScoreChanged;
 
@@ -21,12 +22,12 @@ public class SurvivalGameMode : BaseGameMode, IScoredGameMode<Int32>
 
     public override string GetName()
     {
-        return "Survival";
+        return "Story";
     }
 
     public override GameModeType GetModeType()
     {
-        return GameModeType.Survival;
+        return GameModeType.Story;
     }
 
     public override void OnEnemySpawned(GameObject enemy)
@@ -61,7 +62,7 @@ public class SurvivalGameMode : BaseGameMode, IScoredGameMode<Int32>
             {
                 var args = new ScoreChangedEventArgs<int>() { player = player, value = scoreCount };
                 OnScoreChanged(player, args);
-            }            
+            }
         }
     }
 

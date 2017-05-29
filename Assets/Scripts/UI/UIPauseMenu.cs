@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 
 public class UIPauseMenu : MonoBehaviour
 {
@@ -33,7 +32,6 @@ public class UIPauseMenu : MonoBehaviour
 
     public void QuitToMainMenu()
     {
-        GameController.Instance.UnpauseGame();
-        SceneManager.LoadScene("Main_Menu");
+        GameController.Instance.GoToMainMenu();
     }
 }
