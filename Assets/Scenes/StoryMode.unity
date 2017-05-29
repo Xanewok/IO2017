@@ -645,11 +645,11 @@ Prefab:
         type: 2}
       propertyPath: tileGenerator
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 373355691}
     - target: {fileID: 114693272148208644, guid: c3a1946f1ad5d224e94977ebc1942fda,
         type: 2}
       propertyPath: origin.y
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114392345806436184, guid: c3a1946f1ad5d224e94977ebc1942fda, type: 2}
@@ -677,9 +677,10 @@ MonoBehaviour:
   startingTile: {fileID: 1399986759960106, guid: 1798e04f05c9d4d43a184b736cddb0c4,
     type: 2}
   tileSet:
-  - {fileID: 1083850369554036, guid: 587d1ee3c311b154b89eee4bae048768, type: 2}
-  - {fileID: 1413838455009292, guid: 9dc9a77f2575ad449aadc6c325daec9e, type: 2}
-  - {fileID: 1660565879475370, guid: 44e8551632c9c424da7886738cac90f0, type: 2}
+  - {fileID: 1877616973093204, guid: 93247e140024f63429184a9fe9e48d23, type: 2}
+  - {fileID: 1295412155415646, guid: ead4c039a12975e43b0bd510cac6c17a, type: 2}
+  - {fileID: 1267428289899010, guid: e7dc9b1407c2a7b47a6ede774c8e1f7c, type: 2}
+  - {fileID: 1242895126553442, guid: 237f390a4082cc74ebaf663d9c587f1e, type: 2}
   iterationCount: 4
 --- !u!1001 &489041642
 Prefab:
@@ -1567,7 +1568,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4127914703044866, guid: cbd962626f9144e4a8003c782669f1eb, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -5
+      value: -3.78
       objectReference: {fileID: 0}
     - target: {fileID: 4127914703044866, guid: cbd962626f9144e4a8003c782669f1eb, type: 2}
       propertyPath: m_LocalRotation.x
@@ -1687,7 +1688,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4736035576361860, guid: 926f587410272474ba4e1080cac238bb, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -4.85
+      value: -3.97
       objectReference: {fileID: 0}
     - target: {fileID: 4736035576361860, guid: 926f587410272474ba4e1080cac238bb, type: 2}
       propertyPath: m_LocalRotation.x
