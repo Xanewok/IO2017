@@ -17,14 +17,22 @@ public class UIScore : MonoBehaviour
         }
 
         text = GetComponent<Text>();
+        gameMode = GameController.Instance.gameMode as IScoredGameMode<Int32>;
     }
 
     void Start()
     {
-        gameMode = GameController.Instance.gameMode as IScoredGameMode<Int32>;
-        gameMode.OnScoreChanged += OnScoreChanged;
-
         UpdateScoreText(gameMode.GetScore(player));
+    }
+
+    void OnEnable()
+    {
+        gameMode.OnScoreChanged += OnScoreChanged;
+    }
+
+    void OnDisable()
+    {
+        gameMode.OnScoreChanged -= OnScoreChanged;
     }
 
     void OnScoreChanged(object sender, EventArgs args)

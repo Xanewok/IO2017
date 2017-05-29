@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -29,6 +30,8 @@ public class GameController : MonoBehaviour
     private string m_mainMenuSceneName = "Main_Menu";
     public string mainMenuSceneName { get { return m_mainMenuSceneName; } }
 
+    public static bool IsMainMenuScene(string sceneName) { return sceneName.Equals(Instance.mainMenuSceneName); }
+
     public const string InitialGameControllerScene = "_GameControllerScene";
 
     private static GameController s_instance = null;
@@ -56,6 +59,10 @@ public class GameController : MonoBehaviour
     }
 
     private BaseGameMode m_gameMode = null;
+    /// <summary>
+    /// Currently active game mode. It's created as inactive a single frame before loading initial game scene
+    /// on StartGame(). Enabled after the scene is fully loaded and lives until the scene is changed back to main menu.
+    /// </summary>
     public BaseGameMode gameMode { get { return m_gameMode; } }
 
     private Difficulty m_difficulty = Difficulty.Normal;
@@ -80,8 +87,6 @@ public class GameController : MonoBehaviour
         }
         s_instance = this;
         DontDestroyOnLoad(gameObject);
-
-        SceneManager.sceneLoaded += OnSceneLoaded;
 
         LoadSaveGameData();
 
@@ -144,34 +149,31 @@ public class GameController : MonoBehaviour
 
         var config = m_gameModesConfig.First(entry => entry.gameModeType == gameMode);
         SceneManager.LoadScene(config.gameModeScene);
+
+        // Create and assign as current game mode and only a frame later, after level is loaded
+        // (SceneManager.LoadScene starts loading a frame later), enable and initialize GameMode
+        SetCurrentGameMode(config.gameMode);
+        m_gameMode.gameObject.SetActive(false);
+        StartCoroutine(DelayedGameModeActivation(config.gameMode));
+    }
+
+    private IEnumerator DelayedGameModeActivation(GameObject gameMode)
+    {
+        yield return new WaitForEndOfFrame();
+
+        m_gameMode.gameObject.SetActive(true);
     }
 
     /// <summary>
     /// Resets game logic (unpauses if necessary) and loads Main Menu scene,
-    /// just like when launching game for the first time)
+    /// just like when launching game for the first time).
     /// </summary>
     public void GoToMainMenu()
     {
         UnpauseGame();
-        SceneManager.LoadScene(m_mainMenuSceneName);
-    }
+        SetCurrentGameMode(null);
 
-    // Used to add GameMode object when launching game scene
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.name.Equals(m_mainMenuSceneName))
-        {
-            SetCurrentGameMode(null);
-        }
-        else
-        {
-            var entries = m_gameModesConfig.Where(entry => entry.gameModeScene.Equals(scene.name));
-            if (entries.Count() > 0)
-            {
-                var entry = entries.First();
-                SetCurrentGameMode(entry.gameMode);
-            }
-        }
+        SceneManager.LoadScene(m_mainMenuSceneName);
     }
 
     /// <summary>
@@ -206,5 +208,4 @@ public class GameController : MonoBehaviour
 
         m_gameMode = null;
     }
-
 }
