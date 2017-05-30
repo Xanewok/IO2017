@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 54360037925822530}
   - component: {fileID: 114820313294012764}
   - component: {fileID: 82646918056181818}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Blade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,7 +59,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4772211188053332}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}

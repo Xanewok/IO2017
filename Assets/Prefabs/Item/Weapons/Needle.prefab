@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4045191575430612}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 95107702954450580}
   - component: {fileID: 54610575624375710}
   - component: {fileID: 114253207521779800}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Blade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -232,6 +232,8 @@ MonoBehaviour:
   damages: 0
   forwardSpeed: 0
   speedThreshold: 1
+  audioSource: {fileID: 0}
+  swipeSound: {fileID: 0}
 --- !u!114 &114419250695945316
 MonoBehaviour:
   m_ObjectHideFlags: 1

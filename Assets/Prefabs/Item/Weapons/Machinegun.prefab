@@ -43,7 +43,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4446626410396962}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: MachineGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 4970404444891842}
   - component: {fileID: 33471728172815848}
   - component: {fileID: 23111862237502766}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Tube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77,7 +77,7 @@ GameObject:
   - component: {fileID: 4415755529289896}
   - component: {fileID: 33933109464018546}
   - component: {fileID: 23360164610365990}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Metal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 4666694931162994}
   - component: {fileID: 33555200145926682}
   - component: {fileID: 23253956258377068}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 4543326890090300}
   - component: {fileID: 198415008428420366}
   - component: {fileID: 199785837788561304}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ReloadParticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 4919982506490862}
   - component: {fileID: 33400395756047786}
   - component: {fileID: 23776412334068312}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Ammo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,7 +145,7 @@ GameObject:
   - component: {fileID: 4719847396834692}
   - component: {fileID: 33015260548208802}
   - component: {fileID: 23702849936988102}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Stock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -162,7 +162,7 @@ GameObject:
   - component: {fileID: 4910828072251994}
   - component: {fileID: 33546933878831772}
   - component: {fileID: 23118359395232588}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Wood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
