@@ -103,7 +103,7 @@ public class StoryGameMode : BaseGameMode, IScoredGameMode<Int32>
 
     private void AddScore(int added, bool broadcast = true)
     {
-        scoreCount += scorePerEnemy;
+        scoreCount += added;
 
         if (broadcast)
         {
