@@ -95,6 +95,15 @@ public class GameController : MonoBehaviour
         {
             SceneManager.LoadScene(mainMenuSceneName);
         }
+
+// When launching PlayMode and bypassing StartGame() call,
+// make sure we set and initialize correct game mode behaviour
+#if UNITY_EDITOR
+        var activeSceneName = SceneManager.GetActiveScene().name;
+        var configs = m_gameModesConfig.Where(entry => entry.gameModeScene == activeSceneName);
+        if (configs.Count() > 0)
+            SetCurrentGameMode(configs.First().gameMode);
+#endif
     }
 
     public void LoadSaveGameData()

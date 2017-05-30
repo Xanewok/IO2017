@@ -29,7 +29,14 @@ public class StoryGameMode : BaseGameMode, IScoredGameMode<Int32>
 
     void Start()
     {
-        deadMenu = Resources.FindObjectsOfTypeAll<UIDeadMenu>().First();
+        Initialize();
+    }
+
+    void Initialize()
+    {
+        deadMenu = Resources.FindObjectsOfTypeAll<UIDeadMenu>()
+        .Where(menu => menu.gameObject.scene.isLoaded)
+        .First();
     }
 
     public override string GetName()
@@ -103,7 +110,7 @@ public class StoryGameMode : BaseGameMode, IScoredGameMode<Int32>
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        deadMenu = Resources.FindObjectsOfTypeAll<UIDeadMenu>().First();
+        Initialize();
     }
 
     public void LevelFinished()

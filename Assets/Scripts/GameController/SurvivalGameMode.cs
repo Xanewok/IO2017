@@ -16,7 +16,9 @@ public class SurvivalGameMode : BaseGameMode, IScoredGameMode<Int32>
 
     void Start()
     {
-        deadMenu = Resources.FindObjectsOfTypeAll<UIDeadMenu>().First();
+        deadMenu = Resources.FindObjectsOfTypeAll<UIDeadMenu>()
+        .Where(menu => menu.gameObject.scene.isLoaded)
+        .First();
     }
 
     public override string GetName()
