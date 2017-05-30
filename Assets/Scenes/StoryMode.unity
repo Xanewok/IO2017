@@ -651,6 +651,11 @@ Prefab:
       propertyPath: origin.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114555773390350022, guid: c3a1946f1ad5d224e94977ebc1942fda,
+        type: 2}
+      propertyPath: m_LayerMask.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114392345806436184, guid: c3a1946f1ad5d224e94977ebc1942fda, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: c3a1946f1ad5d224e94977ebc1942fda, type: 2}
