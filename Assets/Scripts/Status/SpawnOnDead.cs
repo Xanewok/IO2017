@@ -20,6 +20,7 @@ public class SpawnOnDead : MonoBehaviour
             if (spawnable[i] != null)
             {
                 Instantiate(spawnable[i], transform.position, transform.rotation);
+                return;
             }
         }
     }
