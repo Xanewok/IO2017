@@ -74,16 +74,7 @@ public class StoryGameMode : BaseGameMode, IScoredGameMode<Int32>
         {
             enemies.Remove(enemy);
 
-            scoreCount += scorePerEnemy;
-
-            if (OnScoreChanged == null)
-                return;
-
-            foreach (var player in players)
-            {
-                var args = new ScoreChangedEventArgs<int>() { player = player, value = scoreCount };
-                OnScoreChanged(player, args);
-            }
+            AddScore(scorePerEnemy);
         }
     }
 
@@ -110,6 +101,23 @@ public class StoryGameMode : BaseGameMode, IScoredGameMode<Int32>
         return false;
     }
 
+    private void AddScore(int added, bool broadcast = true)
+    {
+        scoreCount += scorePerEnemy;
+
+        if (broadcast)
+        {
+            if (OnScoreChanged == null)
+                return;
+
+            foreach (var player in players)
+            {
+                var args = new ScoreChangedEventArgs<int>() { player = player, value = scoreCount };
+                OnScoreChanged(player, args);
+            }
+        }
+    }
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Initialize();
@@ -117,16 +125,7 @@ public class StoryGameMode : BaseGameMode, IScoredGameMode<Int32>
 
     public void LevelFinished()
     {
-        scoreCount += scorePerLevel;
-
-        if (OnScoreChanged == null)
-            return;
-
-        foreach (var player in players)
-        {
-            var args = new ScoreChangedEventArgs<int>() { player = player, value = scoreCount };
-            OnScoreChanged(player, args);
-        }
+        AddScore(scorePerLevel);
 
         if (++stagesCompleted >= stageCount)
         {
