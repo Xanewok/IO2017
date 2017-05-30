@@ -43,6 +43,7 @@ public class StaticDecalContainer : DecalContainer
     void Reset()
     {
         particleDecalDataIndex = 0;
+        particles = new ParticleSystem.Particle[maxDecals];
         decalParticleSystem.SetParticles(null, 0);
     }
 
