@@ -9,9 +9,11 @@ public class StoryGameMode : BaseGameMode, IScoredGameMode<Int32>
 {
     public event EventHandler OnScoreChanged;
 
-    public UIDeadMenu deadMenu;
+    public UIDeadMenu gameFinishedMenu;
     public int scorePerEnemy = 10;
     public int scorePerLevel = 500;
+    public int stageCount = 2;
+    private int stagesCompleted = 0;
 
     private HashSet<GameObject> enemies = new HashSet<GameObject>();
     private HashSet<GameObject> players = new HashSet<GameObject>();
@@ -34,7 +36,7 @@ public class StoryGameMode : BaseGameMode, IScoredGameMode<Int32>
 
     void Initialize()
     {
-        deadMenu = Resources.FindObjectsOfTypeAll<UIDeadMenu>()
+        gameFinishedMenu = Resources.FindObjectsOfTypeAll<UIDeadMenu>()
         .Where(menu => menu.gameObject.scene.isLoaded)
         .First();
     }
@@ -89,7 +91,7 @@ public class StoryGameMode : BaseGameMode, IScoredGameMode<Int32>
     {
         if (health <= 0)
         {
-            deadMenu.gameObject.SetActive(true);
+            gameFinishedMenu.gameObject.SetActive(true);
         }
     }
 
@@ -124,6 +126,15 @@ public class StoryGameMode : BaseGameMode, IScoredGameMode<Int32>
         {
             var args = new ScoreChangedEventArgs<int>() { player = player, value = scoreCount };
             OnScoreChanged(player, args);
+        }
+
+        if (++stagesCompleted >= stageCount)
+        {
+            gameFinishedMenu.gameObject.SetActive(true);
+        }
+        else
+        {
+            SceneManager.LoadScene("StoryMode");
         }
     }
 }

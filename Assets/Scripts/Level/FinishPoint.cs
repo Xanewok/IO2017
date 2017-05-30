@@ -15,12 +15,7 @@ namespace YAGTSS.Level
                 return;
 
             var storyMode = GameController.Instance.gameMode as StoryGameMode;
-            if (storyMode)
-            {
-                storyMode.LevelFinished();
-            }
-
-            SceneManager.LoadScene(loadSceneName);
+            storyMode.LevelFinished();
         }
     }
 }
