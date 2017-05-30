@@ -72,6 +72,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4197365340351494}
   - component: {fileID: 114096015971564074}
+  - component: {fileID: 114152386385456366}
   m_Layer: 0
   m_Name: TileYConnector
   m_TagString: MapTile
@@ -643,6 +644,34 @@ MonoBehaviour:
   - {fileID: 114726737477658614}
   - {fileID: 114927072677969536}
   - {fileID: 114945144242284044}
+--- !u!114 &114152386385456366
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1242895126553442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07afb8c9e34484cb0ba016d2372f2662, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabSpawns:
+  - difficulty: 0
+    minimumScore: 0
+    prefab: {fileID: 1584534883114544, guid: 5a91b41f761ae4974959a1632e2be4e2, type: 2}
+  - difficulty: 0
+    minimumScore: 0
+    prefab: {fileID: 1957617174895004, guid: c7a076ba2380040658227fd8f2be1ffc, type: 2}
+  - difficulty: 1
+    minimumScore: 0
+    prefab: {fileID: 1497292400832904, guid: 3762a51b7666c4257a3c24465a4f11eb, type: 2}
+  - difficulty: 0
+    minimumScore: 0
+    prefab: {fileID: 1035960937671950, guid: 49b6cec376c6c458a93a9582c5f67799, type: 2}
+  minSpawnCount: 0
+  maxSpawnCount: 1
+  floorColliders:
+  - {fileID: 65714693556855290}
 --- !u!114 &114726737477658614
 MonoBehaviour:
   m_ObjectHideFlags: 1

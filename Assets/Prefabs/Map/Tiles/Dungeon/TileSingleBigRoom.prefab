@@ -38,6 +38,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4687475381495038}
   - component: {fileID: 114976119988877216}
+  - component: {fileID: 114828564684334078}
   m_Layer: 0
   m_Name: TileSingleBigRoom
   m_TagString: MapTile
@@ -603,6 +604,34 @@ MonoBehaviour:
   m_tile: {fileID: 114976119988877216}
   m_state: 0
   m_connection: {fileID: 0}
+--- !u!114 &114828564684334078
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1295412155415646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07afb8c9e34484cb0ba016d2372f2662, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabSpawns:
+  - difficulty: 0
+    minimumScore: 0
+    prefab: {fileID: 1584534883114544, guid: 5a91b41f761ae4974959a1632e2be4e2, type: 2}
+  - difficulty: 0
+    minimumScore: 0
+    prefab: {fileID: 1957617174895004, guid: c7a076ba2380040658227fd8f2be1ffc, type: 2}
+  - difficulty: 1
+    minimumScore: 0
+    prefab: {fileID: 1497292400832904, guid: 3762a51b7666c4257a3c24465a4f11eb, type: 2}
+  - difficulty: 0
+    minimumScore: 0
+    prefab: {fileID: 1035960937671950, guid: 49b6cec376c6c458a93a9582c5f67799, type: 2}
+  minSpawnCount: 3
+  maxSpawnCount: 6
+  floorColliders:
+  - {fileID: 65292782973016242}
 --- !u!114 &114859375631321462
 MonoBehaviour:
   m_ObjectHideFlags: 1
