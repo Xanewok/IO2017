@@ -681,7 +681,7 @@ MonoBehaviour:
   - {fileID: 1295412155415646, guid: ead4c039a12975e43b0bd510cac6c17a, type: 2}
   - {fileID: 1267428289899010, guid: e7dc9b1407c2a7b47a6ede774c8e1f7c, type: 2}
   - {fileID: 1242895126553442, guid: 237f390a4082cc74ebaf663d9c587f1e, type: 2}
-  iterationCount: 4
+  iterationCount: 3
 --- !u!1001 &489041642
 Prefab:
   m_ObjectHideFlags: 0
