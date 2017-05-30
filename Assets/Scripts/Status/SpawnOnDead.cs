@@ -2,21 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnOnDead : MonoBehaviour {
+public class SpawnOnDead : MonoBehaviour
+{
 
-	public GameObject[] spawnable;
+    public GameObject[] spawnable;
 
-	void Start () {
-		gameObject.GetComponent<Status>().healthChanged += OnEnemyHealthChanged;
-	}
+    void Start()
+    {
+        gameObject.GetComponent<Status>().healthChanged += OnEnemyHealthChanged;
+    }
 
-	void OnEnemyHealthChanged(GameObject enemy, float health)
-	{
-		if (health <= 0) {
-			int i = Random.range (0, spawnable.Length ());
-			if (spawnable [i] != null) {
-				Instantiate (spawnable [i], transform.position);
-			}
-		}
-	}
+    void OnEnemyHealthChanged(GameObject enemy, float health)
+    {
+        if (health <= 0)
+        {
+            int i = UnityEngine.Random.Range(0, spawnable.Length);
+            if (spawnable[i] != null)
+            {
+                Instantiate(spawnable[i], transform.position, transform.rotation);
+            }
+        }
+    }
 }
