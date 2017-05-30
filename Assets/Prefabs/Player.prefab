@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4979288077871238}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Jagtss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ GameObject:
   - component: {fileID: 224553817281626786}
   - component: {fileID: 222887228299699118}
   - component: {fileID: 114555127452482430}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: C0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,7 +53,7 @@ GameObject:
   - component: {fileID: 4968549589412398}
   - component: {fileID: 33679444520551870}
   - component: {fileID: 23367701302895188}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Beard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,7 +70,7 @@ GameObject:
   - component: {fileID: 224367872541802402}
   - component: {fileID: 222289392591535448}
   - component: {fileID: 114587826825426410}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: C2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 4568011346700164}
   - component: {fileID: 33075021507150936}
   - component: {fileID: 23601743604225922}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Helmet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 114546673586464462}
   - component: {fileID: 114600915488288798}
   - component: {fileID: 114567355304782960}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 224886160085967056}
   - component: {fileID: 222004468974124092}
   - component: {fileID: 114966728707748452}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: C6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -142,7 +142,7 @@ GameObject:
   - component: {fileID: 4716958278195724}
   - component: {fileID: 33327832757088524}
   - component: {fileID: 23838908626674842}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Moustache
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159,7 +159,7 @@ GameObject:
   - component: {fileID: 4164654352581566}
   - component: {fileID: 33718887747869006}
   - component: {fileID: 23323086344150664}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,7 +176,7 @@ GameObject:
   - component: {fileID: 4116922912198168}
   - component: {fileID: 33969938056805206}
   - component: {fileID: 23123667932917012}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Helmet Spike
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -193,7 +193,7 @@ GameObject:
   - component: {fileID: 4818139017878844}
   - component: {fileID: 33446923683580242}
   - component: {fileID: 23413127454502504}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -210,7 +210,7 @@ GameObject:
   - component: {fileID: 224492023900816456}
   - component: {fileID: 222443230502237866}
   - component: {fileID: 114404075173344486}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: C4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -228,7 +228,7 @@ GameObject:
   - component: {fileID: 223515497508487596}
   - component: {fileID: 114743551354193972}
   - component: {fileID: 114889089374784514}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Inventory
   m_TagString: Untagged
   m_Icon: {fileID: 0}

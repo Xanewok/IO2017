@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using YAGTSS.Serialization;
 
@@ -9,6 +12,25 @@ public class GameController : MonoBehaviour
         Normal,
         Hard
     }
+
+    [System.Serializable]
+    public struct GameModeConfig
+    {
+        public GameModeType gameModeType;
+        public GameObject gameMode;
+        public string gameModeScene;
+    }
+
+    // TODO: Separate config (and possibly use dictionary as intended, not to duplicate storage)
+    [SerializeField]
+    private GameModeConfig[] m_gameModesConfig;
+    public GameModeConfig[] gameModesConfig { get { return m_gameModesConfig; } }
+
+    [SerializeField]
+    private string m_mainMenuSceneName = "Main_Menu";
+    public string mainMenuSceneName { get { return m_mainMenuSceneName; } }
+
+    public static bool IsMainMenuScene(string sceneName) { return sceneName.Equals(Instance.mainMenuSceneName); }
 
     public const string InitialGameControllerScene = "_GameControllerScene";
 
@@ -37,21 +59,14 @@ public class GameController : MonoBehaviour
     }
 
     private BaseGameMode m_gameMode = null;
-    public BaseGameMode gameMode
-    {
-        get
-        {
-            var currentScene = SceneManager.GetActiveScene().name;
-            return currentScene.Equals("Main_Menu") ? null : m_gameMode;
-        }
-        set
-        {
-            m_gameMode = value;
-        }
-    }
+    /// <summary>
+    /// Currently active game mode. It's created as inactive a single frame before loading initial game scene
+    /// on StartGame(). Enabled after the scene is fully loaded and lives until the scene is changed back to main menu.
+    /// </summary>
+    public BaseGameMode gameMode { get { return m_gameMode; } }
 
     private Difficulty m_difficulty = Difficulty.Normal;
-    public Difficulty difficulty { get { return m_difficulty; } set { m_difficulty = value; } }
+    public Difficulty difficulty { get { return m_difficulty; } }
 
     [SerializeField]
     private GameSettings m_gameSettings;
@@ -59,9 +74,7 @@ public class GameController : MonoBehaviour
 
     private float m_timeScaleBeforePause = 1.0f;
     private bool m_paused = false;
-    public bool paused { get { return m_paused; } }
-
-    public string nextLoadedScene = "Main_Menu";
+    public bool paused { get { return m_paused; } set { PauseGame(value); } }
 
     void Awake()
     {
@@ -80,7 +93,7 @@ public class GameController : MonoBehaviour
         var currentScene = SceneManager.GetActiveScene().name;
         if (currentScene.Equals(InitialGameControllerScene))
         {
-            SceneManager.LoadScene(nextLoadedScene);
+            SceneManager.LoadScene(mainMenuSceneName);
         }
     }
 
@@ -124,5 +137,75 @@ public class GameController : MonoBehaviour
     public void UnpauseGame()
     {
         PauseGame(false);
+    }
+
+    /// <summary>
+    /// Starts a new game. This loads a new level and also adds an appropriate BaseGameMode component
+    /// and initializes it.
+    /// </summary>
+    public void StartGame(GameController.Difficulty difficulty, GameModeType gameMode)
+    {
+        m_difficulty = difficulty;
+
+        var config = m_gameModesConfig.First(entry => entry.gameModeType == gameMode);
+        SceneManager.LoadScene(config.gameModeScene);
+
+        // Create and assign as current game mode and only a frame later, after level is loaded
+        // (SceneManager.LoadScene starts loading a frame later), enable and initialize GameMode
+        SetCurrentGameMode(config.gameMode);
+        m_gameMode.gameObject.SetActive(false);
+        StartCoroutine(DelayedGameModeActivation(config.gameMode));
+    }
+
+    private IEnumerator DelayedGameModeActivation(GameObject gameMode)
+    {
+        yield return new WaitForEndOfFrame();
+
+        m_gameMode.gameObject.SetActive(true);
+    }
+
+    /// <summary>
+    /// Resets game logic (unpauses if necessary) and loads Main Menu scene,
+    /// just like when launching game for the first time).
+    /// </summary>
+    public void GoToMainMenu()
+    {
+        UnpauseGame();
+        SetCurrentGameMode(null);
+
+        SceneManager.LoadScene(m_mainMenuSceneName);
+    }
+
+    /// <summary>
+    /// Removes a currently attached game mode if there is any and for given gameMode object
+    /// spawns a new instance of it and attaches it as a current game mode.
+    /// </summary>
+    /// <param name="gameMode">The game mode.</param>
+    private void SetCurrentGameMode(GameObject gameMode)
+    {
+        RemoveCurrentGameMode();
+
+        if (gameMode)
+        {
+            Debug.Assert(gameMode.GetComponent<BaseGameMode>() != null, "GameMode object doesn't have required BaseGameMode component!");
+
+            var childGameMode = Instantiate(gameMode);
+            childGameMode.transform.SetParent(this.transform);
+
+            m_gameMode = childGameMode.GetComponent<BaseGameMode>();
+        }
+    }
+
+    private void RemoveCurrentGameMode()
+    {
+        foreach (Transform child in transform)
+        {
+            if (child.GetComponent<BaseGameMode>())
+            {
+                Destroy(child.gameObject);
+            }
+        }
+
+        m_gameMode = null;
     }
 }

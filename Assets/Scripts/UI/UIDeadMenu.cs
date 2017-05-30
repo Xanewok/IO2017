@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class UIDeadMenu : MonoBehaviour
 {
@@ -48,7 +47,6 @@ public class UIDeadMenu : MonoBehaviour
 
     public void QuitToMainMenu()
     {
-        GameController.Instance.UnpauseGame();
-        SceneManager.LoadScene("Main_Menu"); 
+        GameController.Instance.GoToMainMenu();
     }
 }

@@ -1797,7 +1797,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameModes:
   - gameModeType: 0
-    gameModeScene: default
+    gameModeScene: StoryMode
   - gameModeType: 1
     gameModeScene: SurvivalArena
   gameModePicker: {fileID: 22566035}

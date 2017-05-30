@@ -7,7 +7,7 @@ using YAGTSS.Utility;
 
 public class UIGameModePicker : SelectedOptionPicker<GameModeType>
 {
-    private GameModeType m_selectedGameMode = GameModeType.Regular;
+    private GameModeType m_selectedGameMode = GameModeType.Story;
     public GameModeType selectedGameMode { get { return m_selectedGameMode; } }
 
     protected override void Awake()
@@ -18,7 +18,7 @@ public class UIGameModePicker : SelectedOptionPicker<GameModeType>
         // For now do not include "Custom" game mode
         KeyValuePair<GameModeType, string>[] values =
         {
-            new KeyValuePair<GameModeType, string>(GameModeType.Regular, "Regular"),
+            new KeyValuePair<GameModeType, string>(GameModeType.Story, "Story"),
             new KeyValuePair<GameModeType, string>(GameModeType.Survival, "Survival"),
         };
         InitializeWithValues(values);

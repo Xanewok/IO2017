@@ -84,6 +84,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 047046d298ac78344a8cb6845ab916bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_gameModesConfig:
+  - gameModeType: 0
+    gameMode: {fileID: 1521231571826542, guid: e0ab734929425d5429f81864c0a320ae, type: 2}
+    gameModeScene: StoryMode
+  - gameModeType: 1
+    gameMode: {fileID: 1635772708380996, guid: 82ac605e9b545b645b94720c6c797031, type: 2}
+    gameModeScene: SurvivalArena
+  m_mainMenuSceneName: Main_Menu
   m_gameSettings:
     cameraSettings:
       m_currentType: 1
@@ -91,7 +99,6 @@ MonoBehaviour:
         followSpeed: 0.035
         distance: 10
         rotation: {x: -15, y: -15, z: 0}
-  nextLoadedScene: Main_Menu
 --- !u!114 &114335154154607092
 MonoBehaviour:
   m_ObjectHideFlags: 1

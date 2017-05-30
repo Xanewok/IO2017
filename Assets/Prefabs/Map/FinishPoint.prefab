@@ -93,7 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b6c3ba92985aef4aaa5ee43d5511af3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadSceneName: MapPrototype
+  loadSceneName: StoryMode
 --- !u!135 &135664941283468408
 SphereCollider:
   m_ObjectHideFlags: 1

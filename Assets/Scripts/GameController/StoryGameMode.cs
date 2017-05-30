@@ -1,18 +1,31 @@
 ﻿using System;
 using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class SurvivalGameMode : BaseGameMode, IScoredGameMode<Int32>
+public class StoryGameMode : BaseGameMode, IScoredGameMode<Int32>
 {
     public event EventHandler OnScoreChanged;
 
     public UIDeadMenu deadMenu;
     public int scorePerEnemy = 10;
+    public int scorePerLevel = 500;
 
     private HashSet<GameObject> enemies = new HashSet<GameObject>();
     private HashSet<GameObject> players = new HashSet<GameObject>();
     private int scoreCount = 0;
+
+    void Awake()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
 
     void Start()
     {
@@ -21,12 +34,12 @@ public class SurvivalGameMode : BaseGameMode, IScoredGameMode<Int32>
 
     public override string GetName()
     {
-        return "Survival";
+        return "Story";
     }
 
     public override GameModeType GetModeType()
     {
-        return GameModeType.Survival;
+        return GameModeType.Story;
     }
 
     public override void OnEnemySpawned(GameObject enemy)
@@ -61,7 +74,7 @@ public class SurvivalGameMode : BaseGameMode, IScoredGameMode<Int32>
             {
                 var args = new ScoreChangedEventArgs<int>() { player = player, value = scoreCount };
                 OnScoreChanged(player, args);
-            }            
+            }
         }
     }
 
@@ -86,5 +99,24 @@ public class SurvivalGameMode : BaseGameMode, IScoredGameMode<Int32>
     public bool IsScoreCapped()
     {
         return false;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        deadMenu = Resources.FindObjectsOfTypeAll<UIDeadMenu>().First();
+    }
+
+    public void LevelFinished()
+    {
+        scoreCount += scorePerLevel;
+
+        if (OnScoreChanged == null)
+            return;
+
+        foreach (var player in players)
+        {
+            var args = new ScoreChangedEventArgs<int>() { player = player, value = scoreCount };
+            OnScoreChanged(player, args);
+        }
     }
 }
