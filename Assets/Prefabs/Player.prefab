@@ -524,12 +524,12 @@ MonoBehaviour:
   fadeOutScale: 15
   inventoryScaleStart: 0.1
   inventoryScaleVisible: 0.2
-  inventoryScaleEnd: 1
+  inventoryScaleEnd: 0.4
   deleteSlot: 0
   emptySlotSprite: {fileID: 21300000, guid: fd91c72c7acaa564aa79142a28ddb8a1, type: 3}
   deleteSlotSprite: {fileID: 21300000, guid: 6f63667d881019c4f9dd4785b5ed05d7, type: 3}
   player: {fileID: 114767876922714602}
-  canvas: {fileID: 0}
+  inventoryObject: {fileID: 0}
 --- !u!114 &114567355304782960
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -567,7 +567,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38aff8ede6fde2b4a941ad94956fe192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
+  speed: 7
   playerNum: 0
   supportMouse: 1
   rotationDeadZone: 0.1

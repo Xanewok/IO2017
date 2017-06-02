@@ -92,3 +92,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50082509ecc3ce046a87aeb7f6de31ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 1618528606867608, guid: fadd21172706ea043baf8626ba8bf035,
+    type: 2}
+  initialSpawnDistance: 0.5

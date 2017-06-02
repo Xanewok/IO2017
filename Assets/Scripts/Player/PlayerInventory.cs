@@ -25,8 +25,8 @@ public class PlayerInventory : Inventory {
 
     [Tooltip("Optional: player script")]
     public PlayerControlls player;
-    [Tooltip("Optional: canvas used for inventory")]
-    public Canvas canvas;
+    [Tooltip("Optional: inventoryObject used for inventory")]
+    public GameObject inventoryObject;
 
     [Tooltip("Number of usable inventory slots (excluding one used to drop items).")]
     public static int inventorySlots = 3;
@@ -44,22 +44,26 @@ public class PlayerInventory : Inventory {
         {
             player = gameObject.GetComponent<PlayerControlls>();
         }
-        if (canvas == null)
-        {
-            canvas = gameObject.transform.GetComponentInChildren<Canvas>();
-        }
-        canvas.enabled = false;
+        inventoryObject.SetActive(false);
 
         // TODO: Might need a better arrange.
         // Especially we might want to make inventory created dynamically.
+        BindToUI(inventoryObject);
+    }
+
+    // TODO: Refactor and remove this part. Move all presentation to UIInventory.
+    // This is here only to make it easy and possible to connect externally from inventory to player
+    public void BindToUI(GameObject invObject)
+    {
+        inventoryObject = invObject;
+
         int i = 0;
-        foreach (Transform child in canvas.transform)
+        foreach (Transform child in inventoryObject.transform)
         {
             images[i] = child.gameObject.GetComponent<UnityEngine.UI.Image>();
             i++;
         }
         images[deleteSlot].overrideSprite = deleteSlotSprite;
-
     }
 	
     //Checks if inventory needs to be opened
@@ -70,9 +74,10 @@ public class PlayerInventory : Inventory {
 
     void ShowInventory()
     {
-        canvas.scaleFactor = Mathf.Lerp(canvas.scaleFactor, inventoryScaleEnd, Time.deltaTime * fadeInScale);
-        if (canvas.scaleFactor >= inventoryScaleVisible)
-            canvas.enabled = true;
+        var scaleFactor = Mathf.Lerp(inventoryObject.transform.localScale.x, inventoryScaleEnd, Time.deltaTime * fadeInScale);
+        inventoryObject.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+        if (scaleFactor >= inventoryScaleVisible)
+            inventoryObject.SetActive(true);
 
         Vector3 aim = player.transform.rotation.eulerAngles;
         float angle = aim.y;
@@ -89,14 +94,15 @@ public class PlayerInventory : Inventory {
 
     void HideInventory()
     {
-        if (canvas.scaleFactor > inventoryScaleVisible)
+        if (inventoryObject.transform.localScale.x > inventoryScaleVisible)
         {
-            canvas.scaleFactor = Mathf.Lerp(canvas.scaleFactor, inventoryScaleStart, Time.deltaTime * fadeOutScale);
+            var scaleFactor = Mathf.Lerp(inventoryObject.transform.localScale.x, inventoryScaleStart, Time.deltaTime * fadeOutScale);
+            inventoryObject.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
         }
         else
         {
-            canvas.enabled = false;
-            canvas.scaleFactor = inventoryScaleStart;
+            inventoryObject.SetActive(false);
+            inventoryObject.transform.localScale = new Vector3(inventoryScaleStart, inventoryScaleStart, inventoryScaleStart);
         }
     }
 
@@ -209,7 +215,7 @@ public class PlayerInventory : Inventory {
 		if (isInventoryOpen())
         {
             ShowInventory();
-            if (canvas.enabled)
+            if (inventoryObject.activeSelf)
                 ManageInventory();
         }
         else
