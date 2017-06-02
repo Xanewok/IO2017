@@ -14,6 +14,19 @@ public class SurvivalGameMode : BaseGameMode, IScoredGameMode<Int32>
     private HashSet<GameObject> players = new HashSet<GameObject>();
     private int scoreCount = 0;
 
+    private int initialPlayerCount = DefaultPlayerCount;
+    public override int GetInitialPlayerCount() { return initialPlayerCount; }
+    public override int GetPlayerCount() { return players.Count; }
+
+    /// <summary>
+    /// Used by GameController to initialize GameMode for the first time
+    /// in an actual scene (outside main menu).
+    /// </summary>
+    public override void InitializeMode(int initialPlayerCount)
+    {
+        this.initialPlayerCount = initialPlayerCount;
+    }
+
     void Start()
     {
         deadMenu = Resources.FindObjectsOfTypeAll<UIDeadMenu>()

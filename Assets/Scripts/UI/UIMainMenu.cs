@@ -6,13 +6,15 @@ public class UIMainMenu : MonoBehaviour
 {
     public UIGameModePicker gameModePicker;
     public UIDifficultyPicker difficultyPicker;
+    public UIPlayerCountPicker playerCountPicker;
 
     public void Play()
     {
         var gameMode = gameModePicker ? gameModePicker.selectedGameMode : GameModeType.Story;
         var difficulty = difficultyPicker ? difficultyPicker.difficulty : GameController.Difficulty.Normal;
+        var playerCount = playerCountPicker ? playerCountPicker.playerCount : BaseGameMode.DefaultPlayerCount;
 
-        GameController.Instance.StartGame(difficulty, gameMode);
+        GameController.Instance.StartGame(difficulty, gameMode, playerCount);
     }
 
     public void ClearHighScores()

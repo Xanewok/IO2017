@@ -1798,6 +1798,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameModePicker: {fileID: 22566035}
   difficultyPicker: {fileID: 791492147}
+  playerCountPicker: {fileID: 1456357929}
 --- !u!95 &1408832349
 Animator:
   serializedVersion: 3

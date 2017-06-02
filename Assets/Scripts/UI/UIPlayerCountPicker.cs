@@ -7,7 +7,7 @@ using YAGTSS.Utility;
 
 public class UIPlayerCountPicker : SelectedOptionPicker<int>
 {
-    private int m_playerCount = 1;
+    private int m_playerCount = BaseGameMode.DefaultPlayerCount;
     public int playerCount { get { return m_playerCount; } }
 
     public int maxPlayerCount = 2;
