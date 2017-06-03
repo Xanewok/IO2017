@@ -4,22 +4,20 @@ using UnityEngine;
 
 public class FollowInScreenSpace : MonoBehaviour
 {
-    public new Camera camera;
+    public Camera cam;
     public Transform followTransform;
 
     void Awake()
     {
-        if (camera == null)
-        {
-            camera = Camera.main;
-        }
+        if (cam == null)
+            cam = Camera.main;
     }
 
     void LateUpdate()
     {
         if (followTransform != null)
         {
-            transform.position = camera.WorldToScreenPoint(followTransform.position);
+            transform.position = cam.WorldToScreenPoint(followTransform.position);
         }
     }
 }
