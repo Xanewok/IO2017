@@ -11,21 +11,32 @@ public class PlayerControlls : MonoBehaviour
     [Tooltip("Distance (in world units) above which rotation vector will be considered")]
     public float rotationDeadZone = 0.1f;
 
+    private int controllerLayoutIndex;
     Vector3 mousePosition = Vector3.zero;
     Rigidbody rb;
     Status status;
 
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody>();
         status = GetComponent<Status>();
     }
 
+    void Start()
+    {
+        controllerLayoutIndex = InputMapper.PlayerNumToControllerLayoutIndex(playerNum);
+        // Only first player layout (keyboard + mouse) is allowed to use mouse
+        if (controllerLayoutIndex != 0)
+        {
+            supportMouse = false;
+        }
+    }
+
     private void Movement()
     {
         Vector3 movement = Vector3.zero;
-        float h = Input.GetAxis("Horizontal_" + playerNum.ToString());
-        float v = Input.GetAxis("Vertical_" + playerNum.ToString());
+        float h = Input.GetAxis("Horizontal_" + controllerLayoutIndex.ToString());
+        float v = Input.GetAxis("Vertical_" + controllerLayoutIndex.ToString());
         movement.Set(h, 0f, v);
 		rb.velocity = movement.normalized * speed + status.dashMovement;
     }
@@ -33,8 +44,8 @@ public class PlayerControlls : MonoBehaviour
     private void AxisTurn()
     {
         Vector3 turn = Vector3.zero;
-        float h = Input.GetAxis("AimHorizontal_" + playerNum.ToString());
-        float v = Input.GetAxis("AimVertical_" + playerNum.ToString());
+        float h = Input.GetAxis("AimHorizontal_" + controllerLayoutIndex.ToString());
+        float v = Input.GetAxis("AimVertical_" + controllerLayoutIndex.ToString());
         turn.Set(h, 0f, v);
         Turning(turn);
     }
@@ -90,5 +101,10 @@ public class PlayerControlls : MonoBehaviour
     public int getPlayerNum()
     {
         return playerNum;
+    }
+
+    public int GetControllerLayoutIndex()
+    {
+        return controllerLayoutIndex;
     }
 }

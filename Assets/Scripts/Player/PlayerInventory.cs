@@ -69,7 +69,7 @@ public class PlayerInventory : Inventory {
     //Checks if inventory needs to be opened
     public bool isInventoryOpen()
     {
-        return Input.GetButton("Inventory_" + player.getPlayerNum());
+        return Input.GetButton("Inventory_" + player.GetControllerLayoutIndex());
     }
 
     void ShowInventory()
@@ -110,11 +110,11 @@ public class PlayerInventory : Inventory {
     {
         if (lastSelected != -1)
         {
-            if (Input.GetButtonDown("Use_r_" + player.getPlayerNum()))
+            if (Input.GetButtonDown("Use_r_" + player.GetControllerLayoutIndex()))
             {
                 ManageItem(Inventory.hand_right);
             }
-            else if (Input.GetButtonDown("Use_l_" + player.getPlayerNum()))
+            else if (Input.GetButtonDown("Use_l_" + player.GetControllerLayoutIndex()))
             {
                 ManageItem(Inventory.hand_left);
             }
@@ -126,15 +126,15 @@ public class PlayerInventory : Inventory {
     {
         if (equipped[Inventory.hand_right] != null)
         {
-            if (Input.GetButtonDown("Use_r_" + player.getPlayerNum())) equipped[Inventory.hand_right].onUseStart();
-            else if (Input.GetButton("Use_r_" + player.getPlayerNum())) equipped[Inventory.hand_right].onUse();
-            else if (Input.GetButtonUp("Use_r_" + player.getPlayerNum())) equipped[Inventory.hand_right].onUseEnd();
+            if (Input.GetButtonDown("Use_r_" + player.GetControllerLayoutIndex())) equipped[Inventory.hand_right].onUseStart();
+            else if (Input.GetButton("Use_r_" + player.GetControllerLayoutIndex())) equipped[Inventory.hand_right].onUse();
+            else if (Input.GetButtonUp("Use_r_" + player.GetControllerLayoutIndex())) equipped[Inventory.hand_right].onUseEnd();
         }
         if (equipped[Inventory.hand_left] != null)
         {
-            if (Input.GetButtonDown("Use_l_" + player.getPlayerNum())) equipped[Inventory.hand_left].onUseStart();
-            else if (Input.GetButton("Use_l_" + player.getPlayerNum())) equipped[Inventory.hand_left].onUse();
-            else if (Input.GetButtonUp("Use_l_" + player.getPlayerNum())) equipped[Inventory.hand_left].onUseEnd();
+            if (Input.GetButtonDown("Use_l_" + player.GetControllerLayoutIndex())) equipped[Inventory.hand_left].onUseStart();
+            else if (Input.GetButton("Use_l_" + player.GetControllerLayoutIndex())) equipped[Inventory.hand_left].onUse();
+            else if (Input.GetButtonUp("Use_l_" + player.GetControllerLayoutIndex())) equipped[Inventory.hand_left].onUseEnd();
         }
     }
 
