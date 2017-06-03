@@ -1781,7 +1781,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: P1
+  m_Text: P2
 --- !u!114 &114507444170080942
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2484,9 +2484,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'P0
-
-'
+  m_Text: P1
 --- !u!114 &114986703675397196
 MonoBehaviour:
   m_ObjectHideFlags: 1
