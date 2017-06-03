@@ -51,5 +51,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 931f60a187cbee6418b25f96c183d0e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deadMenu: {fileID: 0}
+  playerLight: {fileID: 1460490760693366, guid: 55a49d6b51a3eda4e952c8297313efe5,
+    type: 2}
+  gameFinishedMenu: {fileID: 0}
   scorePerEnemy: 10
+  scorePerLevel: 500
+  stageCount: 2
