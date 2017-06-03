@@ -16,16 +16,6 @@ public class HighScoresManager : MonoBehaviour
     private int m_maxEntries = 5;
     public int maxEntries { get { return m_maxEntries; } }
 
-#if UNITY_EDITOR
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.F1))
-        {
-            Clear();
-        }
-    }
-#endif
-
     public bool Add(string player, int score)
     {
         if (!CanBeAdded(score))

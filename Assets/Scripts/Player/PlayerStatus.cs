@@ -19,14 +19,6 @@ public class PlayerStatus : Status
             GameController.Instance.gameMode.OnPlayerSpawned(this.gameObject);
     }
 
-    void Update()
-    {
-        if (Debug.isDebugBuild && Input.GetKeyDown(KeyCode.K))
-        {
-            hurt(1000, 0);
-        }
-    }
-
     public int getScore()
     {
         return score;
