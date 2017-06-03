@@ -38,7 +38,7 @@ namespace YAGTSS.Level
             {
                 Vector3 pos = Vector3.zero;
                 float spawnDist = initialSpawnDistance;
-                for (int attempts = 0; attempts < 5; ++i)
+                for (int attempts = 0; attempts < 5; ++attempts)
                 {
                     spawnDist = pos == Vector3.zero ? initialSpawnDistance : spawnDist + 0.1f;
 
