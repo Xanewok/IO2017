@@ -1503,6 +1503,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
   followTransform: {fileID: 0}
+  remainOnScreen: 1
+  screenMargin: 0.9
 --- !u!114 &114361640958977750
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1853,6 +1855,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
   followTransform: {fileID: 0}
+  remainOnScreen: 1
+  screenMargin: 0.9
 --- !u!114 &114590299790862908
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2048,6 +2052,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
   followTransform: {fileID: 0}
+  remainOnScreen: 0
+  screenMargin: 0.9
 --- !u!114 &114694761803607036
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2389,6 +2395,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
   followTransform: {fileID: 0}
+  remainOnScreen: 0
+  screenMargin: 0.9
 --- !u!114 &114920653698158356
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2811,9 +2819,9 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!223 &223969253476991454
 Canvas:
