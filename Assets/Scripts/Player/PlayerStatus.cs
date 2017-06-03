@@ -9,28 +9,11 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class PlayerStatus : Status
 {
-    protected int score = 0;
-
     public override void onStart()
     {
         base.onStart();
 
         if (GameController.Instance.gameMode)
             GameController.Instance.gameMode.OnPlayerSpawned(this.gameObject);
-    }
-
-    public int getScore()
-    {
-        return score;
-    }
-
-    public void addScore(int added)
-    {
-        score += added;
-    }
-
-    public float getMaxHealth()
-    {
-        return maxHealth;
     }
 }

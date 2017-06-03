@@ -35,6 +35,11 @@ public abstract class Status : MonoBehaviour
         return health;
     }
 
+    public virtual float getMaxHealth()
+    {
+        return maxHealth;
+    }
+
     // type - type of damage
     public virtual void hurt(float damage, int type)
     {
