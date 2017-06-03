@@ -6,6 +6,9 @@ public class FollowInScreenSpace : MonoBehaviour
 {
     public Camera cam;
     public Transform followTransform;
+    public bool remainOnScreen;
+    [Range(0.5f, 1.0f)]
+    public float screenMargin = 0.9f;
 
     void Awake()
     {
@@ -17,7 +20,13 @@ public class FollowInScreenSpace : MonoBehaviour
     {
         if (followTransform != null)
         {
-            transform.position = cam.WorldToScreenPoint(followTransform.position);
+            var screenPoint = cam.WorldToScreenPoint(followTransform.position);
+            if (remainOnScreen)
+            {
+                screenPoint.x = Mathf.Clamp(screenPoint.x, (1 - screenMargin) * cam.pixelWidth, screenMargin * cam.pixelWidth);
+                screenPoint.y = Mathf.Clamp(screenPoint.y, (1 - screenMargin) * cam.pixelHeight, screenMargin * cam.pixelHeight);
+            }
+            transform.position = screenPoint;
         }
     }
 }

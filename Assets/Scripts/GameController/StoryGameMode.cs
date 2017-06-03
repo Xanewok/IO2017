@@ -9,6 +9,7 @@ public class StoryGameMode : BaseGameMode, IScoredGameMode<Int32>
 {
     public event EventHandler OnScoreChanged;
 
+    public GameObject playerLight;
     public UIDeadMenu gameFinishedMenu;
     public int scorePerEnemy = 10;
     public int scorePerLevel = 500;
@@ -79,6 +80,10 @@ public class StoryGameMode : BaseGameMode, IScoredGameMode<Int32>
     {
         players.Add(player);
         player.GetComponent<PlayerStatus>().healthChanged += OnPlayerHealthChanged;
+
+        // Story Mode is a dark cavern, so spawn additional light for every player
+        var light = Instantiate(playerLight, player.transform);
+        light.transform.localPosition = playerLight.transform.localPosition;
     }
 
     public int GetCurrentScore()
