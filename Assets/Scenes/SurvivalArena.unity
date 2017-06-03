@@ -147,6 +147,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 114689908517771138, guid: c91ecb468f5986141acccefd78b9dc37,
+        type: 2}
+      propertyPath: m_VerticalAxis
+      value: MenuVertical
+      objectReference: {fileID: 0}
+    - target: {fileID: 114689908517771138, guid: c91ecb468f5986141acccefd78b9dc37,
+        type: 2}
+      propertyPath: m_HorizontalAxis
+      value: MenuHorizontal
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c91ecb468f5986141acccefd78b9dc37, type: 2}
   m_IsPrefabParent: 0
