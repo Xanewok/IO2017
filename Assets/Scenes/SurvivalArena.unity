@@ -345,6 +345,26 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 224872409416238278, guid: 8cf8e8ad84172cd49986d45c6b4366d9,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224872409416238278, guid: 8cf8e8ad84172cd49986d45c6b4366d9,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224121550016861608, guid: 8cf8e8ad84172cd49986d45c6b4366d9,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224121550016861608, guid: 8cf8e8ad84172cd49986d45c6b4366d9,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8cf8e8ad84172cd49986d45c6b4366d9, type: 2}
   m_IsPrefabParent: 0
@@ -649,7 +669,7 @@ Prefab:
     - target: {fileID: 114693272148208644, guid: c3a1946f1ad5d224e94977ebc1942fda,
         type: 2}
       propertyPath: origin.y
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114392345806436184, guid: c3a1946f1ad5d224e94977ebc1942fda, type: 2}
@@ -1205,7 +1225,7 @@ Prefab:
         type: 2}
       propertyPath: playerStatus
       value: 
-      objectReference: {fileID: 1504006515}
+      objectReference: {fileID: 0}
     - target: {fileID: 224109708238278910, guid: dcc07452d680a4345b8d6f67395a77dd,
         type: 2}
       propertyPath: m_AnchorMax.x
@@ -1653,7 +1673,7 @@ RectTransform:
   - {fileID: 938330400}
   - {fileID: 1214081867}
   m_Father: {fileID: 98924464}
-  m_RootOrder: 3
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1769,54 +1789,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
---- !u!114 &1504006515 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114804625762988506, guid: f7f821c9a88934d4abd333133a911688,
-    type: 2}
-  m_PrefabInternal: {fileID: 1691900107}
-  m_Script: {fileID: 11500000, guid: 87d349a6bf49a1947a7a9061bb6d0ec0, type: 3}
---- !u!1001 &1691900107
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4432413769323728, guid: f7f821c9a88934d4abd333133a911688, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4432413769323728, guid: f7f821c9a88934d4abd333133a911688, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4432413769323728, guid: f7f821c9a88934d4abd333133a911688, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4432413769323728, guid: f7f821c9a88934d4abd333133a911688, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4432413769323728, guid: f7f821c9a88934d4abd333133a911688, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4432413769323728, guid: f7f821c9a88934d4abd333133a911688, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4432413769323728, guid: f7f821c9a88934d4abd333133a911688, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4432413769323728, guid: f7f821c9a88934d4abd333133a911688, type: 2}
-      propertyPath: m_RootOrder
-      value: 12
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: f7f821c9a88934d4abd333133a911688, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1001 &1839363338
 Prefab:
   m_ObjectHideFlags: 0

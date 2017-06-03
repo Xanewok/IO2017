@@ -152,7 +152,7 @@ public class GameController : MonoBehaviour
     /// Starts a new game. This loads a new level and also adds an appropriate BaseGameMode component
     /// and initializes it.
     /// </summary>
-    public void StartGame(GameController.Difficulty difficulty, GameModeType gameMode)
+    public void StartGame(GameController.Difficulty difficulty, GameModeType gameMode, int initialPlayerCount)
     {
         m_difficulty = difficulty;
 
@@ -163,13 +163,15 @@ public class GameController : MonoBehaviour
         // (SceneManager.LoadScene starts loading a frame later), enable and initialize GameMode
         SetCurrentGameMode(config.gameMode);
         m_gameMode.gameObject.SetActive(false);
-        StartCoroutine(DelayedGameModeActivation(config.gameMode));
+        StartCoroutine(DelayedGameModeActivation(config.gameMode, initialPlayerCount));
     }
 
-    private IEnumerator DelayedGameModeActivation(GameObject gameMode)
+    private IEnumerator DelayedGameModeActivation(GameObject gameMode, int initialPlayerCount)
     {
+        // Wait a frame for game scene to load
         yield return new WaitForEndOfFrame();
 
+        m_gameMode.InitializeMode(initialPlayerCount);
         m_gameMode.gameObject.SetActive(true);
     }
 

@@ -19,6 +19,10 @@ public class StoryGameMode : BaseGameMode, IScoredGameMode<Int32>
     private HashSet<GameObject> players = new HashSet<GameObject>();
     private int scoreCount = 0;
 
+    private int initialPlayerCount = DefaultPlayerCount;
+    public override int GetInitialPlayerCount() { return initialPlayerCount; }
+    public override int GetPlayerCount() { return players.Count; }
+
     void Awake()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -29,7 +33,21 @@ public class StoryGameMode : BaseGameMode, IScoredGameMode<Int32>
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
+    /// <summary>
+    /// Used by GameController to initialize GameMode for the first time
+    /// in an actual scene (just outside main menu).
+    /// </summary>
+    public override void InitializeMode(int initialPlayerCount)
+    {
+        this.initialPlayerCount = initialPlayerCount;
+    }
+
     void Start()
+    {
+        Initialize();
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Initialize();
     }
@@ -116,11 +134,6 @@ public class StoryGameMode : BaseGameMode, IScoredGameMode<Int32>
                 OnScoreChanged(player, args);
             }
         }
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        Initialize();
     }
 
     public void LevelFinished()

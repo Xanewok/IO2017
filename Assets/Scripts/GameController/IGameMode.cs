@@ -42,4 +42,13 @@ public abstract class BaseGameMode : MonoBehaviour, IGameMode
     public virtual GameModeType GetModeType() { return GameModeType.Custom; }
     public abstract void OnEnemySpawned(GameObject enemy);
     public abstract void OnPlayerSpawned(GameObject player);
+
+    /// <summary>
+    /// Used by GameController to initialize GameMode for the first time
+    /// in an actual scene (outside main menu).
+    /// </summary>
+    public abstract void InitializeMode(int initialPlayerCount);
+    public const int DefaultPlayerCount = 1;
+    public abstract int GetInitialPlayerCount();
+    public abstract int GetPlayerCount();
 }
