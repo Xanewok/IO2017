@@ -52,7 +52,7 @@ namespace YAGTSS.Level
                 }
                 
                 spawnedPositions.Add(pos);
-                var player = Instantiate(playerPrefab, pos, Quaternion.Euler(Random.Range(0, 360), 0, Random.Range(0, 360)));
+                var player = Instantiate(playerPrefab, pos, Quaternion.Euler(0, Random.Range(0, 360), 0));
                 player.GetComponent<PlayerControlls>().playerNum = i;
             }
         }
